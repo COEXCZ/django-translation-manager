@@ -12,7 +12,7 @@ install package
 
 * add variables from https://bitbucket.org/coex/translation_manager/src/master/translation_manager/app.settings.py?at=master to settings.py
 
-* add post_save signal to restart server: ::
+* add post_save signal to restart server:::
         from translation_manager.signals import post_save as translation_post_save
         
         translation_post_save.connect(restart_server, sender=None)
