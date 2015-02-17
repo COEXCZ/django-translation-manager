@@ -31,7 +31,7 @@ or migrate:
 
 load strings from po files
 ==========================
-
+via python shell
 ::
     ./manage.py shell
     
@@ -41,8 +41,10 @@ load strings from po files
     m.load_data_from_po()
     
 
-optional: add link to translation admin
-=======================================
+add link to translation admin
+=============================
+
+this is optional in case you need it
 ::
     {% url admin:translation_manager_translationentry_changelist %}
 
