@@ -3,6 +3,7 @@ README
 
 # 1) install package 
 
+pip install git+git://github.com/COEXCZ/django-translation-manager.git
 pip install -e git+git@bitbucket.org:coex/translation_manager.git#egg=translation_manager
 
 add 'translation_manager' to settings.py: INSTALLED_APPS
