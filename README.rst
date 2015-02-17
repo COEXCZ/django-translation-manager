@@ -1,7 +1,8 @@
 README
 ======
 
-# 1) install package 
+1) install package
+------------------
 
 pip install git+git://github.com/COEXCZ/django-translation-manager.git
 
@@ -19,7 +20,8 @@ translation_post_save.connect(restart_server, sender=None)
 
 ```
 
-# 2) syncdb 
+2) syncdb 
+---------
 
 ./manage.py syncdb
 
@@ -28,7 +30,8 @@ or migrate:
 ./manage.py migrate
 
 
-# 3) load strings from po files
+3) load strings from po files
+-----------------------------
 
 ./manage.py shell
 
@@ -40,18 +43,20 @@ m.load_data_from_po()
 
 ```
 
-# 4) optional: add link to translation admin
+4) optional: add link to translation admin
+------------------------------------------
 
 {% url admin:translation_manager_translationentry_changelist %}
 
 
 Known bugs:
-----------
+-----------
 
 If you are using different base site you have to register admin to your site.
 
 
 License note:
+-------------
 
 
 Commercial license is being prepared. Please contact us for details at info@coex.cz.
