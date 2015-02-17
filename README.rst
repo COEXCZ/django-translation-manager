@@ -12,10 +12,7 @@ add 'translation_manager' to settings.py: INSTALLED_APPS
 add variables from https://bitbucket.org/coex/translation_manager/src/master/translation_manager/app.settings.py?at=master to settings.py
 
 add post_save signal to restart server:
-
-.. code-block:: python
-    :linenos:
-
+::
     from translation_manager.signals import post_save as translation_post_save
     
     translation_post_save.connect(restart_server, sender=None)
@@ -23,18 +20,19 @@ add post_save signal to restart server:
 
 syncdb 
 ======
-
+use syncdb
+::
     ./manage.py syncdb
 
 or migrate:
-
+::
     ./manage.py migrate
 
 
 load strings from po files
 ==========================
 
-
+::
     ./manage.py shell
     
     from translation_manager.manager import Manager
@@ -45,8 +43,8 @@ load strings from po files
 
 optional: add link to translation admin
 =======================================
-
-{% url admin:translation_manager_translationentry_changelist %}
+::
+    {% url admin:translation_manager_translationentry_changelist %}
 
 
 Known bugs:
