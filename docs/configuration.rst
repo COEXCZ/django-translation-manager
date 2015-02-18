@@ -7,8 +7,8 @@ You can configure Django Translation Manager by overriding it's default settings
 Default settings can be found in defaults.py in django translation manager folder.
 
 
-Mandatory parameters
---------------------
+Mandatory settings
+------------------
 
 Those have to be explicitly set for Django Translation Manager to work
 
@@ -41,8 +41,8 @@ Language to display in hint column to help translators see translation of string
     TRANSLATIONS_HINT_LANGUAGE = ''
 
 
-Optional parameters
--------------------
+Optional settings
+-----------------
 
 
 .. code-block:: python
