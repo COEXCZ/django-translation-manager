@@ -27,74 +27,69 @@ After you have installed the package, it's time for configuration
 Configuratuion
 --------------
 
-First, add translation_manager to INSTALLED_APPS to your project's settings in *settings.py*.
-We're calling our project *project* for example's sake
+#) First, add translation_manager to INSTALLED_APPS to your project's settings in *settings.py*.
+  We're calling our project *project* for example's sake
 
-.. code-block:: python
+  .. code-block:: python
 
-    INSTALLED_APPS = (
-        'django.contrib.admin',
-        'django.contrib.auth',
-        # ...
-        # this is what we have added:
-        'project.translation_manager',
-    )
+      INSTALLED_APPS = (
+          'django.contrib.admin',
+          'django.contrib.auth',
+          # ...
+          # this is what we have added:
+          'project.translation_manager',
+      )
 
-Next, add the following variables to your settings and set them accordingly
+#) Next, add the following variables to your settings and set them accordingly
 
-.. code-block:: python
+  .. code-block:: python
 
-    # Required paths to all locale dirs
-    LOCALE_PATHS = []
+      # Required paths to all locale dirs
+      LOCALE_PATHS = []
 
-    # Path to project basedir / workdir - root folder of project
-    # TRANSLATIONS_BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-    TRANSLATIONS_BASE_DIR = ''
+      # Path to project basedir / workdir - root folder of project
+      # TRANSLATIONS_BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+      TRANSLATIONS_BASE_DIR = ''
 
-    # Language to display in hint column to help translators
-    # see translation of string in another language
-    TRANSLATIONS_HINT_LANGUAGE = ''
-
-
-add post_save signal to restart the server:
-
-.. code-block:: python
-
-    from translation_manager.signals import post_save as translation_post_save
-
-    translation_post_save.connect(restart_server, sender=None)
+      # Language to display in hint column to help translators
+      # see translation of string in another language
+      TRANSLATIONS_HINT_LANGUAGE = ''
 
 
-use syncdb
+#) add post_save signal to restart the server:
 
-.. code-block:: console
+  .. code-block:: python
 
-    ./manage.py syncdb
+      from translation_manager.signals import post_save as translation_post_save
 
-or migrate
-
-.. code-block:: console
-
-    ./manage.py migrate
+      translation_post_save.connect(restart_server, sender=None)
 
 
-Now load strings from .po files via python shell
+#) use syncdb or migrate
 
-.. code-block:: console
+  .. code-block:: console
 
-    ./manage.py shell
+      ./manage.py syncdb
+      ./manage.py migrate
 
-.. code-block:: python
 
-    from translation_manager.manager import Manager
+#) Now load strings from .po files via python shell
 
-    m = Manager()
-    m.load_data_from_po()
+  .. code-block:: console
 
-if you need, add a link to translation admin
+      ./manage.py shell
 
-.. code-block:: python
+  .. code-block:: python
 
-    {% url admin:translation_manager_translationentry_changelist %}
+      from translation_manager.manager import Manager
+
+      m = Manager()
+      m.load_data_from_po()
+
+#) if you need, add a link to translation admin
+
+  .. code-block:: python
+
+      {% url admin:translation_manager_translationentry_changelist %}
 
 You should now have your django translation maager up and running
