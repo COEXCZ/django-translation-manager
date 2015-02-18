@@ -4,7 +4,7 @@ Installation
 ============
 
 
-install package
+Install package
 ---------------
 
 * use pip to get the package
@@ -22,7 +22,7 @@ install package
       translation_post_save.connect(restart_server, sender=None)
 
 
-syncdb
+Syncdb
 ------
 use syncdb
 ::
@@ -33,7 +33,7 @@ or migrate:
     ./manage.py migrate
 
 
-load strings from po files
+Load strings from .po files
 --------------------------
 via python shell
 ::
@@ -45,10 +45,10 @@ via python shell
     m.load_data_from_po()
 
 
-add link to translation admin
+Add link to translation admin
 -----------------------------
 
-this is optional in case you need it
+in case you need it
 ::
     {% url admin:translation_manager_translationentry_changelist %}
 
@@ -59,7 +59,7 @@ this is optional in case you need it
 Download / Installation
 -----------------------
 
-The easiest way to get and install Translation Manager is via pip,
+The easiest way to get and install Django Translation Manager is via pip,
 feel free to omit the first two lines if you don't want to use virtualenv
 
 .. code-block:: console
@@ -103,28 +103,3 @@ Next, add the following variables to your settings and set them accordingly
     # Language to display in hint column to help translators
     # see translation of string in another language
     TRANSLATIONS_HINT_LANGUAGE = ''
-
-
-Displaying Errors
-~~~~~~~~~~~~~~~~~
-
-TODO
-
-
-Next Steps
-----------
-
-TODO
-
-The crash course has just skimmed the surface on how you can begin using
-WTForms to handle form input and validation in your application. For more
-information, you'll want to check the following:
-
- - The :ref:`WTForms documentation <doc-index>` has API documentation for the entire library.
- - :ref:`specific_problems` can help you tackle specific
-   integration issues with WTForms and other frameworks.
- - The `mailing list`_ is where you can get help, discuss bugs in WTForms, and
-   propose new features.
-
-.. _mailing list: http://groups.google.com/group/wtforms/
-
