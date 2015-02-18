@@ -28,7 +28,7 @@ use syncdb
 ::
     ./manage.py syncdb
 
-or migrate:
+or migrate
 ::
     ./manage.py migrate
 
@@ -73,15 +73,12 @@ to do it yourself, feel free to see our GitHub `project page`_
 
 .. _project page: https://github.com/COEXCZ/django-translation-manager/
 
-Getting Started
----------------
-
 After you have installed the package, it's time for configuration
 
 First, add translation_manager to INSTALLED_APPS to your project's settings in *settings.py*.
 We're calling our project *project* for example's sake
 
-.. code-block:: python
+.. code-block:: ruby
     INSTALLED_APPS = (
         'django.contrib.admin',
         'django.contrib.auth',
@@ -92,7 +89,7 @@ We're calling our project *project* for example's sake
 
 Next, add the following variables to your settings and set them accordingly
 
-.. code-block:: python
+.. code-block:: ruby
     # Required paths to all locale dirs
     LOCALE_PATHS = []
 
