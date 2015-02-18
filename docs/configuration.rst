@@ -10,7 +10,9 @@ Default settings can be found in defaults.py in django translation manager folde
 Mandatory parameters
 --------------------
 
-Those have to be explicitly set for Django Transaltion Manager to work
+Those have to be explicitly set for Django Translation Manager to work
+
+This list should contain every directory containing locale directories
 
 .. code-block:: python
 
@@ -21,11 +23,15 @@ Those have to be explicitly set for Django Transaltion Manager to work
     # ]
     LOCALE_PATHS = []
 
+typically the same as project base directory
+
 .. code-block:: python
 
     # Path to project basedir / workdir - root folder of project
     # TRANSLATIONS_BASE_DIR = '/foo/bar'
     TRANSLATIONS_BASE_DIR = ''
+
+Language to display in hint column to help translators see translation of string in another language
 
 .. code-block:: python
 
