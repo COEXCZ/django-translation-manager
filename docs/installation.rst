@@ -3,57 +3,6 @@
 Installation
 ============
 
-
-Install package
----------------
-
-* use pip to get the package
-  ::
-      pip install git+git://github.com/COEXCZ/django-translation-manager.git
-
-* add 'translation_manager' to settings.py: INSTALLED_APPS
-
-* add variables from https://bitbucket.org/coex/translation_manager/src/master/translation_manager/app.settings.py?at=master to settings.py
-
-* add post_save signal to restart server:
-  ::
-      from translation_manager.signals import post_save as translation_post_save
-
-      translation_post_save.connect(restart_server, sender=None)
-
-
-Syncdb
-------
-use syncdb
-::
-    ./manage.py syncdb
-
-or migrate
-::
-    ./manage.py migrate
-
-
-Load strings from .po files
---------------------------
-via python shell
-::
-    ./manage.py shell
-
-    from translation_manager.manager import Manager
-
-    m = Manager()
-    m.load_data_from_po()
-
-
-Add link to translation admin
------------------------------
-
-in case you need it
-::
-    {% url admin:translation_manager_translationentry_changelist %}
-
-
-
 .. _download-installation:
 
 Download / Installation
@@ -102,3 +51,47 @@ Next, add the following variables to your settings and set them accordingly
     # Language to display in hint column to help translators
     # see translation of string in another language
     TRANSLATIONS_HINT_LANGUAGE = ''
+
+
+add post_save signal to restart the server:
+
+.. code-block:: python
+
+    from translation_manager.signals import post_save as translation_post_save
+
+    translation_post_save.connect(restart_server, sender=None)
+
+
+use syncdb
+
+.. code-block:: console
+
+    ./manage.py syncdb
+
+or migrate
+
+.. code-block:: console
+
+    ./manage.py migrate
+
+
+Now load strings from .po files via python shell
+
+.. code-block:: console
+
+    ./manage.py shell
+
+.. code-block:: python
+
+    from translation_manager.manager import Manager
+
+    m = Manager()
+    m.load_data_from_po()
+
+if you need, add a link to translation admin
+
+.. code-block:: python
+
+    {% url admin:translation_manager_translationentry_changelist %}
+
+You should now have your django translation maager up and running
