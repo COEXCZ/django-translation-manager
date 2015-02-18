@@ -6,8 +6,8 @@
 This is the documentation for Translation Manager |release|, generated |today|.
 
 
-Welcome to django translation manager's documentation!
-======================================================
+Welcome to Django Translation Manager Docs
+==========================================
 
 Contents:
 
