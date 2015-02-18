@@ -43,7 +43,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'django translation manager'
+project = u'Django Translation Manager'
 copyright = u'2015, COEX'
 
 # The version info for the project you're documenting, acts as replacement for

@@ -24,6 +24,9 @@ to do it yourself, feel free to see our GitHub `project page`_
 
 After you have installed the package, it's time for configuration
 
+Configuratuion
+--------------
+
 First, add translation_manager to INSTALLED_APPS to your project's settings in *settings.py*.
 We're calling our project *project* for example's sake
 
