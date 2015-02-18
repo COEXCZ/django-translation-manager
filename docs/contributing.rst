@@ -1,8 +1,6 @@
 Contributing to Django Translation Manager
 ==========================================
 
-todo
-
 How to Contribute
 -----------------
 
