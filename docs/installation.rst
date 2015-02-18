@@ -15,7 +15,7 @@ feel free to omit the first two lines if you don't want to use virtualenv
 
     virtualenv env --no-site-packages
     source env/bin/activate
-    pip install git+git://github.com/COEXCZ/django-translation-manager.git
+    pip install django-translation-manager
 
 In case you are curious about the source, willing to contribute, or you just want
 to do it yourself, feel free to see our GitHub `project page`_
