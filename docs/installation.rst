@@ -27,7 +27,7 @@ After you have installed the package, it's time for configuration
 Configuratuion
 --------------
 
-#) First, add translation_manager to INSTALLED_APPS to your project's settings in *settings.py*.
+1) First, add translation_manager to INSTALLED_APPS to your project's settings in *settings.py*.
   We're calling our project *project* for example's sake
 
   .. code-block:: python
@@ -40,7 +40,7 @@ Configuratuion
           'project.translation_manager',
       )
 
-#) Next, add the following variables to your settings and set them accordingly
+2) Next, add the following variables to your settings and set them accordingly
 
   .. code-block:: python
 
@@ -56,7 +56,7 @@ Configuratuion
       TRANSLATIONS_HINT_LANGUAGE = ''
 
 
-#) add post_save signal to restart the server:
+3) add post_save signal to restart the server:
 
   .. code-block:: python
 
@@ -65,7 +65,7 @@ Configuratuion
       translation_post_save.connect(restart_server, sender=None)
 
 
-#) use syncdb or migrate
+4) use syncdb or migrate
 
   .. code-block:: console
 
@@ -73,7 +73,7 @@ Configuratuion
       ./manage.py migrate
 
 
-#) Now load strings from .po files via python shell
+5) Now load strings from .po files via python shell
 
   .. code-block:: console
 
@@ -86,10 +86,10 @@ Configuratuion
       m = Manager()
       m.load_data_from_po()
 
-#) if you need, add a link to translation admin
+6) if you need, add a link to translation admin
 
   .. code-block:: python
 
       {% url admin:translation_manager_translationentry_changelist %}
 
-You should now have your django translation maager up and running
+You should now have your Django Translation Manager up and running
