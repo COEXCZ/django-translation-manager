@@ -11,7 +11,7 @@ install package
 
 * add 'translation_manager' to settings.py: INSTALLED_APPS
 
-* add variables from https://bitbucket.org/coex/translation_manager/src/master/translation_manager/app.settings.py?at=master to settings.py
+* add variables from Translation Manager's defaults.py to your settings.py
 
 * add post_save signal to restart server:
   ::
