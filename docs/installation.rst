@@ -78,7 +78,7 @@ After you have installed the package, it's time for configuration
 First, add translation_manager to INSTALLED_APPS to your project's settings in *settings.py*.
 We're calling our project *project* for example's sake
 
-.. code-block:: ruby
+.. code-block:: python
 
     INSTALLED_APPS = (
         'django.contrib.admin',
@@ -90,7 +90,7 @@ We're calling our project *project* for example's sake
 
 Next, add the following variables to your settings and set them accordingly
 
-.. code-block:: ruby
+.. code-block:: python
 
     # Required paths to all locale dirs
     LOCALE_PATHS = []
