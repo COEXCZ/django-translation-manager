@@ -79,6 +79,7 @@ First, add translation_manager to INSTALLED_APPS to your project's settings in *
 We're calling our project *project* for example's sake
 
 .. code-block:: ruby
+
     INSTALLED_APPS = (
         'django.contrib.admin',
         'django.contrib.auth',
@@ -90,6 +91,7 @@ We're calling our project *project* for example's sake
 Next, add the following variables to your settings and set them accordingly
 
 .. code-block:: ruby
+
     # Required paths to all locale dirs
     LOCALE_PATHS = []
 
