@@ -107,7 +107,14 @@ class Manager(object):
             translation=""
         ).order_by("original")
 
-        locale_params = TranslationEntry.objects.filter(is_published=True).order_by('locale_path', 'domain').values_list('locale_path', 'domain')
+        locale_params = TranslationEntry.objects.filter(is_published=True).order_by('locale_path', 'domain')
+
+        forced_locale_paths = get_settings('TRANSLATIONS_UPDATE_FORCED_LOCALE_PATHS')
+        if forced_locale_paths:
+            translations = translations.filter(locale_path__in=forced_locale_paths)
+            locale_params = locale_params.filter(locale_path__in=forced_locale_paths)
+
+        locale_params = locale_params.values_list('locale_path', 'domain')
         locale_params = list(set(locale_params))
 
         for locale_path, domain in locale_params:
@@ -122,11 +129,11 @@ class Manager(object):
             pofile = polib.POFile()
             pofile.metadata = {
                 'Project-Id-Version': '0.1',
-                'Report-Msgid-Bugs-To': 'cisarpavel@gmail.com',
+                'Report-Msgid-Bugs-To': '%s' % settings.DEFAULT_FROM_EMAIL,
                 'POT-Creation-Date': now.strftime("%Y-%m-%d %H:%M:%S"),
                 'PO-Revision-Date': now.strftime("%Y-%m-%d %H:%M:%S"),
                 'Last-Translator': 'Server <%s>' % settings.SERVER_EMAIL,
-                'Language-Team': 'English <cisarpavel@gmail.com>',
+                'Language-Team': 'English <%s>' % settings.DEFAULT_FROM_EMAIL,
                 'MIME-Version': '1.0',
                 'Content-Type': 'text/plain; charset=utf-8',
                 'Content-Transfer-Encoding': '8bit',

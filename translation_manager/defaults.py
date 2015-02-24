@@ -60,8 +60,12 @@ TRANSLATIONS_HINT_LANGUAGE_FORCED_RELATIVE_LOCALE_PATH = ''
 # exclude fields from administration:
 TRANSLATIONS_ADMIN_EXCLUDE_FIELDS = []
 
-# define admin fields manually: for all fields look to admin.py:default_fields
+# Define admin fields manually: for all fields look to admin.py:default_fields
 TRANSLATIONS_ADMIN_FIELDS = []
 
-# tuple of title and list of regex expression used for filtering in administration. Each object should be a tuple of (regex_filter, label)
+# Tuple of title and list of regex expression used for filtering in administration.
+# Each object should be a tuple of (regex_filter, label)
 TRANSLATIONS_CUSTOM_FILTERS = []
+
+# Limits locale paths of published translations when updating POs from DB.
+TRANSLATIONS_UPDATE_FORCED_LOCALE_PATHS = []

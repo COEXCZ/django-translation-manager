@@ -22,22 +22,22 @@ TRANSLATIONS_BASE_DIR = ''
 # Another option is P, where is translation manager
 # promiscuous and creates for every translation it's
 # instance for every locale file. It's useful, i.e.
-# if you want has original system translations and
+# if you want has original system trasnlations and
 # also client's custom translations
 
 TRANSLATIONS_MODE = "N"
 
 # For storing all translations to db regardless they have
-# any occurrences or not set True, otherwise set False.
-# If False only translations having occurrences in your
+# any occurrencies or not set True, otherwise set False.
+# If False only translations having occurrencies in your
 # application will be stored.
 TRANSLATIONS_ALLOW_NO_OCCURRENCES = False
 
-# Dirs and files ignored for make messages.
+# Dirs and files ignored for makemessages.
 # TRANSLATIONS_IGNORED_PATHS = ['env', 'foo', 'bar']
 TRANSLATIONS_IGNORED_PATHS = ['env']
 
-# Backup on make messages:
+# Backup on makemessages:
 TRANSLATIONS_MAKE_BACKUPS = True
 
 # Clean .po files (delete content) after backup (this prevents duplicities)
@@ -60,9 +60,12 @@ TRANSLATIONS_HINT_LANGUAGE_FORCED_RELATIVE_LOCALE_PATH = ''
 # exclude fields from administration:
 TRANSLATIONS_ADMIN_EXCLUDE_FIELDS = []
 
-# define admin fields manually: for all fields look to admin.py:default_fields
+# Define admin fields manually: for all fields look to admin.py:default_fields
 TRANSLATIONS_ADMIN_FIELDS = []
 
-# tuple of title and list of regex expression used for filtering in administration.
+# Tuple of title and list of regex expression used for filtering in administration.
 # Each object should be a tuple of (regex_filter, label)
 TRANSLATIONS_CUSTOM_FILTERS = []
+
+# Limits locale paths of published translations when updating POs from DB.
+TRANSLATIONS_UPDATE_FORCED_LOCALE_PATHS = []
