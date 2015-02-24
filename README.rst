@@ -13,7 +13,7 @@ install package
 
 * add variables from Translation Manager's defaults.py to your settings.py
 
-* add post_save signal to restart server:
+* add post_save signal to restart webserver:
   ::
       from translation_manager.signals import post_save as translation_post_save
       

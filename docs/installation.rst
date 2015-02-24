@@ -37,7 +37,7 @@ Configuratuion
           'django.contrib.auth',
           # ...
           # this is what we have added:
-          'project.translation_manager',
+          'translation_manager',
       )
 
 2) Next, add the following variables to your settings and set them accordingly
