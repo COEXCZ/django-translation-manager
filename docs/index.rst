@@ -19,6 +19,7 @@ Contents:
    contributing
    whats_new
    license
+   donate
 
 **Indices and tables:**
 

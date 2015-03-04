@@ -68,8 +68,11 @@ Donate
 ======
 
 .. image:: https://img.shields.io/badge/paypal-donate-yellow.svg
-   :target: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BLWZYMRR9ZEQJ
+   :target: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PUQZRR48HXXDC
 
 
-**thank you**
-we really appreciate every donation that helps us develop Django Translation Manager Further
+
+Thank you!
+----------
+
+We really appreciate every donation that helps us take Django Translation Manager to the next level.
