@@ -28,6 +28,7 @@ Configuratuion
 --------------
 
 1) First, add translation_manager to INSTALLED_APPS to your project's settings in *settings.py*.
+  We're calling our project *project* for example's sake
 
   .. code-block:: python
 
@@ -36,7 +37,7 @@ Configuratuion
           'django.contrib.auth',
           # ...
           # this is what we have added:
-          translation_manager',
+          'translation_manager',
       )
 
 2) Next, add the following variables to your settings and set them accordingly
@@ -61,7 +62,6 @@ Configuratuion
 
       from translation_manager.signals import post_save as translation_post_save
 
-      # we have no idea where to get restart_server
       translation_post_save.connect(restart_server, sender=None)
 
 
