@@ -2,7 +2,7 @@
 README
 ######
 
-install package
+Install package
 ===============
 
 * use pip to get the package
@@ -20,7 +20,7 @@ install package
       translation_post_save.connect(restart_server, sender=None)
 
 
-syncdb 
+SyncDB
 ======
 use syncdb
 ::
@@ -31,7 +31,7 @@ or migrate:
     ./manage.py migrate
 
 
-load strings from po files
+Load strings from po files
 ==========================
 via python shell
 ::
@@ -43,7 +43,7 @@ via python shell
     m.load_data_from_po()
     
 
-add link to translation admin
+Add link to translation admin
 =============================
 
 this is optional in case you need it
@@ -51,14 +51,16 @@ this is optional in case you need it
     {% url admin:translation_manager_translationentry_changelist %}
 
 
-Known bugs:
-===========
+Known bugs
+==========
 
 If you are using different base site you have to register admin to your site.
 
 
-License note:
-=============
+License note
+============
 
+Django Translation Manager is available under Mozilla Public License 2.0
 
-Commercial license is being prepared. Please contact us for details at info@coex.cz.
+http://choosealicense.com/licenses/mpl-2.0/
+
