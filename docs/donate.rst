@@ -6,6 +6,7 @@ Donate
 
 
 
+
 **Thank you!**
 
 We really appreciate every donation that helps us take Django Translation Manager to the next level.
