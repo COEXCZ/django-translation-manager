@@ -67,8 +67,8 @@ http://choosealicense.com/licenses/mpl-2.0/
 Donate
 ======
 
-
-[![PayPayl donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BLWZYMRR9ZEQJ "Donate once-off to this project using Paypal")
+.. image:: https://img.shields.io/badge/paypal-donate-yellow.svg
+   :target: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BLWZYMRR9ZEQJ
 
 
 **thank you**
