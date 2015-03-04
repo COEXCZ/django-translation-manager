@@ -78,3 +78,6 @@ Donate
         </form>
     </embed>
 
+
+**thank you**
+we really appreciate every donation that helps us develop Django Translation Manager Further
