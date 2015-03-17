@@ -1,0 +1,3 @@
+include license.txt
+include README.rst
+recursive-include translation_manager *
