@@ -69,3 +69,7 @@ TRANSLATIONS_CUSTOM_FILTERS = []
 
 # Limits locale paths of published translations when updating POs from DB.
 TRANSLATIONS_UPDATE_FORCED_LOCALE_PATHS = []
+
+# List of django domains for translation strings.
+# Defaults are ['django', 'djangojs']
+TRANSLATIONS_DOMAINS = ['django', 'djangojs']

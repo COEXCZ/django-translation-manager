@@ -36,6 +36,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
     readonly_fields = list(default_fields)
     readonly_fields.remove('original')
     search_fields = filter_excluded_fields(['original', 'translation', 'occurrences'])
+    list_per_page = 100
 
     if (VERSION[0] == 1 and VERSION[1] >= 4) or VERSION[0] > 1:
         from .filters import TranslationStateFilter, CustomFilter

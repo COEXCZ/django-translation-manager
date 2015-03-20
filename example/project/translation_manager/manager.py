@@ -61,9 +61,13 @@ class Manager(object):
                 }
             )
 
-            if not locale_path in self.tors:
-                self.tors[locale_path] = []
-            self.tors[locale_path].append(t.original)
+            if locale_path not in self.tors:
+                self.tors[locale_path] = {}
+            if language not in self.tors[locale_path]:
+                self.tors[locale_path][language] = {}
+            if domain not in self.tors[locale_path][language]:
+                self.tors[locale_path][language][domain] = []
+            self.tors[locale_path][language][domain].append(t.original)
 
     ############################################################################
 
@@ -154,32 +158,47 @@ class Manager(object):
 
     def postprocess(self):
         TranslationEntry.objects.all().update(is_published=False)
-        for locale_path, tors in self.tors.items():
-            tors = list(set(tors))
-            TranslationEntry.objects.filter(locale_path=locale_path).filter(original__in=tors).update(is_published=True)
 
-        if get_settings('TRANSLATIONS_MODE')== TRANSLATIONS_MODE_PROMISCUOUS:
+        for locale_path, languages in self.tors.items():
+            TranslationEntry.objects.filter(locale_path=locale_path).update(is_published=False)
+            for language, domains in languages.items():
+                for domain, tors in domains.items():
+                    tors = list(set(tors))
+                    TranslationEntry.objects.filter(
+                        locale_path=locale_path,
+                        language=language,
+                        domain=domain,
+                        original__in=tors
+                    ).update(is_published=True)
+
+        if get_settings('TRANSLATIONS_MODE') == TRANSLATIONS_MODE_PROMISCUOUS:
             published = TranslationEntry.objects.filter(is_published=True).order_by("original", 'language', 'locale_path')
             for trans in published:
-                if VERSION[:2] in [(1,2), (1,3)]:
+                if VERSION[:2] in [(1, 2), (1, 3)]:
                     locale_paths = [os.path.relpath(path, get_settings('TRANSLATIONS_BASE_DIR')) for path in settings.LOCALE_PATHS]
                 else:
                     locale_paths = self.tors.keys()
+
                 for locale_path in locale_paths:
+                    locale_parent_dir = get_locale_parent_dirname(
+                        os.path.join(
+                            get_settings('TRANSLATIONS_BASE_DIR'),
+                            locale_path,
+                            get_dirname_from_lang(trans.language),
+                            'LC_MESSAGES',
+                            "django.po"
+                        )
+                    )
+
                     t, created = TranslationEntry.objects.get_or_create(
                         original=trans.original,
-                        language= trans.language,
+                        language=trans.language,
                         locale_path=locale_path,
+                        domain=trans.domain,
                         defaults={
                             "occurrences": trans.occurrences,
                             "translation": trans.translation,
-                            "locale_parent_dir": get_locale_parent_dirname(os.path.join(
-                                get_settings('TRANSLATIONS_BASE_DIR'),
-                                locale_path,
-                                get_dirname_from_lang(trans.language),
-                                'LC_MESSAGES',
-                                "django.po"
-                            )),
+                            "locale_parent_dir": locale_parent_dir,
                             "is_published": True,
                         }
                     )
