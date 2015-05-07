@@ -7,7 +7,7 @@ class TranslationChangeList(ChangeList):
     def __init__(self, *args, **kwargs):
         super(TranslationChangeList, self).__init__(*args, **kwargs)
 
-        if self.result_list:
+        if self.result_list and get_settings("TRANSLATIONS_HINT_LANGUAGE"):
             self.prep_hints()
 
     def prep_hints(self):
