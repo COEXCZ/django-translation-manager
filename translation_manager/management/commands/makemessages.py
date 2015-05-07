@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 
-import os
+import os, sys
 from optparse import make_option
 
+import django
 from django.core.management.commands.makemessages import Command as OriginCommand
 from django.core.management.base import NoArgsCommand
 from django.conf import settings
@@ -102,7 +103,7 @@ def make_messages(locale=None, domain=None, verbosity='1', all=False,
         domain = get_settings('TRANSLATIONS_DOMAINS') or ['django', 'djangojs']
 
     if not isinstance(domain, list):
-        domain = list(domain)
+        domain = [domain]
 
     def handle_extensions(extensions=('html',)):
         """
