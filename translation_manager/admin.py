@@ -46,7 +46,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
     else:
         list_filter = ('language', 'locale_parent_dir', 'domain')
 
-    if (VERSION[0] == 1 and VERSION[1] >= 7) or VERSION[0] > 1:
+    if (VERSION[0] == 1 and VERSION[1] >= 5) or VERSION[0] > 1:
         change_list_template = "admin/translation_manager/change_list.7.html"
     else:
         change_list_template = "admin/translation_manager/change_list.2.html"

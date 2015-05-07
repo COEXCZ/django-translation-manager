@@ -221,7 +221,7 @@ def make_messages(locale=None, domain=None, verbosity='1', all=False,
         invoked_for_django = True
     elif os.path.isdir('locale'):
         localedir = os.path.abspath('locale')
-    elif float(django.get_version()) == 1.4:
+    elif 1.6 > float(django.get_version()) >= 1.4:
         localedir = os.path.abspath(os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'locale'))
     else:
         raise CommandError("This script should be run from the Django SVN tree or your project or app tree. If you did indeed run it from the SVN checkout or your project or application, maybe you are just missing the conf/locale (in the django tree) or locale (for project and application) directory? It is not created automatically, you have to create it by hand if you want to enable i18n for your project or application.")
