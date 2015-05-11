@@ -56,7 +56,7 @@ class Command(OriginCommand):
             kwargs.update({'domain': domain})
 
             if 1.7 > float(django.get_version()) >= 1.6:
-
+                self.handle_noargs_16(*args, **kwargs)
             else:
                 super(Command, self).handle_noargs(*args, **kwargs)
 
