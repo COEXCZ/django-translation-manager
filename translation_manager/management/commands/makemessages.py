@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 
-import os, sys
+import os, sys, glob
 from optparse import make_option
 
 import django
