@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 
-import os, sys
+import os, sys, glob
 from optparse import make_option
 
 import django
@@ -54,12 +54,104 @@ class Command(OriginCommand):
         for domain in options['domain']:
             kwargs = deepcopy(options)
             kwargs.update({'domain': domain})
-            super(Command, self).handle_noargs(*args, **kwargs)
+
+            if 1.7 > float(django.get_version()) >= 1.6:
+                self.handle_noargs_16(*args, **kwargs)
+            else:
+                super(Command, self).handle_noargs(*args, **kwargs)
 
         try:
             from django.core.management.commands.makemessages import make_messages as old_make_messages
         except ImportError:
             self.manager.postprocess()
+
+    def handle_noargs_16(self, *args, **options):
+        from django.core.management.base import CommandError
+        from django.core.management.commands.makemessages import check_programs
+        from django.core.management.utils import (handle_extensions, find_command, popen_wrapper)
+        from django.utils.text import get_text_list
+
+        locale = options.get('locale')
+        self.domain = options.get('domain')
+        self.verbosity = int(options.get('verbosity'))
+        process_all = options.get('all')
+        extensions = options.get('extensions')
+        self.symlinks = options.get('symlinks')
+        ignore_patterns = options.get('ignore_patterns')
+        if options.get('use_default_ignore_patterns'):
+            ignore_patterns += ['CVS', '.*', '*~', '*.pyc']
+        self.ignore_patterns = list(set(ignore_patterns))
+        self.wrap = '--no-wrap' if options.get('no_wrap') else ''
+        self.location = '--no-location' if options.get('no_location') else ''
+        self.no_obsolete = options.get('no_obsolete')
+        self.keep_pot = options.get('keep_pot')
+
+        if self.domain not in ('django', 'djangojs'):
+            raise CommandError("currently makemessages only supports domains "
+                               "'django' and 'djangojs'")
+        if self.domain == 'djangojs':
+            exts = extensions if extensions else ['js']
+        else:
+            exts = extensions if extensions else ['html', 'txt']
+        self.extensions = handle_extensions(exts)
+
+        if (locale is None and not process_all) or self.domain is None:
+            raise CommandError("Type '%s help %s' for usage information." % (
+                                os.path.basename(sys.argv[0]), sys.argv[1]))
+
+        if self.verbosity > 1:
+            self.stdout.write('examining files with the extensions: %s\n'
+                             % get_text_list(list(self.extensions), 'and'))
+
+        # Need to ensure that the i18n framework is enabled
+        from django.conf import settings
+        if settings.configured:
+            settings.USE_I18N = True
+        else:
+            settings.configure(USE_I18N = True)
+
+        self.invoked_for_django = False
+        if os.path.isdir(os.path.join('conf', 'locale')):
+            localedir = os.path.abspath(os.path.join('conf', 'locale'))
+            self.invoked_for_django = True
+            # Ignoring all contrib apps
+            self.ignore_patterns += ['contrib/*']
+        elif os.path.isdir('locale'):
+            localedir = os.path.abspath('locale')
+        elif os.path.isdir(os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'locale')):
+            localedir = os.path.abspath(os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'locale'))
+        else:
+            raise CommandError("This script should be run from the Django Git "
+                    "tree or your project or app tree. If you did indeed run it "
+                    "from the Git checkout or your project or application, "
+                    "maybe you are just missing the conf/locale (in the django "
+                    "tree) or locale (for project and application) directory? It "
+                    "is not created automatically, you have to create it by hand "
+                    "if you want to enable i18n for your project or application.")
+
+        check_programs('xgettext')
+
+        potfile = self.build_pot_file(localedir)
+
+        # Build po files for each selected locale
+        locales = []
+        if locale is not None:
+            locales = locale
+        elif process_all:
+            locale_dirs = filter(os.path.isdir, glob.glob('%s/*' % localedir))
+            locales = [os.path.basename(l) for l in locale_dirs]
+
+        if locales:
+            check_programs('msguniq', 'msgmerge', 'msgattrib')
+
+        try:
+            for locale in locales:
+                if self.verbosity > 0:
+                    self.stdout.write("processing locale %s\n" % locale)
+                self.write_po_file(potfile, locale)
+        finally:
+            if not self.keep_pot and os.path.exists(potfile):
+                os.unlink(potfile)
 
     def write_po_file(self, potfile, locale):
         super(Command, self).write_po_file(potfile, locale)
@@ -75,7 +167,7 @@ class Command(OriginCommand):
 
 
 
-# Django 1.2-1.3 *************************************************************
+# Django 1.2-1.5 *************************************************************
 
 def make_messages(locale=None, domain=None, verbosity='1', all=False,
         extensions=None, symlinks=False, ignore_patterns=[], no_wrap=False,
