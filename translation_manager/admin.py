@@ -42,9 +42,9 @@ class TranslationEntryAdmin(admin.ModelAdmin):
     if get_settings('TRANSLATIONS_CUSTOM_FILTERS'):
         list_filter.append(CustomFilter)
     else:
-        pass
+        list_filter = ('language', 'locale_parent_dir', 'domain')
 
-    change_list_template = "admin/translation_manager/change_list.7.html"
+    change_list_template = "admin/translation_manager/change_list.html"
 
     list_filter = filter_excluded_fields(list_filter)
 

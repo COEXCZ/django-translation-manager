@@ -55,17 +55,6 @@ class Command(OriginCommand):
             kwargs.update({'domain': domain})
             super(Command, self).handle(*args, **kwargs)
 
-    def handle_noargs(self, *args, **options):
-        self.manager = Manager()
-
-        if get_settings('TRANSLATIONS_MAKE_BACKUPS'):
-            self.manager.backup_po_to_db()
-
-        for domain in options['domain']:
-            kwargs = deepcopy(options)
-            kwargs.update({'domain': domain})
-            super(Command, self).handle_noargs(*args, **kwargs)
-
         try:
             from django.core.management.commands.makemessages import make_messages as old_make_messages
         except ImportError:
