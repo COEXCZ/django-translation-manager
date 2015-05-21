@@ -1,6 +1,5 @@
 from functools import update_wrapper
 
-from django import VERSION
 from django.contrib import admin
 from django.core.management import call_command
 from django.core.urlresolvers import reverse
@@ -38,18 +37,14 @@ class TranslationEntryAdmin(admin.ModelAdmin):
     search_fields = filter_excluded_fields(['original', 'translation', 'occurrences'])
     list_per_page = 100
 
-    if (VERSION[0] == 1 and VERSION[1] >= 4) or VERSION[0] > 1:
-        from .filters import TranslationStateFilter, CustomFilter
-        list_filter = ['language', 'locale_parent_dir', 'domain', TranslationStateFilter]
-        if get_settings('TRANSLATIONS_CUSTOM_FILTERS'):
-            list_filter.append(CustomFilter)
+    from .filters import TranslationStateFilter, CustomFilter
+    list_filter = ['language', 'locale_parent_dir', 'domain', TranslationStateFilter]
+    if get_settings('TRANSLATIONS_CUSTOM_FILTERS'):
+        list_filter.append(CustomFilter)
     else:
         list_filter = ('language', 'locale_parent_dir', 'domain')
 
-    if (VERSION[0] == 1 and VERSION[1] >= 5) or VERSION[0] > 1:
-        change_list_template = "admin/translation_manager/change_list.7.html"
-    else:
-        change_list_template = "admin/translation_manager/change_list.2.html"
+    change_list_template = "admin/translation_manager/change_list.html"
 
     list_filter = filter_excluded_fields(list_filter)
 
