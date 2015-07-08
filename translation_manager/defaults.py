@@ -43,6 +43,9 @@ TRANSLATIONS_MAKE_BACKUPS = True
 # Clean .po files (delete content) after backup (this prevents duplicities)
 TRANSLATIONS_CLEAN_PO_AFTER_BACKUP = True
 
+# Delete .po files after backup (this prevents duplicities)
+TRANSLATIONS_DELETE_PO_AFTER_BACKUP = True
+
 # Forced filters on changelist queryset.
 # Uses ORed original__contains Django ORM filter.
 # TRANSLATIONS_QUERYSET_FORCE_FILTERS = ['foo', 'bar']

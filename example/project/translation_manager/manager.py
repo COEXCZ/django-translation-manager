@@ -98,6 +98,9 @@ class Manager(object):
                         with open(pofile, 'w') as pofile_opened:
                             pofile_opened.write('')
 
+                    if get_settings('TRANSLATIONS_DELETE_PO_AFTER_BACKUP'):
+                        os.unlink(pofile)
+
 
     ############################################################################
 
