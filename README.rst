@@ -7,7 +7,7 @@ Install package
 
 * use pip to get the package
   ::
-      pip install git+git://github.com/COEXCZ/django-translation-manager.git
+      pip install django-translation-manager
 
 * add 'translation_manager' to settings.py: INSTALLED_APPS
 
