@@ -32,6 +32,6 @@ setup(
     ],
     install_requires=[
         "polib",
-        "django>=1.4, <1.8"
+        "django<1.4"
     ],
 )
