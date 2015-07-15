@@ -25,7 +25,7 @@ class TranslationEntry(models.Model):
         verbose_name_plural = cf(_(u"admin-translation_entry-plural"))
         ordering = ('original',)
         permissions = (
-            ('load', _('admin-translation_entry-load-from-po')),
+            ('load', u"%s" % _('admin-translation_entry-load-from-po')),
         )
 
     def __unicode__(self):
