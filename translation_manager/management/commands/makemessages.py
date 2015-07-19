@@ -355,7 +355,7 @@ def make_messages(locale=None, domain=None, verbosity='1', all=False,
 
         for locale in languages:
             if verbosity > 0:
-                print ("processing language", locale)
+                print (u"Processing language %s for domain %s" % (locale, d))
             basedir = os.path.join(localedir, locale, 'LC_MESSAGES')
             if not os.path.isdir(basedir):
                 os.makedirs(basedir)

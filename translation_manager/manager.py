@@ -25,49 +25,50 @@ class Manager(object):
         self.tors = {}
 
     def store_to_db(self, pofile, locale, store_translations=False):
-        language = get_lang_from_dirname(locale)
-        domain = os.path.splitext(os.path.basename(pofile))[0]
-        messages = polib.pofile(pofile)
-        translations = TranslationEntry.objects.filter(language=language)
+        if os.path.exists(pofile):
+            language = get_lang_from_dirname(locale)
+            domain = os.path.splitext(os.path.basename(pofile))[0]
+            messages = polib.pofile(pofile)
+            translations = TranslationEntry.objects.filter(language=language)
 
-        tdict = {}
-        for t in translations:
-            if t.original not in tdict:
-                tdict.update({t.original: {}})
-            tdict[t.original][t.language] = t.translation
+            tdict = {}
+            for t in translations:
+                if t.original not in tdict:
+                    tdict.update({t.original: {}})
+                tdict[t.original][t.language] = t.translation
 
-        for m in messages:
-            occs = []
-            for occ in m.occurrences:
-                path = ":".join(occ)
-                occs.append(path)
+            for m in messages:
+                occs = []
+                for occ in m.occurrences:
+                    path = ":".join(occ)
+                    occs.append(path)
 
-            if store_translations:
-                translation = m.msgstr
-            else:
-                translation = ""
+                if store_translations:
+                    translation = m.msgstr
+                else:
+                    translation = ""
 
-            locale_path = get_relative_locale_path(pofile)
-            t, created = TranslationEntry.objects.get_or_create(
-                original=m.msgid,
-                language=language,
-                locale_path=locale_path,
-                domain=domain,
-                defaults={
-                    "occurrences": "\n".join(occs),
-                    "translation": translation,
-                    "locale_parent_dir": get_locale_parent_dirname(pofile),
-                    "is_published": True,
-                }
-            )
+                locale_path = get_relative_locale_path(pofile)
+                t, created = TranslationEntry.objects.get_or_create(
+                    original=m.msgid,
+                    language=language,
+                    locale_path=locale_path,
+                    domain=domain,
+                    defaults={
+                        "occurrences": "\n".join(occs),
+                        "translation": translation,
+                        "locale_parent_dir": get_locale_parent_dirname(pofile),
+                        "is_published": True,
+                    }
+                )
 
-            if locale_path not in self.tors:
-                self.tors[locale_path] = {}
-            if language not in self.tors[locale_path]:
-                self.tors[locale_path][language] = {}
-            if domain not in self.tors[locale_path][language]:
-                self.tors[locale_path][language][domain] = []
-            self.tors[locale_path][language][domain].append(t.original)
+                if locale_path not in self.tors:
+                    self.tors[locale_path] = {}
+                if language not in self.tors[locale_path]:
+                    self.tors[locale_path][language] = {}
+                if domain not in self.tors[locale_path][language]:
+                    self.tors[locale_path][language][domain] = []
+                self.tors[locale_path][language][domain].append(t.original)
 
     ############################################################################
 
@@ -218,7 +219,7 @@ class Manager(object):
                 po_pattern = os.path.join(path, locale, "LC_MESSAGES", "*.po")
                 for pofile in glob(po_pattern):
                     if settings.DEBUG:
-                        print ("processing pofile", pofile)
+                        print ("Loading pofile", pofile)
                     self.store_to_db(pofile=pofile, locale=locale, store_translations=True)
 
         self.postprocess()
