@@ -62,6 +62,13 @@ class Manager(object):
                     }
                 )
 
+                if not created and store_translations and translation:
+                    t.occurrences = "\n".join(occs)
+                    t.translation = translation
+                    t.locale_parent_dir = get_locale_parent_dirname(pofile)
+                    t.is_published = True
+                    t.save()
+
                 if locale_path not in self.tors:
                     self.tors[locale_path] = {}
                 if language not in self.tors[locale_path]:
@@ -69,6 +76,9 @@ class Manager(object):
                 if domain not in self.tors[locale_path][language]:
                     self.tors[locale_path][language][domain] = []
                 self.tors[locale_path][language][domain].append(t.original)
+        else:
+            if settings.DEBUG:
+                print "Pofile %s does not exist." % (pofile)
 
     ############################################################################
 
