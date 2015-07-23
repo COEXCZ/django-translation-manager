@@ -49,14 +49,15 @@ if (VERSION[0] == 1 and VERSION[1] >= 4) or VERSION[0] > 1:
         parameter_name = 'custom_filter'
 
         def __init__(self, *args, **kwargs):
-            self.title = cf(_(get_settings('TRANSLATIONS_CUSTOM_FILTERS')[0]))
+            self.title = cf(_(get_settings('TRANSLATIONS_CUSTOM_FILTERS_LABEL')))
             super(CustomFilter, self).__init__(*args, **kwargs)
 
         def lookups(self, request, model_admin):
-            return [(i, cf(_(label))) for i, (group_filter, label) in enumerate(get_settings('TRANSLATIONS_CUSTOM_FILTERS')[1])]
+            return [(i, cf(_(label))) for i, (group_filter, label) in enumerate(get_settings('TRANSLATIONS_CUSTOM_FILTERS'))]
 
         def queryset(self, request, queryset):
             active_filter = self.value()
+            print(active_filter)
             if not active_filter:
                 return queryset
             else:

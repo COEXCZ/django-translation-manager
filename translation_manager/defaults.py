@@ -17,7 +17,7 @@ TRANSLATIONS_BASE_DIR = ''
 
 # Mode the translation manager behaves when creating
 # translations mainly from multiple locale files
-# Default value is N, where translation in DB are 
+# Default value is N, where translation in DB are
 # only once for specific locale file.
 # Another option is P, where is translation manager
 # promiscuous and creates for every translation it's
@@ -62,6 +62,9 @@ TRANSLATIONS_ADMIN_EXCLUDE_FIELDS = []
 
 # Define admin fields manually: for all fields look to admin.py:default_fields
 TRANSLATIONS_ADMIN_FIELDS = []
+
+# Label of custom filters
+TRANSLATIONS_CUSTOM_FILTERS_LABEL = ""
 
 # Tuple of title and list of regex expression used for filtering in administration.
 # Each object should be a tuple of (regex_filter, label)
