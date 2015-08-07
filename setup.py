@@ -7,8 +7,8 @@ DESCRIPTION = "Django app for managing translations from admin"
 AUTHOR = "Pavel Císař, Martin Kubát, Mikuláš Mrva, Jakub Ladra - COEX CZ s.r.o (http://www.coex.cz)"
 AUTHOR_EMAIL = "pavel.cisar@coex.cz"
 URL = "https://github.com/COEXCZ/django-translation-manager"
-VERSION = '0.3.2'
-LICENSE = "CC BY-NC 3.0"
+VERSION = '0.3.3'
+LICENSE = "Mozilla Public License 2.0 (MPL 2.0)"
 
 setup(
     name=NAME,
@@ -25,7 +25,7 @@ setup(
         "Environment :: Web Environment",
         "Framework :: Django",
         "Intended Audience :: Developers",
-        "License :: Free for non-commercial use",
+        "License :: Mozilla Public License 2.0 (MPL 2.0)",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Topic :: Software Development :: Internationalization"
