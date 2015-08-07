@@ -25,7 +25,7 @@ setup(
         "Environment :: Web Environment",
         "Framework :: Django",
         "Intended Audience :: Developers",
-        "License :: Mozilla Public License 2.0 (MPL 2.0)",
+        "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Topic :: Software Development :: Internationalization"
