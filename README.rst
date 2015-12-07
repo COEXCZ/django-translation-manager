@@ -6,7 +6,7 @@ README
 .. image:: https://landscape.io/github/Visgean/django-translation-manager/master/landscape.svg?style=flat
    :target: https://landscape.io/github/Visgean/django-translation-manager/master
    :alt: Code Health
-   
+
 
 Install package
 ===============
