@@ -7,6 +7,10 @@ README
    :target: https://landscape.io/github/COEXCZ/django-translation-manager/master
    :alt: Code Health
 
+.. image:: https://img.shields.io/pypi/v/django-translation-manager.svg
+   :target: https://pypi.python.org/pypi/django-translation-manager/0.2.1
+   :alt: PYPI
+
 
 Install package
 ===============
