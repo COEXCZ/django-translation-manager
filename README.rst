@@ -8,8 +8,12 @@ README
    :alt: Code Health
 
 .. image:: https://img.shields.io/pypi/v/django-translation-manager.svg
-   :target: https://pypi.python.org/pypi/django-translation-manager/0.2.1
+   :target: https://pypi.python.org/pypi/django-translation-manager/
    :alt: PYPI
+
+.. image:: https://readthedocs.org/projects/django-translation-manager/badge/?version=latest
+   :target: http://django-translation-manager.readthedocs.org/en/latest/
+   :alt: Read the docs
 
 
 Install package
