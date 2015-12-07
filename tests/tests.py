@@ -12,4 +12,3 @@ class TranslationCase(TestCase):
             username=self.username,
             password=self.password)
 
-    

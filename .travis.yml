@@ -1,0 +1,24 @@
+language: python
+
+env:
+    - TOX_ENV=py35-django19
+    - TOX_ENV=py34-django19
+    - TOX_ENV=py27-django19
+    - TOX_ENV=py34-django18
+    - TOX_ENV=py27-django18
+    - TOX_ENV=py34-django17
+    - TOX_ENV=py27-django17
+
+#matrix:
+#  allow_failures:
+#    - env: TOX_ENV=py35-django19
+
+install:
+  - pip install tox coveralls
+
+script:
+    - tox -e $TOX_ENV
+    - coverage report -m
+
+after_success:
+    - coveralls
