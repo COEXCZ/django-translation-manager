@@ -1,0 +1,6 @@
+max-line-length: 79
+uses:
+    - django
+autodetect: yes
+ignore-paths:
+  - example/
