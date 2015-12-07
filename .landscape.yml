@@ -1,0 +1,8 @@
+max-line-length: 79
+uses:
+    - django
+autodetect: yes
+requirements:
+    - requirements.txt
+ignore-paths:
+  - example/
