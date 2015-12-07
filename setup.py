@@ -34,5 +34,5 @@ setup(
         "polib",
         "django>=1.8"
     ],
-    test_suite = "tests.runtests.run_tests",
+    test_suite="tests.runtests.run_tests",
 )

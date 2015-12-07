@@ -14,7 +14,6 @@ def run_tests():
     django.setup()
     test_runner = get_runner(settings)()
     failures = test_runner.run_tests(["tests"])
-    print failures
     sys.exit(bool(failures))
 
 
