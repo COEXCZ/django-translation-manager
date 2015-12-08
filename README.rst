@@ -19,10 +19,13 @@ README
    :target: https://pypi.python.org/pypi/django-translation-manager/
    :alt: PYPI
 
-.. image:: https://readthedocs.org/projects/django-translation-manager/badge/?version=latest
-   :target: http://django-translation-manager.readthedocs.org/en/latest/
+.. image:: https://readthedocs.org/projects/django-translation-manager/badge/?version=master
+   :target: http://django-translation-manager.readthedocs.org/en/master/
    :alt: Read the docs
 
+.. image:: https://requires.io/github/COEXCZ/django-translation-manager/requirements.svg?branch=master
+     :target: https://requires.io/github/COEXCZ/django-translation-manager/requirements/?branch=master
+     :alt: Requirements Status
 
 Install package
 ===============
