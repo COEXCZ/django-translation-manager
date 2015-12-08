@@ -5,9 +5,11 @@ README
 
 .. image:: https://travis-ci.org/COEXCZ/django-translation-manager.svg
    :target: https://travis-ci.org/COEXCZ/django-translation-manager
+   :alt: Travis
 
 .. image:: https://coveralls.io/repos/COEXCZ/django-translation-manager/badge.svg?branch=master&service=github
    :target: https://coveralls.io/github/COEXCZ/django-translation-manager?branch=master
+   :alt: Coveralls
 
 .. image:: https://landscape.io/github/COEXCZ/django-translation-manager/master/landscape.svg?style=flat
    :target: https://landscape.io/github/COEXCZ/django-translation-manager/master
