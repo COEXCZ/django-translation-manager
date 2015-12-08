@@ -4,11 +4,11 @@ from .settings import get_settings
 
 
 hint_sql_template = (
-    "SELECT te2.* FROM %s AS te1 INNER JOIN %s AS te2 ON "
-    "(te1.original = te2.original "
-    "AND te1.domain = te2.domain AND te2.locale_path = %s) "
-    "WHERE te2.is_published = TRUE "
-    "AND te1.id IN (%s) AND te2.language = '%s'")
+    'SELECT te2.* FROM %s AS te1 INNER JOIN %s AS te2 ON '
+    '(te1.original = te2.original '
+    'AND te1.domain = te2.domain AND te2.locale_path = %s) '
+    'WHERE te2.is_published=1 '
+    'AND te1.id IN (%s) AND te2.language = \'%s\'')
 
 
 class TranslationChangeList(ChangeList):
@@ -38,6 +38,7 @@ class TranslationChangeList(ChangeList):
             get_settings('TRANSLATIONS_HINT_LANGUAGE'))
 
         hint_qs = TranslationEntry.objects.raw(hint_sql)
+
         hint_dict = dict([(hint.original, hint.translation)
                           for hint in hint_qs])
 
