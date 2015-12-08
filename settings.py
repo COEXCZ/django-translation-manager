@@ -8,6 +8,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 import os
+import sys
+
 from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = os.path.dirname(__file__)
@@ -17,7 +19,6 @@ SECRET_KEY = 'b=@ru#--%)2v%fx-zbhdfxnv#o8bjn7d-kjp(zc0r@1z_lh#3*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -87,10 +88,14 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'translation_manager', 'templates'),
 )
 
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, "locale"),
-    os.path.join(BASE_DIR, 'translation_manager', "locale"),
-)
+TESTING = sys.argv[1:2] == ['test']
+LOCALE_PATHS = [os.path.join(BASE_DIR, "locale")]
+
+if not TESTING:
+    LOCALE_PATHS.append(
+        os.path.join(BASE_DIR, 'translation_manager', "locale")
+    )
+
 
 TRANSLATIONS_BASE_DIR = BASE_DIR
 TRANSLATIONS_MODE = "N"
