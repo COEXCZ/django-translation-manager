@@ -196,7 +196,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index_', 'djangotranslationmanager.tex', u'django translation manager Documentation',
+  ('index', 'djangotranslationmanager.tex', u'django translation manager Documentation',
    u'COEX', 'manual'),
 ]
 
