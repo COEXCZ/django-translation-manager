@@ -1,15 +1,6 @@
 # 
 msgid ""
-msgstr ""
-"Project-Id-Version: 0.1\n"
-"Report-Msgid-Bugs-To: cisarpavel@gmail.com\n"
-"POT-Creation-Date: 2014-10-27 21:26:51\n"
-"PO-Revision-Date: 2014-10-27 21:26:51\n"
-"Last-Translator: Server <root@localhost>\n"
-"Language-Team: English <cisarpavel@gmail.com>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+msgstr "Test PO FILE"
 
-msgid "testcase1"
-msgstr "testcase1_translation"
+msgid "test-case1"
+msgstr "test-case1_translation"

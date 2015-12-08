@@ -89,12 +89,13 @@ TEMPLATE_DIRS = (
 )
 
 TESTING = sys.argv[1:2] == ['test']
-LOCALE_PATHS = [os.path.join(BASE_DIR, "locale")]
 
-if not TESTING:
-    LOCALE_PATHS.append(
+if TESTING:
+    LOCALE_PATHS = [os.path.join(BASE_DIR, 'tests', "locale")]
+else:
+    LOCALE_PATHS = [
         os.path.join(BASE_DIR, 'translation_manager', "locale")
-    )
+    ]
 
 
 TRANSLATIONS_BASE_DIR = BASE_DIR
@@ -117,4 +118,5 @@ TRANSLATIONS_ADMIN_FIELDS = []
 
 TRANSLATIONS_CUSTOM_FILTERS = (
     (r'^admin-', 'Admin fields'),
+    (r'^test-', 'Test fields'),
 )
