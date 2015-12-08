@@ -11,10 +11,5 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: project/settings/base.py:77
-msgid "Czech"
-msgstr "Czech"
-
-#: project/settings/base.py:78
-msgid "English"
-msgstr "English"
+msgid "testcase1"
+msgstr "testcase1_translation"

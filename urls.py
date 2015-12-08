@@ -1,3 +1,5 @@
+from django.contrib import admin
+
 try:
     from django.conf.urls import patterns, url, include
 except ImportError:
@@ -5,8 +7,7 @@ except ImportError:
     from django.conf.urls.defaults import patterns, url, include
     admin.autodiscover()
 
-from django.contrib import admin
-
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^admin/', include(admin.site.urls)),
 )

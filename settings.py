@@ -7,17 +7,10 @@ https://docs.djangoproject.com/en/1.7/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-
 import os
 from django.utils.translation import gettext_lazy as _
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
+BASE_DIR = os.path.dirname(__file__)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'b=@ru#--%)2v%fx-zbhdfxnv#o8bjn7d-kjp(zc0r@1z_lh#3*'
@@ -29,9 +22,6 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,7 +30,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'project.translation_manager',
+    'translation_manager',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -53,9 +43,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'project.urls'
-
-WSGI_APPLICATION = 'project.wsgi.application'
+ROOT_URLCONF = 'urls'
 
 
 # Database
@@ -63,12 +51,12 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mydatabase',
-        'USER': 'mydatabaseuser',
-        'PASSWORD': 'mypassword',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'testdb',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
@@ -85,7 +73,6 @@ LANGUAGES = (
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-
 USE_L10N = True
 
 USE_TZ = True
@@ -102,7 +89,7 @@ TEMPLATE_DIRS = (
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, "locale"),
-    os.path.join(BASE_DIR, 'translation_manager', 'locale'),
+    os.path.join(BASE_DIR, 'translation_manager', "locale"),
 )
 
 TRANSLATIONS_BASE_DIR = BASE_DIR
@@ -118,7 +105,8 @@ TRANSLATIONS_QUERYSET_FORCE_FILTERS = ['admin-']
 
 TRANSLATIONS_HINT_LANGUAGE = 'en'
 
-TRANSLATIONS_ADMIN_EXCLUDE_FIELDS = []  # e.g. 'occurrences', 'locale_parent_dir', 'domain'
+# e.g. 'occurrences', 'locale_parent_dir', 'domain'
+TRANSLATIONS_ADMIN_EXCLUDE_FIELDS = []
 
 TRANSLATIONS_ADMIN_FIELDS = []
 

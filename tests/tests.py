@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.contrib.auth.models import AnonymousUser, User
+from django.contrib.auth.models import User
 
 
 class TranslationCase(TestCase):
@@ -11,4 +11,3 @@ class TranslationCase(TestCase):
             email=self.email,
             username=self.username,
             password=self.password)
-
