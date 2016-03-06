@@ -96,19 +96,18 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         qs = super(TranslationEntryAdmin, self).queryset(request=request)
         return filter_queryset(qs)
 
-
     def load_from_po_view(self, request):
         if request.user.has_perm('translation_manager.load'):
             manager = Manager()
             manager.load_data_from_po()
 
-            self.message_user(request, _("admin-translation_manager-data-loaded_from_po"))
+            self.message_user(request, unicode(_("admin-translation_manager-data-loaded_from_po")))
         return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
 
     def make_translations_view(self, request):
         call_command('makemessages')
 
-        self.message_user(request, _("admin-translation_manager-translations_made"))
+        self.message_user(request, unicode(_("admin-translation_manager-translations_made")))
         return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
 
     def compile_translations_view(self, request):
@@ -117,7 +116,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
             manager.update_po_from_db(lang=language)
         post_save.send(sender=None, request=request)
 
-        self.message_user(request, _("admin-translation_manager-translations_compiled"))
+        self.message_user(request, unicode(_("admin-translation_manager-translations_compiled")))
         return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
 
     def get_changelist(self, request, **kwargs):
