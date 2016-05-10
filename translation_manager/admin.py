@@ -34,7 +34,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
     list_editable = ('translation',)
     ordering = ('original', 'language')
     readonly_fields = list(default_fields)
-    readonly_fields.remove('original')
+    # readonly_fields.remove('original')
     search_fields = filter_excluded_fields(['original', 'translation', 'occurrences'])
     list_per_page = 100
 
