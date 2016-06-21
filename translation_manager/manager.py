@@ -60,6 +60,9 @@ class Manager(object):
                     "is_published": True,
                 }
             )
+            if t.translation == "" and translation:
+                t.translation = translation
+                t.save()
 
             if locale_path not in self.tors:
                 self.tors[locale_path] = {}

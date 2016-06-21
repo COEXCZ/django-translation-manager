@@ -7,7 +7,7 @@ hint_sql_template = (
     'SELECT te2.* FROM %s AS te1 INNER JOIN %s AS te2 ON '
     '(te1.original = te2.original '
     'AND te1.domain = te2.domain AND te2.locale_path = %s) '
-    'WHERE te2.is_published=1 '
+    'WHERE te2.is_published=TRUE '
     'AND te1.id IN (%s) AND te2.language = \'%s\'')
 
 
