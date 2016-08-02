@@ -76,3 +76,6 @@ TRANSLATIONS_UPDATE_FORCED_LOCALE_PATHS = []
 # List of django domains for translation strings.
 # Defaults are ['django', 'djangojs']
 TRANSLATIONS_DOMAINS = ['django', 'djangojs']
+
+# auto create directories by translation languages
+TRANSLATIONS_AUTO_CREATE_LANGUAGE_DIRS = True

@@ -120,3 +120,6 @@ TRANSLATIONS_CUSTOM_FILTERS = (
     (r'^admin-', 'Admin fields'),
     (r'^test-', 'Test fields'),
 )
+
+# auto create directories by translation languages
+TRANSLATIONS_AUTO_CREATE_LANGUAGE_DIRS = True

@@ -45,6 +45,14 @@ class Command(OriginCommand):
     # Django 1.4+ ****************************************************************
 
     def handle(self, *args, **options):
+
+        if settings.TRANSLATIONS_AUTO_CREATE_LANGUAGE_DIRS:
+            for language, language_name in settings.LANGUAGES:
+                for locale in settings.LOCALE_PATHS:
+                    language_dir_path = "%s/%s" % (str(locale), str(language))
+                    if not os.path.isdir(language_dir_path):
+                        os.mkdir(language_dir_path)
+
         self.manager = Manager()
 
         if get_settings('TRANSLATIONS_MAKE_BACKUPS'):
