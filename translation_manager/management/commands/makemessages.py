@@ -46,7 +46,7 @@ class Command(OriginCommand):
 
     def handle(self, *args, **options):
 
-        if settings.TRANSLATIONS_AUTO_CREATE_LANGUAGE_DIRS:
+        if get_settings('TRANSLATIONS_AUTO_CREATE_LANGUAGE_DIRS'):
             for language, language_name in settings.LANGUAGES:
                 for locale in settings.LOCALE_PATHS:
                     language_dir_path = "%s/%s" % (str(locale), str(language))
