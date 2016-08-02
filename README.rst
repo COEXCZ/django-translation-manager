@@ -45,6 +45,12 @@ Install package
       translation_post_save.connect(restart_server, sender=None)
 
 
+Supported versions of django
+============================
+
+We support all django versions greater or equal 1.8.
+
+
 SyncDB
 ======
 use syncdb
@@ -80,12 +86,6 @@ Known bugs
 ==========
 
 If you are using different base site you have to register admin to your site.
-
-
-Support
-=======
-
-We support all django versions greater or equal 1.8.
 
 
 License note
