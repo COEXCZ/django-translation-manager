@@ -14,6 +14,8 @@ from .widgets import add_styles
 from .utils import filter_queryset
 from .settings import get_settings
 
+from translation_manager import tasks
+
 
 filter_excluded_fields = lambda fields: [field for field in fields if field not in get_settings('TRANSLATIONS_ADMIN_EXCLUDE_FIELDS')]
 
@@ -91,7 +93,6 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         qs = super(TranslationEntryAdmin, self).queryset(request=request)
         return filter_queryset(qs)
 
-
     def load_from_po_view(self, request):
         if request.user.has_perm('translation_manager.load'):
             manager = Manager()
@@ -101,8 +102,11 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
 
     def make_translations_view(self, request):
-        call_command('makemessages')
-
+        translation_mode = str(get_settings('TRANSLATIONS_RUNNING_MODE'))
+        if translation_mode == "Sync":
+            call_command('makemessages')
+        elif translation_mode == "Async_django_rq":
+            tasks.makemessages_task.delay()
         self.message_user(request, _("admin-translation_manager-translations_made"))
         return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
 

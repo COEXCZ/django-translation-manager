@@ -30,8 +30,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'translation_manager',
+    'django_rq',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -123,3 +123,26 @@ TRANSLATIONS_CUSTOM_FILTERS = (
 
 # auto create directories by translation languages
 TRANSLATIONS_AUTO_CREATE_LANGUAGE_DIRS = True
+
+# Type of translation computation running mode.
+# For synchronous type 'Sync' (default)
+# For asynchronous type 'Async_django_rq' with django_rq usage
+TRANSLATIONS_RUNNING_MODE = 'Async_django_rq'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.cache.RedisCache',
+        'LOCATION': 'localhost:6379',
+    },
+}
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+        'PASSWORD': '',
+        'DEFAULT_TIMEOUT': 360,
+        'USE_REDIS_CACHE': 'default',
+    }
+}
