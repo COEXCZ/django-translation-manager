@@ -82,6 +82,12 @@ Known bugs
 If you are using different base site you have to register admin to your site.
 
 
+Support
+=======
+
+We support all django versions greater or equal 1.8.
+
+
 License note
 ============
 
