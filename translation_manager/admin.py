@@ -17,6 +17,8 @@ from translation_manager import tasks
 
 from django.core.cache import cache
 
+from django_rq import get_worker, get_queue
+
 filter_excluded_fields = lambda fields: [field for field in fields if field not in get_settings('TRANSLATIONS_ADMIN_EXCLUDE_FIELDS')]
 
 
@@ -117,11 +119,16 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
 
     def make_translations_view(self, request):
-        translation_mode = str(get_settings('TRANSLATIONS_RUNNING_MODE'))
-        if translation_mode == "Sync":
-            tasks.makemessages_task()
-        elif translation_mode == "Async_django_rq":
-            tasks.makemessages_task.delay()
+        translation_mode = str(get_settings('TRANSLATIONS_PROCESSING_METHOD'))
+        if not cache.get('make_translations_running'):
+            cache.set('make_translations_running', True)
+            if translation_mode == "sync":
+                tasks.makemessages_task()
+            elif translation_mode == "async_django_rq":
+                queue = get_queue()
+                queue.enqueue(tasks.makemessages_task)
+                worker = get_worker(get_settings('TRANSLATIONS_PROCESSING_QUEUE'))
+                worker.work()
         self.message_user(request, _("admin-translation_manager-translations_made"))
         return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
 

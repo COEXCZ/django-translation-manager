@@ -43,7 +43,7 @@
 
         function make_messages_link_on_click_not_running() {
             $(id_make_translations).text("{% trans "admin-translation_manager-makemessages-running" %}");
-            make_messages_status_timer = setInterval(get_make_messages_status, 100);
+            make_messages_status_timer = setInterval(get_make_messages_status, 200);
             $(id_make_translations).css("background-color", "SteelBlue");
             $(id_make_translations).click(make_messages_link_on_click_running());
         }
@@ -55,11 +55,10 @@
         function get_make_messages_status() {
             clearInterval(make_messages_status_timer);
             $.getJSON('/admin/translation_manager/translationentry/get_make_translations_status/', function (data) {
-                console.log(data);
                 if (data["running"] == false) {
                     set_link_make_messages_not_running();
                 } else {
-                    make_messages_status_timer = setInterval(get_make_messages_status, 100)
+                    make_messages_status_timer = setInterval(get_make_messages_status, 200)
                 }
             });
         }

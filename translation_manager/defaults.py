@@ -83,4 +83,7 @@ TRANSLATIONS_AUTO_CREATE_LANGUAGE_DIRS = True
 # Type of translation computation running mode.
 # For synchronous type 'Sync' (default)
 # For asynchronous type 'Async_django_rq with django_rq usage
-TRANSLATIONS_RUNNING_MODE = 'Async_django_rq'
+TRANSLATIONS_PROCESSING_METHOD = 'sync'
+
+# Name of rq_queue, default is 'default'
+TRANSLATIONS_PROCESSING_QUEUE = 'default'
