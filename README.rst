@@ -51,6 +51,28 @@ Supported versions of django
 We support all django versions greater or equal 1.8.
 
 
+Using with django-rq
+====================
+
+We support asynchronous translation processing by django-rq.
+
+Set translation processing method in settings.py
+::
+    TRANSLATIONS_PROCESSING_METHOD = 'async_django_rq'
+
+Inslall django-rq
+::
+    pip install django_rq
+
+Install django-redis-cash
+::
+    pip install django-redis-cache
+
+We tested it with django-rq 0.9.1 and django-redis-cache==1.6.5
+
+For configuration django_rq see  https://github.com/ui/django-rq
+
+
 SyncDB
 ======
 use syncdb
