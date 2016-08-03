@@ -7,7 +7,7 @@ from django.core.cache import cache
 
 @job
 def makemessages_task():
-    if not cache.get('Translation_computation_running'):
-        cache.set('Translation_computation_running', True)
+    if not cache.get('make_translations_running'):
+        cache.set('make_translations_running', True)
         call_command('makemessages')
-        cache.delete('Translation_computation_running')
+        cache.delete('make_translations_running')

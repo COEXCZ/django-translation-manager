@@ -10,7 +10,8 @@
         </li>
         {% if has_add_permission %}
         <li>
-            <a href="{% url 'admin:translation_manager_translationentry_make' %}" class="makelink">
+            <a id="id_make_translations" href="{% url 'admin:translation_manager_translationentry_make' %}"
+               class="makelink">
                 {% filter capfirst %}{% trans "admin-translation_manager-make_translations" %}{% endfilter %}
             </a>
         </li>
@@ -23,4 +24,50 @@
         </li>
         {% endif %}
     </ul>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        var id_make_translations = "#id_make_translations";
+        var make_messages_status_timer = null;
+
+        $(document).ready(function () {
+
+            var make_messages_status = "{{make_translations_running}}";
+
+            if (make_messages_status == true) {
+                $(id_make_translations).text("{% trans "admin-translation_manager-makemessages-running" %}")
+            }
+
+            $(id_make_translations).click(make_messages_link_on_click_not_running);
+        });
+
+        function make_messages_link_on_click_not_running() {
+            $(id_make_translations).text("{% trans "admin-translation_manager-makemessages-running" %}");
+            make_messages_status_timer = setInterval(get_make_messages_status, 100);
+            $(id_make_translations).css("background-color", "SteelBlue");
+            $(id_make_translations).click(make_messages_link_on_click_running());
+        }
+
+        function make_messages_link_on_click_running() {
+            return false;
+        }
+
+        function get_make_messages_status() {
+            clearInterval(make_messages_status_timer);
+            $.getJSON('/admin/translation_manager/translationentry/get_make_translations_status/', function (data) {
+                console.log(data);
+                if (data["running"] == false) {
+                    set_link_make_messages_not_running();
+                } else {
+                    make_messages_status_timer = setInterval(get_make_messages_status, 100)
+                }
+            });
+        }
+
+        function set_link_make_messages_not_running() {
+            $(id_make_translations).text("{% trans "admin-translation_manager-make_translations" %}");
+            $(id_make_translations).click(make_messages_link_on_click_not_running);
+        }
+
+    </script>
 {% endblock %}

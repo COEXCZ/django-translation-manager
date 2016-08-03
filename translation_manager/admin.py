@@ -1,9 +1,8 @@
 from functools import update_wrapper
 
 from django.contrib import admin
-from django.core.management import call_command
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
@@ -16,6 +15,7 @@ from .settings import get_settings
 
 from translation_manager import tasks
 
+from django.core.cache import cache
 
 filter_excluded_fields = lambda fields: [field for field in fields if field not in get_settings('TRANSLATIONS_ADMIN_EXCLUDE_FIELDS')]
 
@@ -50,6 +50,11 @@ class TranslationEntryAdmin(admin.ModelAdmin):
 
     list_filter = filter_excluded_fields(list_filter)
 
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['make_translations_running'] = cache.get('make_translations_running')
+        return super(TranslationEntryAdmin, self).changelist_view(request, extra_context=extra_context)
+
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(TranslationEntryAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'translation':
@@ -75,10 +80,12 @@ class TranslationEntryAdmin(admin.ModelAdmin):
             info = self.model._meta.app_label, self.model._meta.module_name
  
         urls = patterns('',
-            url(r'^make/$', wrap(self.make_translations_view), name='%s_%s_make' % info),
-            url(r'^compile/$', wrap(self.compile_translations_view), name='%s_%s_compile' % info),
-            url(r'^load_from_po/$', wrap(self.load_from_po_view), name='%s_%s_load' % info),
-        )
+                        url(r'^make/$', wrap(self.make_translations_view), name='%s_%s_make' % info),
+                        url(r'^compile/$', wrap(self.compile_translations_view), name='%s_%s_compile' % info),
+                        url(r'^load_from_po/$', wrap(self.load_from_po_view), name='%s_%s_load' % info),
+                        url(r'^get_make_translations_status/$', wrap(self.get_make_translations_status),
+                            name='%s_%s_load' % info)
+                        )
  
         super_urls = super(TranslationEntryAdmin, self).get_urls()
  
@@ -93,6 +100,14 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         qs = super(TranslationEntryAdmin, self).queryset(request=request)
         return filter_queryset(qs)
 
+    def get_make_translations_status(self, request):
+        if cache.get('make_translations_running'):
+            result = {"running": True}
+        else:
+            result = {"running": False}
+
+        return JsonResponse(result)
+
     def load_from_po_view(self, request):
         if request.user.has_perm('translation_manager.load'):
             manager = Manager()
@@ -104,7 +119,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
     def make_translations_view(self, request):
         translation_mode = str(get_settings('TRANSLATIONS_RUNNING_MODE'))
         if translation_mode == "Sync":
-            call_command('makemessages')
+            tasks.makemessages_task()
         elif translation_mode == "Async_django_rq":
             tasks.makemessages_task.delay()
         self.message_user(request, _("admin-translation_manager-translations_made"))
