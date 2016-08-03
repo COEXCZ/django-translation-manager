@@ -3,7 +3,11 @@ from django.contrib.auth.models import User
 
 from translation_manager.manager import Manager as TranslationManager
 from translation_manager.models import TranslationEntry
+from django.core.management import call_command
 
+from translation_manager import tasks
+
+from django_rq import get_queue, get_worker
 
 class TranslationCase(TestCase):
     def setUp(self):
@@ -30,3 +34,20 @@ class TranslationCase(TestCase):
         self.assertEqual(entry.domain, 'django')
         self.assertEqual(entry.locale_path, 'tests/locale')
         self.assertEqual(entry.locale_parent_dir, 'tests')
+
+    def test_makemessages_django_1_4_19(self):
+        call_command('makemessages')
+
+    def test_makemessages_django_rq_single_run(self):
+        queue = get_queue('default')
+        queue.enqueue(tasks.makemessages_task)
+
+        get_worker().work(burst=True)
+
+    def test_makemessages_django_tq_more_jobs(self):
+        queue = get_queue('default')
+        queue.enqueue(tasks.makemessages_task)
+        queue.enqueue(tasks.makemessages_task)
+        queue.enqueue(tasks.makemessages_task)
+
+        get_worker().work(burst=True)
