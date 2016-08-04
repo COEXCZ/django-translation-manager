@@ -121,14 +121,6 @@ TRANSLATIONS_CUSTOM_FILTERS = (
     (r'^test-', 'Test fields'),
 )
 
-# auto create directories by translation languages
-TRANSLATIONS_AUTO_CREATE_LANGUAGE_DIRS = True
-
-# Type of translation computation running mode.
-# For synchronous type 'Sync' (default)
-# For asynchronous type 'Async_django_rq' with django_rq usage
-TRANSLATIONS_RUNNING_MODE = 'Sync'
-
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.RedisCache',
