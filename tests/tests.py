@@ -7,7 +7,10 @@ from django.core.management import call_command
 
 from translation_manager import tasks
 
-from django_rq import get_queue, get_worker
+from translation_manager.settings import get_settings
+
+if get_settings('TRANSLATIONS_PROCESSING_METHOD') == 'async_django_rq':
+    from django_rq import get_queue, get_worker
 
 class TranslationCase(TestCase):
     def setUp(self):
@@ -38,16 +41,17 @@ class TranslationCase(TestCase):
     def test_makemessages_django_1_4_19(self):
         call_command('makemessages')
 
-    def test_makemessages_django_rq_single_run(self):
-        queue = get_queue('default')
-        queue.enqueue(tasks.makemessages_task)
+    if get_settings('TRANSLATIONS_PROCESSING_METHOD') == 'async_django_rq':
+        def test_makemessages_django_rq_single_run(self):
+            queue = get_queue('default')
+            queue.enqueue(tasks.makemessages_task)
 
-        get_worker().work(burst=True)
+            get_worker().work(burst=True)
 
-    def test_makemessages_django_tq_more_jobs(self):
-        queue = get_queue('default')
-        queue.enqueue(tasks.makemessages_task)
-        queue.enqueue(tasks.makemessages_task)
-        queue.enqueue(tasks.makemessages_task)
+        def test_makemessages_django_tq_more_jobs(self):
+            queue = get_queue('default')
+            queue.enqueue(tasks.makemessages_task)
+            queue.enqueue(tasks.makemessages_task)
+            queue.enqueue(tasks.makemessages_task)
 
-        get_worker().work(burst=True)
+            get_worker().work(burst=True)

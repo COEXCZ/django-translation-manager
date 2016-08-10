@@ -17,8 +17,6 @@ from translation_manager import tasks
 
 from django.core.cache import cache
 
-from django_rq import get_worker, get_queue, get_connection
-
 filter_excluded_fields = lambda fields: [field for field in fields if field not in get_settings('TRANSLATIONS_ADMIN_EXCLUDE_FIELDS')]
 
 

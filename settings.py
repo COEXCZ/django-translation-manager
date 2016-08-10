@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 import sys
 
+from translation_manager.settings import get_settings
+
 from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = os.path.dirname(__file__)
@@ -31,8 +33,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'translation_manager',
-    'django_rq',
 )
+
+if get_settings('TRANSLATIONS_PROCESSING_METHOD') == 'async_django_rq':
+    INSTALLED_APPS += ('django_rq',)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
