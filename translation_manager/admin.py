@@ -62,7 +62,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         return formfield
 
     def get_urls(self):
-        from django.conf.urls import patterns, url
+        from django.conf.urls import url
 
         def wrap(view):
             def wrapper(*args, **kwargs):
@@ -71,13 +71,13 @@ class TranslationEntryAdmin(admin.ModelAdmin):
 
         info = self.model._meta.app_label, self.model._meta.model_name
 
-        urls = patterns('',
-                        url(r'^make/$', wrap(self.make_translations_view), name='%s_%s_make' % info),
-                        url(r'^compile/$', wrap(self.compile_translations_view), name='%s_%s_compile' % info),
-                        url(r'^load_from_po/$', wrap(self.load_from_po_view), name='%s_%s_load' % info),
-                        url(r'^get_make_translations_status/$', wrap(self.get_make_translations_status),
-                            name='%s_%s_status' % info)
-                        )
+        urls = [
+            url(r'^make/$', wrap(self.make_translations_view), name='%s_%s_make' % info),
+            url(r'^compile/$', wrap(self.compile_translations_view), name='%s_%s_compile' % info),
+            url(r'^load_from_po/$', wrap(self.load_from_po_view), name='%s_%s_load' % info),
+            url(r'^get_make_translations_status/$', wrap(self.get_make_translations_status),
+                name='%s_%s_status' % info)
+        ]
  
         super_urls = super(TranslationEntryAdmin, self).get_urls()
  
