@@ -84,7 +84,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
                         url(r'^compile/$', wrap(self.compile_translations_view), name='%s_%s_compile' % info),
                         url(r'^load_from_po/$', wrap(self.load_from_po_view), name='%s_%s_load' % info),
                         url(r'^get_make_translations_status/$', wrap(self.get_make_translations_status),
-                            name='%s_%s_load' % info)
+                            name='%s_%s_status' % info)
                         )
  
         super_urls = super(TranslationEntryAdmin, self).get_urls()
