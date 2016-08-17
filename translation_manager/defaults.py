@@ -66,7 +66,7 @@ TRANSLATIONS_ADMIN_FIELDS = []
 # Label of custom filters
 TRANSLATIONS_CUSTOM_FILTERS_LABEL = ""
 
-# Tuple of title and list of regex expression used for filtering in administration.
+# List containing regex expression and label used for filtering in administration.
 # Each object should be a tuple of (regex_filter, label)
 TRANSLATIONS_CUSTOM_FILTERS = []
 
