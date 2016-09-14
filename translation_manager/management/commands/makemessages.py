@@ -12,10 +12,11 @@ from translation_manager.settings import get_settings
 
 class Command(OriginCommand):
     def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
-        parser.add_argument('--locale', '-l', default=None, dest='locale', action='append',
+        parser.add_argument('--locale', '-l', default=[], dest='locale', action='append',
                             help='Creates or updates the message files for the given locale(s) (e.g. pt_BR). '
                                  'Can be used multiple times.'),
+        parser.add_argument('--exclude', '-x', default=[], dest='exclude', action='append',
+                            help='Locales to exclude. Default is none. Can be used multiple times.'),
         parser.add_argument('--domain', '-d', default=get_settings('TRANSLATIONS_DOMAINS') or ['django', 'djangojs'],
                             dest='domain',
                             help='The domain of the message files (default: "django").'),
