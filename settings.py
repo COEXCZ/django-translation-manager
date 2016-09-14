@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 import sys
 
+from translation_manager.settings import get_settings
+
 from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = os.path.dirname(__file__)
@@ -19,7 +21,6 @@ SECRET_KEY = 'b=@ru#--%)2v%fx-zbhdfxnv#o8bjn7d-kjp(zc0r@1z_lh#3*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -31,8 +32,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'translation_manager',
-    'django_rq',
 )
+
+if get_settings('TRANSLATIONS_PROCESSING_METHOD') == 'async_django_rq':
+    INSTALLED_APPS += ('django_rq',)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -84,9 +87,23 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'translation_manager', 'templates'),
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'translation_manager', 'templates')
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 TESTING = sys.argv[1:2] == ['test']
 

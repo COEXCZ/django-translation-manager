@@ -17,8 +17,6 @@ from translation_manager import tasks
 
 from django.core.cache import cache
 
-from django_rq import get_worker, get_queue, get_connection
-
 filter_excluded_fields = lambda fields: [field for field in fields if field not in get_settings('TRANSLATIONS_ADMIN_EXCLUDE_FIELDS')]
 
 
@@ -64,30 +62,22 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         return formfield
 
     def get_urls(self):
-        try:
-            from django.conf.urls import patterns, url
-        except ImportError:
-            # Old django fix
-            from django.conf.urls.defaults import patterns, url
- 
+        from django.conf.urls import url
+
         def wrap(view):
             def wrapper(*args, **kwargs):
                 return self.admin_site.admin_view(view)(*args, **kwargs)
             return update_wrapper(wrapper, view)
- 
-        try:
-            info = self.model._meta.app_label, self.model._meta.model_name
-        except AttributeError:
-            # Old django fix
-            info = self.model._meta.app_label, self.model._meta.module_name
- 
-        urls = patterns('',
-                        url(r'^make/$', wrap(self.make_translations_view), name='%s_%s_make' % info),
-                        url(r'^compile/$', wrap(self.compile_translations_view), name='%s_%s_compile' % info),
-                        url(r'^load_from_po/$', wrap(self.load_from_po_view), name='%s_%s_load' % info),
-                        url(r'^get_make_translations_status/$', wrap(self.get_make_translations_status),
-                            name='%s_%s_load' % info)
-                        )
+
+        info = self.model._meta.app_label, self.model._meta.model_name
+
+        urls = [
+            url(r'^make/$', wrap(self.make_translations_view), name='%s_%s_make' % info),
+            url(r'^compile/$', wrap(self.compile_translations_view), name='%s_%s_compile' % info),
+            url(r'^load_from_po/$', wrap(self.load_from_po_view), name='%s_%s_load' % info),
+            url(r'^get_make_translations_status/$', wrap(self.get_make_translations_status),
+                name='%s_%s_status' % info)
+        ]
  
         super_urls = super(TranslationEntryAdmin, self).get_urls()
  

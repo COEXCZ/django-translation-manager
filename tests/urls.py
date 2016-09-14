@@ -1,13 +1,6 @@
 from django.contrib import admin
+from django.conf.urls import url, include
 
-try:
-    from django.conf.urls import patterns, url, include
-except ImportError:
-    # Old django fix
-    from django.conf.urls.defaults import patterns, url, include
-    admin.autodiscover()
-
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-)
+]
