@@ -21,7 +21,6 @@ SECRET_KEY = 'b=@ru#--%)2v%fx-zbhdfxnv#o8bjn7d-kjp(zc0r@1z_lh#3*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -88,9 +87,23 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'translation_manager', 'templates'),
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'translation_manager', 'templates')
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 TESTING = sys.argv[1:2] == ['test']
 
