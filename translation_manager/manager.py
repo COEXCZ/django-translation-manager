@@ -122,6 +122,14 @@ class Manager(object):
         locale_params = list(set(locale_params))
 
         for locale_path, domain in locale_params:
+            lang_dir_path = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), locale_path,
+                                         get_dirname_from_lang(lang))
+            lc_messages_dir_path = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), locale_path,
+                                                get_dirname_from_lang(lang), 'LC_MESSAGES')
+            if not os.path.isdir(lang_dir_path):
+                os.mkdir(lang_dir_path)
+            if not os.path.isdir(lc_messages_dir_path):
+                os.mkdir(lc_messages_dir_path)
             pofile_path = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), locale_path, get_dirname_from_lang(lang), 'LC_MESSAGES', "%s.po" % domain)
             mofile_path = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), locale_path, get_dirname_from_lang(lang), 'LC_MESSAGES', "%s.mo" % domain)
 
