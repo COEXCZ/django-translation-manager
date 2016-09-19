@@ -5,15 +5,9 @@ python:
     - "3.5"
 
 env:
-    - TOX_ENV=py35-django110
-    - TOX_ENV=py34-django110
-    - TOX_ENV=py27-django110
-    - TOX_ENV=py35-django19
-    - TOX_ENV=py34-django19
-    - TOX_ENV=py27-django19
-    - TOX_ENV=py35-django18
-    - TOX_ENV=py34-django18
-    - TOX_ENV=py27-django18
+    - TOX_ENV=django110
+    - TOX_ENV=django19
+    - TOX_ENV=django18
 
 install:
   - pip install tox coveralls
