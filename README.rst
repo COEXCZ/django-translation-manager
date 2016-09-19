@@ -64,11 +64,11 @@ Inslall django-rq
 ::
     pip install django_rq
 
-Install django-redis-cash
+Install django-redis-cache
 ::
     pip install django-redis-cache
 
-We tested it with django-rq 0.9.1 and django-redis-cache==1.6.5
+We tested it with django-rq 0.9.1 and django-redis-cache 1.6.5
 
 For configuration django_rq see  https://github.com/ui/django-rq
 
