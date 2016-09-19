@@ -7,11 +7,7 @@ env:
     - TOX_ENV=py35-django18
     - TOX_ENV=py34-django18
     - TOX_ENV=py27-django18
-
-matrix:
-  allow_failures:
-    - env: TOX_ENV=py35-django19
-
+    
 install:
   - pip install tox coveralls
 
