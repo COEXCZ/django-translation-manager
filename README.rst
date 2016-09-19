@@ -7,10 +7,6 @@ README
    :target: https://travis-ci.org/COEXCZ/django-translation-manager
    :alt: Travis
 
-.. image:: https://coveralls.io/repos/COEXCZ/django-translation-manager/badge.svg?branch=master
-   :target: https://coveralls.io/github/COEXCZ/django-translation-manager?branch=master
-   :alt: Coveralls
-
 .. image:: https://landscape.io/github/COEXCZ/django-translation-manager/master/landscape.svg?style=flat
    :target: https://landscape.io/github/COEXCZ/django-translation-manager/master
    :alt: Code Health
@@ -23,9 +19,6 @@ README
    :target: http://django-translation-manager.readthedocs.org/en/master/
    :alt: Read the docs
 
-.. image:: https://requires.io/github/COEXCZ/django-translation-manager/requirements.svg?branch=master
-     :target: https://requires.io/github/COEXCZ/django-translation-manager/requirements/?branch=master
-     :alt: Requirements Status
 
 Install package
 ===============
