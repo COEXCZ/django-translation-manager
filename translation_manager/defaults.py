@@ -88,14 +88,26 @@ TRANSLATIONS_PROCESSING_METHOD = 'sync'
 # Name of rq_queue, default is 'default'
 TRANSLATIONS_PROCESSING_QUEUE = 'default'
 
-# enable export translations from .po files in json obects via django REST Framework
-TRANSLATION_ENABLE_API_COMMUNICATION = False
+# Enable export translations from .po files in json obects via django REST Framework
+TRANSLATION_ENABLE_API_COMMUNICATION = True
 
-# settings below only works if TRANSLATION_ENABLE_API_COMMUNICATION is enabled
+# Settings below only works if TRANSLATION_ENABLE_API_COMMUNICATION is enabled
 
-# absolute path to client api application source codes
-# source codes must be on a same filesystem as current app
+# Absolute path to client api application source codes
+# Source codes must be on a same filesystem as current app
 TRANSLATION_API_CLIENT_APP_SRC_PATH = ''
 
 # Dirs and files ignored for makemessages in client api app.
 TRANSLATION_API_IGNORED_PATHS = []
+
+# Similar as for base use above.
+# For api client app translation strings
+TRANSLATIONS_API_QUERYSET_FORCE_FILTERS = []
+
+# Permission classes for translation manager api methods.
+# If empty, no permission is provided
+TRANSLATION_API_PERMISSION_CLASSES = ()
+
+# Authentication classes for translation manager api methods.
+# If empty, no authentication is provided
+TRANSLATION_API_AUTHENTICATION_CLASSES = ()

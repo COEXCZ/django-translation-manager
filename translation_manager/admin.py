@@ -85,12 +85,12 @@ class TranslationEntryAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super(TranslationEntryAdmin, self).get_queryset(request=request)
-        return filter_queryset(qs)
+        return filter_queryset(qs, get_settings('TRANSLATIONS_QUERYSET_FORCE_FILTERS'))
 
     # older django
     def queryset(self, request):
         qs = super(TranslationEntryAdmin, self).queryset(request=request)
-        return filter_queryset(qs)
+        return filter_queryset(qs, get_settings('TRANSLATIONS_QUERYSET_FORCE_FILTERS'))
 
     def get_make_translations_status(self, request):
         if cache.get('make_translations_running'):

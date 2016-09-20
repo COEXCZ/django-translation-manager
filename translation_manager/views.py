@@ -2,7 +2,6 @@ from django.contrib.admin.views.main import ChangeList
 
 from .settings import get_settings
 
-
 hint_sql_template = (
     'SELECT te2.* FROM %s AS te1 INNER JOIN %s AS te2 ON '
     '(te1.original = te2.original '
@@ -45,3 +44,31 @@ class TranslationChangeList(ChangeList):
         for result in self.result_list:
             # pylint:disable=protected-access
             result._hint = hint_dict.get(result.original, "")
+
+
+if get_settings('TRANSLATION_ENABLE_API_COMMUNICATION'):
+    from rest_framework.views import APIView
+    from rest_framework.response import Response
+    from rest_framework.permissions import AllowAny
+    from translation_manager.serializers import TranslationSerializer
+    from translation_manager.models import TranslationEntry
+    from translation_manager.utils import filter_queryset
+
+
+    class TranslationListView(APIView):
+        """
+        get translations in selected language in json
+        """
+        authentication_classes = get_settings('TRANSLATION_API_AUTHENTICATION_CLASSES') if get_settings(
+            'TRANSLATION_API_AUTHENTICATION_CLASSES') else ()
+        permission_classes = get_settings('TRANSLATION_API_PERMISSION_CLASSES') if get_settings(
+            'TRANSLATION_API_PERMISSION_CLASSES') else (AllowAny,)
+
+        def get(self, request, language, format=None):
+            """
+            Return a list of all users.
+            """
+            queryset = filter_queryset(TranslationEntry.objects.filter(language=language),
+                                       get_settings('TRANSLATIONS_API_QUERYSET_FORCE_FILTERS'))
+            serializer = TranslationSerializer(queryset, many=True)
+            return Response(serializer.data)

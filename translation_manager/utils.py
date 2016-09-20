@@ -36,12 +36,12 @@ def get_lang_from_dirname(dirname):
     return lang
 
 
-def filter_queryset(qs):
+def filter_queryset(qs, options):
     qs = qs.filter(is_published=True)
-    if get_settings('TRANSLATIONS_QUERYSET_FORCE_FILTERS'):
-        filter_ = get_settings('TRANSLATIONS_QUERYSET_FORCE_FILTERS')[0]
+    if options:
+        filter_ = options[0]
         q = Q(original__contains=filter_)
-        for filter_ in get_settings('TRANSLATIONS_QUERYSET_FORCE_FILTERS')[1:]:
+        for filter_ in options[1:]:
             q = q | Q(original__contains=filter_)
         qs = qs.filter(q)
     return qs
