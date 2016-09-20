@@ -37,6 +37,9 @@ INSTALLED_APPS = (
 if get_settings('TRANSLATIONS_PROCESSING_METHOD') == 'async_django_rq':
     INSTALLED_APPS += ('django_rq',)
 
+if get_settings('TRANSLATION_ENABLE_API_COMMUNICATION') == True:
+    INSTALLED_APPS += ('rest_framework',)
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -155,3 +158,15 @@ RQ_QUEUES = {
         'USE_REDIS_CACHE': 'default',
     }
 }
+
+# enable export translations from .po files in json obects via django REST Framework
+TRANSLATION_ENABLE_API_COMMUNICATION = True
+
+# settings below only works if TRANSLATION_ENABLE_API_COMMUNICATION is enabled
+
+# absolute path to client api application source codes
+# source codes must be on a same filesystem as current app
+TRANSLATION_API_CLIENT_APP_SRC_PATH = '/home/michal/projekty/obbod_front'
+
+# Dirs and files ignored for makemessages in client api app.
+TRANSLATION_API_IGNORED_PATHS = []
