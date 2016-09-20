@@ -11,7 +11,7 @@ from .settings import get_settings
 class TranslationEntry(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name=_(u"admin-translation_entry-created-label"))
     changed = models.DateTimeField(auto_now=True, verbose_name=_(u"admin-translation_entry-changed-label"))
-    language = models.CharField(db_index=True, max_length=5, verbose_name=_(u"admin-translation_entry-language-label"))
+    language = models.CharField(db_index=True, max_length=7, verbose_name=_(u"admin-translation_entry-language-label"))
     original = models.TextField(verbose_name=_(u"admin-translation_entry-original-label"))
     translation = models.TextField(blank=True, verbose_name=_(u"admin-translation_entry-translation-label"))
     occurrences = models.TextField(blank=True, verbose_name=_(u"admin-translation_entry-occurrences-label"))
