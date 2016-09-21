@@ -48,11 +48,16 @@ class Command(OriginCommand):
     def gettext_angular_js(self):
         all_files = self.find_files(get_settings('TRANSLATION_API_CLIENT_APP_SRC_PATH'))
         if all_files:
-            temp_dir = os.path.join(settings.BASE_DIR, 'translation_temp')
+            temp_dir = os.path.join(settings.BASE_DIR, 'angularjs_temp')
             os.mkdir(temp_dir)
-            output_file = open(os.path.join(temp_dir, 'angular.js'), 'w+')
             pattern = re.compile("{{\s*(\"|\')\s*[-_a-zA-Z0-9]+\s*(\"|\')\s*\|\s*translate\s*}}")
             for file in all_files:
+                temp_file_path = os.path.join(temp_dir,
+                                              file.path.replace(settings.TRANSLATION_API_CLIENT_APP_SRC_PATH, '')[1:])
+                temp_dir_path = os.path.join(temp_dir,
+                                             file.dirpath.replace(settings.TRANSLATION_API_CLIENT_APP_SRC_PATH, '')[1:])
+                os.makedirs(temp_dir_path, exist_ok=True)
+                output_file = open(temp_file_path.replace('.html', '.ajs'), 'w+')
                 html_file = open(file.path, 'r')
                 text_in_file = html_file.read()
                 html_file.close()
@@ -61,6 +66,7 @@ class Command(OriginCommand):
                     translation_string = re.search('(\"|\')\s*[-_a-zA-Z0-9]+\s*(\"|\')', match.group())
                     gettext_string = '%s(%s);' % ('gettext', translation_string.group())
                     output_file.write(gettext_string)
+                output_file.close()
 
     def handle(self, *args, **options):
         if get_settings('TRANSLATIONS_AUTO_CREATE_LANGUAGE_DIRS'):
@@ -75,6 +81,8 @@ class Command(OriginCommand):
         if get_settings('TRANSLATIONS_MAKE_BACKUPS'):
             self.manager.backup_po_to_db()
 
+        self.angular_domain = False
+
         if 'django' in options['domain']:
             kwargs = deepcopy(options)
             kwargs.update({'domain': 'django'})
@@ -84,21 +92,28 @@ class Command(OriginCommand):
             self.domain = 'angularjs'
             self.extensions = ['.html']
             self.gettext_angular_js()
+            self.angular_domain = True
+            kwargs = deepcopy(options)
+            kwargs.update({'domain': 'djangojs'})
+            kwargs.update({'extensions': ['.ajs']})
+            super(Command, self).handle(*args, **kwargs)
+            options['extensions'] = []
+            self.angular_domain = False
 
-        if 'djangojs' or get_settings('TRANSLATION_ENABLE_API_ANGULAR_JS'):
+            translation_temp_dir_path = os.path.join(settings.BASE_DIR, 'angularjs_temp')
+            if os.path.exists(translation_temp_dir_path):
+                shutil.rmtree(os.path.join(translation_temp_dir_path))
+
+        if 'djangojs' in options['domain']:
             kwargs = deepcopy(options)
             kwargs.update({'domain': 'djangojs'})
             super(Command, self).handle(*args, **kwargs)
+
 
         try:
             from django.core.management.commands.makemessages import make_messages as old_make_messages
         except ImportError:
             self.manager.postprocess()
-
-        if get_settings('TRANSLATION_ENABLE_API_ANGULAR_JS'):
-            translation_temp_dir_path = os.path.join(settings.BASE_DIR, 'translation_temp')
-            if os.path.exists(translation_temp_dir_path):
-                shutil.rmtree(os.path.join(translation_temp_dir_path))
 
     def find_files(self, root):
         if self.domain == 'angularjs':
@@ -118,8 +133,11 @@ class Command(OriginCommand):
         basedir = os.path.join(os.path.dirname(potfile), locale, 'LC_MESSAGES')
         if not os.path.isdir(basedir):
             os.makedirs(basedir)
-        pofile = os.path.join(basedir, '%s.po' % str(self.domain))
-
+        if self.angular_domain:
+            os.rename(os.path.join(basedir, '%s.po' % 'djangojs'), os.path.join(basedir, '%s.po' % 'angularjs'))
+            pofile = os.path.join(basedir, '%s.po' % 'angularjs')
+        else:
+            pofile = os.path.join(basedir, '%s.po' % str(self.domain))
         # load data from po file to db
         if os.path.dirname(potfile) in settings.LOCALE_PATHS:
             self.manager.store_to_db(pofile, locale)
