@@ -3,6 +3,7 @@ from copy import deepcopy
 
 import os
 import re
+import shutil
 
 from django.core.management.commands.makemessages import Command as OriginCommand
 from django.conf import settings
@@ -74,15 +75,15 @@ class Command(OriginCommand):
         if get_settings('TRANSLATIONS_MAKE_BACKUPS'):
             self.manager.backup_po_to_db()
 
+        if 'django' in options['domain']:
+            kwargs = deepcopy(options)
+            kwargs.update({'domain': 'django'})
+            super(Command, self).handle(*args, **kwargs)
+
         if get_settings('TRANSLATION_ENABLE_API_ANGULAR_JS'):
             self.domain = 'angularjs'
             self.extensions = ['.html']
             self.gettext_angular_js()
-
-        if 'django' in options['domains']:
-            kwargs = deepcopy(options)
-            kwargs.update({'domain': 'django'})
-            super(Command, self).handle(*args, **kwargs)
 
         if 'djangojs' or get_settings('TRANSLATION_ENABLE_API_ANGULAR_JS'):
             kwargs = deepcopy(options)
@@ -93,6 +94,11 @@ class Command(OriginCommand):
             from django.core.management.commands.makemessages import make_messages as old_make_messages
         except ImportError:
             self.manager.postprocess()
+
+        if get_settings('TRANSLATION_ENABLE_API_ANGULAR_JS'):
+            translation_temp_dir_path = os.path.join(settings.BASE_DIR, 'translation_temp')
+            if os.path.exists(translation_temp_dir_path):
+                shutil.rmtree(os.path.join(translation_temp_dir_path))
 
     def find_files(self, root):
         if self.domain == 'angularjs':
