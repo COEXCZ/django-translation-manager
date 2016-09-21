@@ -1,4 +1,4 @@
-from settings import get_settings
+from .settings import get_settings
 from django.conf.urls import url, include
 
 urlpatterns = []

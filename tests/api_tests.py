@@ -1,4 +1,4 @@
-from settings import get_settings
+from translation_manager.settings import get_settings
 
 if get_settings('TRANSLATION_ENABLE_API_COMMUNICATION'):
     from rest_framework.test import APITestCase
