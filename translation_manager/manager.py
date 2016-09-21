@@ -48,6 +48,11 @@ class Manager(object):
                 translation = ""
 
             locale_path = get_relative_locale_path(pofile)
+
+            if os.path.split(pofile)[-1] == 'angularjs.po':
+                locale_dir_name = ''
+            else:
+                locale_dir_name = get_locale_parent_dirname(pofile)
             t, created = TranslationEntry.objects.get_or_create(
                 original=m.msgid,
                 language=language,
@@ -56,7 +61,7 @@ class Manager(object):
                 defaults={
                     "occurrences": "\n".join(occs),
                     "translation": translation,
-                    "locale_parent_dir": get_locale_parent_dirname(pofile),
+                    "locale_parent_dir": locale_dir_name,
                     "is_published": True,
                 }
             )
