@@ -89,7 +89,10 @@ TRANSLATIONS_PROCESSING_METHOD = 'sync'
 TRANSLATIONS_PROCESSING_QUEUE = 'default'
 
 # Enable export translations from .po files in json obects via django REST Framework
-TRANSLATION_ENABLE_API_COMMUNICATION = True
+TRANSLATION_ENABLE_API_COMMUNICATION = False
+
+# Enable searching in Angular js source codes for translation strings
+TRANSLATION_ENABLE_API_ANGULAR_JS = False
 
 # Settings below only works if TRANSLATION_ENABLE_API_COMMUNICATION is enabled
 
