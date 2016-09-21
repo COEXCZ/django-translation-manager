@@ -2,6 +2,7 @@
 from copy import deepcopy
 
 import os
+import re
 
 from django.core.management.commands.makemessages import Command as OriginCommand
 from django.conf import settings
@@ -43,6 +44,23 @@ class Command(OriginCommand):
         parser.add_argument('--keep-pot', action='store_true', dest='keep_pot',
                             default=False, help="Keep .pot file after making messages. Useful when debugging."),
 
+    def gettext_angular_js(self):
+        all_files = self.find_files(get_settings('TRANSLATION_API_CLIENT_APP_SRC_PATH'))
+        if all_files:
+            temp_dir = os.path.join(settings.BASE_DIR, 'translation_temp')
+            os.mkdir(temp_dir)
+            output_file = open(os.path.join(temp_dir, 'angular.js'), 'w+')
+            pattern = re.compile("{{\s*(\"|\')\s*[-_a-zA-Z0-9]+\s*(\"|\')\s*\|\s*translate\s*}}")
+            for file in all_files:
+                html_file = open(file.path, 'r')
+                text_in_file = html_file.read()
+                html_file.close()
+                iterator = pattern.finditer(text_in_file)
+                for match in iterator:
+                    translation_string = re.search('(\"|\')\s*[-_a-zA-Z0-9]+\s*(\"|\')', match.group())
+                    gettext_string = '%s(%s);' % ('gettext', translation_string.group())
+                    output_file.write(gettext_string)
+
     def handle(self, *args, **options):
         if get_settings('TRANSLATIONS_AUTO_CREATE_LANGUAGE_DIRS'):
             for language, language_name in settings.LANGUAGES:
@@ -56,15 +74,37 @@ class Command(OriginCommand):
         if get_settings('TRANSLATIONS_MAKE_BACKUPS'):
             self.manager.backup_po_to_db()
 
-        for domain in options['domain']:
+        if get_settings('TRANSLATION_ENABLE_API_ANGULAR_JS'):
+            self.domain = 'angularjs'
+            self.extensions = ['.html']
+            self.gettext_angular_js()
+
+        if 'django' in options['domains']:
             kwargs = deepcopy(options)
-            kwargs.update({'domain': domain})
+            kwargs.update({'domain': 'django'})
+            super(Command, self).handle(*args, **kwargs)
+
+        if 'djangojs' or get_settings('TRANSLATION_ENABLE_API_ANGULAR_JS'):
+            kwargs = deepcopy(options)
+            kwargs.update({'domain': 'djangojs'})
             super(Command, self).handle(*args, **kwargs)
 
         try:
             from django.core.management.commands.makemessages import make_messages as old_make_messages
         except ImportError:
             self.manager.postprocess()
+
+    def find_files(self, root):
+        if self.domain == 'angularjs':
+            if root:
+                old_ignore_patterns = self.ignore_patterns
+                self.ignore_patterns = get_settings('TRANSLATION_API_IGNORED_PATHS')
+                all_files = super(Command, self).find_files(root)
+                self.ignore_patterns = old_ignore_patterns
+                return all_files
+            else:
+                return []
+        return super(Command, self).find_files(root)
 
     def write_po_file(self, potfile, locale):
         super(Command, self).write_po_file(potfile, locale)
