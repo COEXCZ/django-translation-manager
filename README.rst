@@ -64,6 +64,38 @@ We tested it with django-rq 0.9.1 and django-redis-cache 1.6.5
 
 For configuration django_rq see  https://github.com/ui/django-rq
 
+Using with Angularjs
+====================
+
+We support translation for Angularjs client-site app via REST api
+
+Enable api communication in settings
+::
+    TRANSLATION_ENABLE_API_COMMUNICATION = True
+
+Enable searching for translation strings in Angularjs source codes
+::
+    TRANSLATION_ENABLE_API_ANGULAR_JS = True
+
+Set path to Anguraljs source code files.
+
+The important thing is that it must be in the same file system.
+
+Configuration example:
+::
+   TRANSLATION_API_CLIENT_APP_SRC_PATH = '/var/srv/front/src'
+
+Inslall django REST framewrok
+::
+    pip install djangorestframework
+
+Add translation manager urls in your url patterns
+::
+    from translation_manager import urls as translation_urls
+
+    urlpatterns.append(url(r'^translations/', include(translation_urls)))
+
+We tested it with django-rest-framework 3.4.6
 
 SyncDB
 ======
