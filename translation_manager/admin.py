@@ -112,10 +112,15 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         translation_mode = str(get_settings('TRANSLATIONS_PROCESSING_METHOD'))
         if not cache.get('make_translations_running'):
             cache.set('make_translations_running', True)
-            if translation_mode == 'sync':
-                tasks.makemessages_task()
-            elif translation_mode == 'async_django_rq':
-                tasks.makemessages_task.delay()
+            try:
+                if translation_mode == 'sync':
+                    tasks.makemessages_task()
+                elif translation_mode == 'async_django_rq':
+                    tasks.makemessages_task.delay()
+            except Exception:
+                if cache.get(('make_translations_running')):
+                    cache.set('make_translations_running', False)
+
         self.message_user(request, _("admin-translation_manager-translations_made"))
         return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
 
