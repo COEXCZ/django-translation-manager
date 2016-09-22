@@ -57,7 +57,7 @@ class Command(OriginCommand):
                 temp_dir_path = os.path.join(temp_dir,
                                              file.dirpath.replace(settings.TRANSLATION_API_CLIENT_APP_SRC_PATH, '')[1:])
                 os.makedirs(temp_dir_path, exist_ok=True)
-                output_file = open(temp_file_path.replace('.html', '.ajs'), 'w+')
+                output_file = open(temp_file_path, 'w+')
                 html_file = open(file.path, 'r')
                 text_in_file = html_file.read()
                 html_file.close()
@@ -95,10 +95,14 @@ class Command(OriginCommand):
             self.angular_domain = True
             kwargs = deepcopy(options)
             kwargs.update({'domain': 'djangojs'})
-            kwargs.update({'extensions': ['.ajs']})
+            kwargs.update({'extensions': ['.html']})
+            workdir = os.getcwd()
+            temp_dir = os.path.join(settings.BASE_DIR, 'angularjs_temp')
+            os.chdir(temp_dir)
             super(Command, self).handle(*args, **kwargs)
             options['extensions'] = []
             self.angular_domain = False
+            os.chdir(workdir)
 
             translation_temp_dir_path = os.path.join(settings.BASE_DIR, 'angularjs_temp')
             if os.path.exists(translation_temp_dir_path):
