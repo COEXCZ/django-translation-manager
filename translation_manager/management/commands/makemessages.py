@@ -72,7 +72,7 @@ class Command(OriginCommand):
         if get_settings('TRANSLATIONS_AUTO_CREATE_LANGUAGE_DIRS'):
             for language, language_name in settings.LANGUAGES:
                 for locale in settings.LOCALE_PATHS:
-                    language_dir_path = "%s/%s" % (str(locale), str(language))
+                    language_dir_path = os.path.join(locale, language)
                     if not os.path.isdir(language_dir_path):
                         os.mkdir(language_dir_path)
 
