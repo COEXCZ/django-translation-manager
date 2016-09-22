@@ -48,7 +48,7 @@ class Command(OriginCommand):
     def gettext_angular_js(self):
         all_files = self.find_files(get_settings('TRANSLATION_API_CLIENT_APP_SRC_PATH'))
         if all_files:
-            temp_dir = os.path.join(settings.BASE_DIR, 'angularjs_temp')
+            temp_dir = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
             os.mkdir(temp_dir)
             pattern = re.compile("{{\s*(\"|\')\s*[-_a-zA-Z0-9]+\s*(\"|\')\s*\|\s*translate\s*}}")
             for file in all_files:
@@ -97,14 +97,14 @@ class Command(OriginCommand):
             kwargs.update({'domain': 'djangojs'})
             kwargs.update({'extensions': ['.html']})
             workdir = os.getcwd()
-            temp_dir = os.path.join(settings.BASE_DIR, 'angularjs_temp')
+            temp_dir = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
             os.chdir(temp_dir)
             super(Command, self).handle(*args, **kwargs)
             options['extensions'] = []
             self.angular_domain = False
             os.chdir(workdir)
 
-            translation_temp_dir_path = os.path.join(settings.BASE_DIR, 'angularjs_temp')
+            translation_temp_dir_path = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
             if os.path.exists(translation_temp_dir_path):
                 shutil.rmtree(os.path.join(translation_temp_dir_path))
 
