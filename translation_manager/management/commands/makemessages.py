@@ -83,6 +83,8 @@ class Command(OriginCommand):
 
         self.angular_domain = False
 
+        os.chdir(get_settings('TRANSLATIONS_BASE_DIR'))
+
         if 'django' in options['domain']:
             kwargs = deepcopy(options)
             kwargs.update({'domain': 'django'})
@@ -96,13 +98,12 @@ class Command(OriginCommand):
             kwargs = deepcopy(options)
             kwargs.update({'domain': 'djangojs'})
             kwargs.update({'extensions': ['.html']})
-            workdir = os.getcwd()
             temp_dir = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
             os.chdir(temp_dir)
             super(Command, self).handle(*args, **kwargs)
             options['extensions'] = []
             self.angular_domain = False
-            os.chdir(workdir)
+            os.chdir(get_settings('TRANSLATIONS_BASE_DIR'))
 
             translation_temp_dir_path = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
             if os.path.exists(translation_temp_dir_path):

@@ -126,6 +126,9 @@ class Manager(object):
         locale_params = locale_params.values_list('locale_path', 'domain')
         locale_params = list(set(locale_params))
 
+        """
+        TODO need refactor
+        """
         for locale_path, domain in locale_params:
             lang_dir_path = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), locale_path,
                                          get_dirname_from_lang(lang))
