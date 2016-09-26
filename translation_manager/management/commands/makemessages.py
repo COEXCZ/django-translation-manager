@@ -54,9 +54,8 @@ class Command(OriginCommand):
             for file in all_files:
                 temp_file_path = os.path.join(temp_dir,
                                               file.path.replace(settings.TRANSLATION_API_CLIENT_APP_SRC_PATH, '')[1:])
-                temp_dir_path = os.path.abspath(os.path.join(temp_dir,
-                                                             file.dirpath.replace(
-                                                                 settings.TRANSLATION_API_CLIENT_APP_SRC_PATH, '')[1:]))
+                temp_dir_path = os.path.join(temp_dir, file.dirpath.replace(
+                    settings.TRANSLATION_API_CLIENT_APP_SRC_PATH, '')[1:])
                 os.makedirs(temp_dir_path, exist_ok=True)
                 output_file = open(temp_file_path, 'w+')
                 html_file = open(file.path, 'r')
@@ -115,7 +114,6 @@ class Command(OriginCommand):
             kwargs.update({'domain': 'djangojs'})
             super(Command, self).handle(*args, **kwargs)
 
-
         try:
             from django.core.management.commands.makemessages import make_messages as old_make_messages
         except ImportError:
@@ -136,9 +134,9 @@ class Command(OriginCommand):
     def write_po_file(self, potfile, locale):
         super(Command, self).write_po_file(potfile, locale)
 
-        basedir = os.path.abspath(os.path.join(os.path.dirname(potfile), locale, 'LC_MESSAGES'))
+        basedir = os.path.join(os.path.dirname(potfile), locale, 'LC_MESSAGES')
         if not os.path.isdir(basedir):
-            os.makedirs(basedir)
+            os.mkdir(basedir)
         if self.angular_domain:
             os.rename(os.path.join(basedir, '%s.po' % 'djangojs'), os.path.join(basedir, '%s.po' % 'angularjs'))
             pofile = os.path.join(basedir, '%s.po' % 'angularjs')
