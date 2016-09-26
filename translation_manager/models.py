@@ -66,10 +66,10 @@ class TranslationBackup(models.Model):
         ordering = ('-created',)
 
     def restore(self):
-        po_filename = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), self.locale_path, self.language, 'LC_MESSAGES',
+        po_filename = os.path.join(self.locale_path, self.language, 'LC_MESSAGES',
                                    self.domain + '.mo')
 
-        mo_filename = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), self.locale_path, self.language, 'LC_MESSAGES',
+        mo_filename = os.path.join(self.locale_path, self.language, 'LC_MESSAGES',
                                    self.domain + '.mo')
 
         with open(po_filename, 'w') as output:

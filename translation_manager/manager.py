@@ -126,20 +126,13 @@ class Manager(object):
         locale_params = locale_params.values_list('locale_path', 'domain')
         locale_params = list(set(locale_params))
 
-        """
-        TODO need refactor
-        """
         for locale_path, domain in locale_params:
-            lang_dir_path = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), locale_path,
-                                         get_dirname_from_lang(lang))
-            lc_messages_dir_path = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), locale_path,
-                                                get_dirname_from_lang(lang), 'LC_MESSAGES')
+            lang_dir_path = os.path.join(locale_path, get_dirname_from_lang(lang), 'LC_MESSAGES')
             if not os.path.isdir(lang_dir_path):
-                os.mkdir(lang_dir_path)
-            if not os.path.isdir(lc_messages_dir_path):
-                os.mkdir(lc_messages_dir_path)
-            pofile_path = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), locale_path, get_dirname_from_lang(lang), 'LC_MESSAGES', "%s.po" % domain)
-            mofile_path = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), locale_path, get_dirname_from_lang(lang), 'LC_MESSAGES', "%s.mo" % domain)
+                os.makedirs(lang_dir_path, exist_ok=True)
+
+            pofile_path = os.path.join(locale_path, get_dirname_from_lang(lang), 'LC_MESSAGES', "%s.po" % domain)
+            mofile_path = os.path.join(locale_path, get_dirname_from_lang(lang), 'LC_MESSAGES', "%s.mo" % domain)
 
             if not os.path.exists(pofile_path):
                 if settings.DEBUG:
@@ -174,7 +167,6 @@ class Manager(object):
 
     def postprocess(self):
         TranslationEntry.objects.all().update(is_published=False)
-
         for locale_path, languages in self.tors.items():
             TranslationEntry.objects.filter(locale_path=locale_path).update(is_published=False)
             for language, domains in languages.items():
