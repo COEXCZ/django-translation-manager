@@ -2,28 +2,29 @@
 {% load i18n admin_list %}
 
 {% block object-tools %}
-    <ul class="object-tools grp-object-tools tools">
-        <li>
-            <a href="{% url 'admin:translation_manager_translationentry_compile' %}" class="compilelink">
+    <div class="object-tools grp-object-tools tools">
+
+        <a href="{% url 'admin:translation_manager_translationentry_compile' %}" class="btn btn-info">
                 {% filter capfirst %}{% trans "admin-translation_manager-compile_translations" %}{% endfilter %}
             </a>
-        </li>
+
         {% if has_add_permission %}
-        <li>
+
             <a id="id_make_translations" href="{% url 'admin:translation_manager_translationentry_make' %}"
-               class="makelink">
+               class="btn btn-info" style="margin-left: 10px">
                 {% filter capfirst %}{% trans "admin-translation_manager-make_translations" %}{% endfilter %}
             </a>
-        </li>
+
         {% endif %}
         {% if perms.translation_manager.load %}
-        <li>
-            <a href="{% url 'admin:translation_manager_translationentry_load' %}" class="makelink">
+
+            <a href="{% url 'admin:translation_manager_translationentry_load' %}" class="btn btn-info"
+               style="margin-left: 10px">
                 {% filter capfirst %}{% trans "admin-translation_manager-load-from-po" %}{% endfilter %}
             </a>
-        </li>
+
         {% endif %}
-    </ul>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript">
 
