@@ -1,147 +1,172 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
-"Report-Msgid-Bugs-To: cisarpavel@gmail.com\n"
-"POT-Creation-Date: 2014-10-27 21:26:51\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-26 11:48+0000\n"
 "PO-Revision-Date: 2014-10-27 21:26:51\n"
 "Last-Translator: Server <root@localhost>\n"
 "Language-Team: English <cisarpavel@gmail.com>\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: project/translation_manager/models.py:35
-msgid "admin-translation_backup-changed-label"
-msgstr "aktualizováno"
+#: settings.py:76
+msgid "Czech"
+msgstr ""
 
-#: project/translation_manager/models.py:42
-msgid "admin-translation_backup-content"
-msgstr "obsah"
+#: settings.py:77
+msgid "English"
+msgstr ""
 
-#: project/translation_manager/models.py:34
-msgid "admin-translation_backup-created-label"
-msgstr "vytvořeno"
-
-#: project/translation_manager/models.py:40
-msgid "admin-translation_backup-domain-label"
-msgstr "doména"
-
-#: project/translation_manager/models.py:39
-msgid "admin-translation_backup-filename-label"
-msgstr "soubor"
-
-#: project/translation_manager/models.py:36
-msgid "admin-translation_backup-language-label"
-msgstr "jazyk"
-
-#: project/translation_manager/models.py:38
-msgid "admin-translation_backup-locale_parent_dir-label"
-msgstr "složka aplikace"
-
-#: project/translation_manager/models.py:37
-msgid "admin-translation_backup-locale_path-label"
-msgstr "relativní cesta v rámci projektu"
-
-#: project/translation_manager/models.py:46
-msgid "admin-translation_backup-plural"
-msgstr "zálohy překladů"
-
-#: project/translation_manager/models.py:45
-msgid "admin-translation_backup-singular"
-msgstr "záloha překladů"
-
-#: project/translation_manager/models.py:12
-msgid "admin-translation_entry-changed-label"
-msgstr "změněno"
-
-#: project/translation_manager/models.py:11
-msgid "admin-translation_entry-created-label"
-msgstr "vytvořeno"
-
-#: project/translation_manager/models.py:21
-msgid "admin-translation_entry-domain-label"
-msgstr "doména"
-
-#: project/translation_manager/models.py:17
-msgid "admin-translation_entry-is_published-label"
-msgstr "je publikován"
-
-#: project/translation_manager/models.py:13
-msgid "admin-translation_entry-language-label"
-msgstr "jazyk"
-
-#: project/translation_manager/models.py:27
-msgid "admin-translation_entry-load-from-po"
-msgstr "načíst z .po souborů"
-
-#: project/translation_manager/models.py:19
-msgid "admin-translation_entry-locale_parent_dir-label"
-msgstr "složka aplikace"
-
-#: project/translation_manager/models.py:18
-msgid "admin-translation_entry-locale_path-label"
-msgstr "relativní cesta v rámci projektu"
-
-#: project/translation_manager/models.py:16
-msgid "admin-translation_entry-occurrences-label"
-msgstr "výskyt"
-
-#: project/translation_manager/models.py:14
-msgid "admin-translation_entry-original-label"
-msgstr "originál"
-
-#: project/translation_manager/models.py:23
-msgid "admin-translation_entry-plural"
-msgstr "překladové řetězce"
-
-#: project/translation_manager/models.py:22
-msgid "admin-translation_entry-singular"
-msgstr "překladový řetězec"
-
-#: project/translation_manager/models.py:15
-msgid "admin-translation_entry-translation-label"
-msgstr "překlad"
-
-#: project/translation_manager/admin.py:91
-msgid "admin-translation_manager-backups_restore_option"
-msgstr "obnovit vybrané zálohy"
-
-#: project/translation_manager/templates/admin/translation_manager/change_list.2.html:8
-#: project/translation_manager/templates/admin/translation_manager/change_list.7.html:8
-msgid "admin-translation_manager-compile_translations"
-msgstr "publikovat překlady"
-
-#: project/translation_manager/admin.py:79
+#: translation_manager/admin.py:108
 msgid "admin-translation_manager-data-loaded_from_po"
 msgstr "Překlady byly načteny z .po souborů "
 
-#: project/translation_manager/templates/admin/translation_manager/change_list.2.html:21
-#: project/translation_manager/templates/admin/translation_manager/change_list.7.html:21
-msgid "admin-translation_manager-load-from-po"
-msgstr "Načíst překlady z .po souborů"
+#: translation_manager/admin.py:124
+msgid "admin-translation_manager-translations_made"
+msgstr "seznam aktualizován"
 
-#: project/translation_manager/templates/admin/translation_manager/change_list.2.html:13
-#: project/translation_manager/templates/admin/translation_manager/change_list.7.html:13
-msgid "admin-translation_manager-make_translations"
-msgstr "aktualizovat seznam překladů"
-
-#: project/translation_manager/filters.py:12
-msgid "admin-translation_manager-translation_state_filter-title"
-msgstr "stav"
-
-#: project/translation_manager/filters.py:19
-msgid "admin-translation_manager-translation_state_filter-translated"
-msgstr "přeložené"
-
-#: project/translation_manager/filters.py:20
-msgid "admin-translation_manager-translation_state_filter-untranslated"
-msgstr "nepřeložené"
-
-#: project/translation_manager/admin.py:86
+#: translation_manager/admin.py:133
 msgid "admin-translation_manager-translations_compiled"
 msgstr "překlady publikovány"
 
-#: project/translation_manager/admin.py:77
-msgid "admin-translation_manager-translations_made"
-msgstr "seznam aktualizován"
+#: translation_manager/admin.py:145
+msgid "admin-translation_manager-backups_restore_option"
+msgstr "obnovit vybrané zálohy"
+
+#: translation_manager/filters.py:11
+msgid "admin-translation_manager-translation_state_filter-title"
+msgstr "stav"
+
+#: translation_manager/filters.py:16
+msgid "admin-translation_manager-translation_state_filter-translated"
+msgstr "přeložené"
+
+#: translation_manager/filters.py:17
+msgid "admin-translation_manager-translation_state_filter-untranslated"
+msgstr "nepřeložené"
+
+#: translation_manager/filters.py:48
+#, fuzzy
+#| msgid "admin-translation_manager-translation_state_filter-title"
+msgid "admin-translation_manager-translation_custom_filter-title"
+msgstr "stav"
+
+#: translation_manager/models.py:12
+msgid "admin-translation_entry-created-label"
+msgstr "vytvořeno"
+
+#: translation_manager/models.py:13
+msgid "admin-translation_entry-changed-label"
+msgstr "změněno"
+
+#: translation_manager/models.py:14
+msgid "admin-translation_entry-language-label"
+msgstr "jazyk"
+
+#: translation_manager/models.py:15
+msgid "admin-translation_entry-original-label"
+msgstr "originál"
+
+#: translation_manager/models.py:16
+msgid "admin-translation_entry-translation-label"
+msgstr "překlad"
+
+#: translation_manager/models.py:17
+msgid "admin-translation_entry-occurrences-label"
+msgstr "výskyt"
+
+#: translation_manager/models.py:18
+msgid "admin-translation_entry-is_published-label"
+msgstr "je publikován"
+
+#: translation_manager/models.py:19
+msgid "admin-translation_entry-locale_path-label"
+msgstr "relativní cesta v rámci projektu"
+
+#: translation_manager/models.py:20
+msgid "admin-translation_entry-locale_parent_dir-label"
+msgstr "složka aplikace"
+
+#: translation_manager/models.py:21
+msgid "admin-translation_entry-domain-label"
+msgstr "doména"
+
+#: translation_manager/models.py:24
+msgid "admin-translation_entry-singular"
+msgstr "překladový řetězec"
+
+#: translation_manager/models.py:25
+msgid "admin-translation_entry-plural"
+msgstr "překladové řetězce"
+
+#: translation_manager/models.py:28
+msgid "admin-translation_entry-load-from-po"
+msgstr "načíst z .po souborů"
+
+#: translation_manager/models.py:50
+#, fuzzy
+#| msgid "admin-translation_entry-domain-label"
+msgid "admin-translation_entry-hint-label"
+msgstr "doména"
+
+#: translation_manager/models.py:54
+msgid "admin-translation_backup-created-label"
+msgstr "vytvořeno"
+
+#: translation_manager/models.py:55
+msgid "admin-translation_backup-changed-label"
+msgstr "aktualizováno"
+
+#: translation_manager/models.py:56
+msgid "admin-translation_backup-language-label"
+msgstr "jazyk"
+
+#: translation_manager/models.py:57
+msgid "admin-translation_backup-locale_path-label"
+msgstr "relativní cesta v rámci projektu"
+
+#: translation_manager/models.py:58
+msgid "admin-translation_backup-locale_parent_dir-label"
+msgstr "složka aplikace"
+
+#: translation_manager/models.py:59
+msgid "admin-translation_backup-domain-label"
+msgstr "doména"
+
+#: translation_manager/models.py:61
+msgid "admin-translation_backup-content"
+msgstr "obsah"
+
+#: translation_manager/models.py:64
+msgid "admin-translation_backup-singular"
+msgstr "záloha překladů"
+
+#: translation_manager/models.py:65
+msgid "admin-translation_backup-plural"
+msgstr "zálohy překladů"
+
+#: translation_manager/templates/admin/translation_manager/change_list.html:8
+msgid "admin-translation_manager-compile_translations"
+msgstr "publikovat překlady"
+
+#: translation_manager/templates/admin/translation_manager/change_list.html:15
+#: translation_manager/templates/admin/translation_manager/change_list.html:68
+msgid "admin-translation_manager-make_translations"
+msgstr "aktualizovat seznam překladů"
+
+#: translation_manager/templates/admin/translation_manager/change_list.html:23
+msgid "admin-translation_manager-load-from-po"
+msgstr "Načíst překlady z .po souborů"
+
+#: translation_manager/templates/admin/translation_manager/change_list.html:39
+#: translation_manager/templates/admin/translation_manager/change_list.html:46
+#, fuzzy
+#| msgid "admin-translation_manager-make_translations"
+msgid "admin-translation_manager-makemessages-running"
+msgstr "aktualizovat seznam překladů"
+
+#~ msgid "admin-translation_backup-filename-label"
+#~ msgstr "soubor"

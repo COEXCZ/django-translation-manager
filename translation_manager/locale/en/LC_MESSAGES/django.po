@@ -1,19 +1,15 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
-"Report-Msgid-Bugs-To: cisarpavel@gmail.com\n"
-"POT-Creation-Date: 2014-10-27 21:26:51\n"
-"PO-Revision-Date: 2014-10-27 21:26:51\n"
+"Report-Msgid-Bugs-To: webmaster@localhost\n"
+"POT-Creation-Date: 2016-09-26 11:51:05\n"
+"PO-Revision-Date: 2016-09-26 11:51:05\n"
 "Last-Translator: Server <root@localhost>\n"
-"Language-Team: English <cisarpavel@gmail.com>\n"
+"Language-Team: English <webmaster@localhost>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: project/translation_manager/models.py:35
-msgid "admin-translation_backup-changed-label"
-msgstr "changed"
 
 #: project/translation_manager/models.py:42
 msgid "admin-translation_backup-content"
@@ -30,6 +26,10 @@ msgstr "domain"
 #: project/translation_manager/models.py:39
 msgid "admin-translation_backup-filename-label"
 msgstr "filename"
+
+#: project/translation_manager/models.py:35
+msgid "admin-translation_backup-changed-label"
+msgstr "changed"
 
 #: project/translation_manager/models.py:36
 msgid "admin-translation_backup-language-label"
@@ -51,10 +51,6 @@ msgstr "language backups"
 msgid "admin-translation_backup-singular"
 msgstr "language backup"
 
-#: project/translation_manager/models.py:12
-msgid "admin-translation_entry-changed-label"
-msgstr "changed"
-
 #: project/translation_manager/models.py:11
 msgid "admin-translation_entry-created-label"
 msgstr "created"
@@ -62,6 +58,14 @@ msgstr "created"
 #: project/translation_manager/models.py:21
 msgid "admin-translation_entry-domain-label"
 msgstr "domain"
+
+#: project/translation_manager/admin.py:77
+msgid "admin-translation_entry-hint-label"
+msgstr "hint"
+
+#: project/translation_manager/models.py:12
+msgid "admin-translation_entry-changed-label"
+msgstr "changed"
 
 #: project/translation_manager/models.py:17
 msgid "admin-translation_entry-is_published-label"
@@ -119,12 +123,25 @@ msgstr "Translations were loaded from .po files"
 #: project/translation_manager/templates/admin/translation_manager/change_list.2.html:21
 #: project/translation_manager/templates/admin/translation_manager/change_list.7.html:21
 msgid "admin-translation_manager-load-from-po"
-msgstr "Load translations from .po files "
+msgstr "Load translations from .po files"
+
+#: translation_manager/templates/admin/translation_manager/change_list.html:39
+#: translation_manager/templates/admin/translation_manager/change_list.html:46
+msgid "admin-translation_manager-makemessages-running"
+msgstr "Actualization running"
 
 #: project/translation_manager/templates/admin/translation_manager/change_list.2.html:13
 #: project/translation_manager/templates/admin/translation_manager/change_list.7.html:13
 msgid "admin-translation_manager-make_translations"
 msgstr "update list of translations"
+
+#: project/translation_manager/admin.py:86
+msgid "admin-translation_manager-translations_compiled"
+msgstr "translations published"
+
+#: project/translation_manager/admin.py:77
+msgid "admin-translation_manager-translations_made"
+msgstr "list updated"
 
 #: project/translation_manager/filters.py:12
 msgid "admin-translation_manager-translation_state_filter-title"
@@ -137,15 +154,3 @@ msgstr "translated"
 #: project/translation_manager/filters.py:20
 msgid "admin-translation_manager-translation_state_filter-untranslated"
 msgstr "untranslated"
-
-#: project/translation_manager/admin.py:86
-msgid "admin-translation_manager-translations_compiled"
-msgstr "translations published"
-
-#: project/translation_manager/admin.py:77
-msgid "admin-translation_manager-translations_made"
-msgstr "list updated"
-
-#: project/translation_manager/admin.py:77
-msgid "admin-translation_entry-hint-label"
-msgstr "hint"
