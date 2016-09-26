@@ -54,8 +54,9 @@ class Command(OriginCommand):
             for file in all_files:
                 temp_file_path = os.path.join(temp_dir,
                                               file.path.replace(settings.TRANSLATION_API_CLIENT_APP_SRC_PATH, '')[1:])
-                temp_dir_path = os.path.join(temp_dir,
-                                             file.dirpath.replace(settings.TRANSLATION_API_CLIENT_APP_SRC_PATH, '')[1:])
+                temp_dir_path = os.path.abspath(os.path.join(temp_dir,
+                                                             file.dirpath.replace(
+                                                                 settings.TRANSLATION_API_CLIENT_APP_SRC_PATH, '')[1:]))
                 os.makedirs(temp_dir_path, exist_ok=True)
                 output_file = open(temp_file_path, 'w+')
                 html_file = open(file.path, 'r')
@@ -135,7 +136,7 @@ class Command(OriginCommand):
     def write_po_file(self, potfile, locale):
         super(Command, self).write_po_file(potfile, locale)
 
-        basedir = os.path.join(os.path.dirname(potfile), locale, 'LC_MESSAGES')
+        basedir = os.path.abspath(os.path.join(os.path.dirname(potfile), locale, 'LC_MESSAGES'))
         if not os.path.isdir(basedir):
             os.makedirs(basedir)
         if self.angular_domain:

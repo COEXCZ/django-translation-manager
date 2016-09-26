@@ -127,7 +127,7 @@ class Manager(object):
         locale_params = list(set(locale_params))
 
         for locale_path, domain in locale_params:
-            lang_dir_path = os.path.join(locale_path, get_dirname_from_lang(lang), 'LC_MESSAGES')
+            lang_dir_path = os.path.abspath(os.path.join(locale_path, get_dirname_from_lang(lang), 'LC_MESSAGES'))
             if not os.path.isdir(lang_dir_path):
                 os.makedirs(lang_dir_path, exist_ok=True)
 
