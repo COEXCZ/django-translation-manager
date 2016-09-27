@@ -6,6 +6,12 @@ if get_settings('TRANSLATION_ENABLE_API_COMMUNICATION'):
 
 
     class TranslationSerializer(serializers.ModelSerializer):
+
         class Meta:
             model = TranslationEntry
             fields = ('original', 'translation')
+
+        def to_representation(self, obj):
+            return {
+                obj.original: obj.translation
+            }

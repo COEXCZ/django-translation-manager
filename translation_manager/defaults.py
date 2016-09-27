@@ -107,6 +107,9 @@ TRANSLATION_API_IGNORED_PATHS = []
 # For api client app translation strings
 TRANSLATIONS_API_QUERYSET_FORCE_FILTERS = []
 
+# If True, api returns all translations, it does not matter if it is filled with value translation
+TRANSLATIONS_API_RETURN_ALL = True
+
 # Permission classes for translation manager api methods.
 # If empty, no permission is provided
 TRANSLATION_API_PERMISSION_CLASSES = ()
