@@ -1,4 +1,5 @@
 from django.contrib.admin.views.main import ChangeList
+from django.db.models import Q
 
 from .settings import get_settings
 
@@ -71,6 +72,6 @@ if get_settings('TRANSLATION_ENABLE_API_COMMUNICATION'):
             queryset = filter_queryset(TranslationEntry.objects.filter(language=language),
                                        get_settings('TRANSLATIONS_API_QUERYSET_FORCE_FILTERS'))
             if not get_settings('TRANSLATIONS_API_RETURN_ALL'):
-                queryset.exclude(translation__isnull=True)
+                queryset.exclude(Q(translation__isnull=True) | Q(translation_exact=''))
             serializer = TranslationSerializer(queryset, many=True)
             return Response(serializer.data)
