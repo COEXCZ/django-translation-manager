@@ -136,7 +136,7 @@ class Command(OriginCommand):
 
         basedir = os.path.join(os.path.dirname(potfile), locale, 'LC_MESSAGES')
         if not os.path.isdir(basedir):
-            os.mkdir(basedir)
+            os.makedirs(basedir, exist_ok=True)
         if self.angular_domain:
             os.rename(os.path.join(basedir, '%s.po' % 'djangojs'), os.path.join(basedir, '%s.po' % 'angularjs'))
             pofile = os.path.join(basedir, '%s.po' % 'angularjs')
