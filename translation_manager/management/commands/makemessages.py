@@ -50,7 +50,7 @@ class Command(OriginCommand):
         if all_files:
             temp_dir = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
             os.mkdir(temp_dir)
-            pattern = re.compile("{{\s*(\"|\')\s*[-_a-zA-Z0-9]+\s*(\"|\')\s*\|\s*translate\s*}}")
+            pattern = re.compile("{{\s*(\\\"|\\\')\s*[-_a-zA-Z0-9]+\s*(\\\"|\\\')\s*\|\s*translate\s*}}")
             for file in all_files:
                 temp_file_path = os.path.join(temp_dir,
                                               file.path.replace(settings.TRANSLATION_API_CLIENT_APP_SRC_PATH, '')[1:])
@@ -97,7 +97,7 @@ class Command(OriginCommand):
             self.angular_domain = True
             kwargs = deepcopy(options)
             kwargs.update({'domain': 'djangojs'})
-            kwargs.update({'extensions': ['.html']})
+            kwargs.update({'extensions': ['.html', '.js']})
             temp_dir = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
             os.chdir(temp_dir)
             super(Command, self).handle(*args, **kwargs)
