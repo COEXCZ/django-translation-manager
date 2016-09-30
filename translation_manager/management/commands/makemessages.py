@@ -50,7 +50,7 @@ class Command(OriginCommand):
         if all_files:
             temp_dir = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
             os.mkdir(temp_dir)
-            pattern = re.compile("{{\s*(\\\"|\\\')\s*[-_a-zA-Z0-9]+\s*(\\\"|\\\')\s*\|\s*translate\s*}}")
+            pattern = re.compile(r'\{\{\s*\\[\'\"]\s*([a-z0-9\-\_]*)s*\\[\'\"]\s*\|\s*translate\s*\}\}')
             for file in all_files:
                 temp_file_path = os.path.join(temp_dir,
                                               file.path.replace(settings.TRANSLATION_API_CLIENT_APP_SRC_PATH, '')[1:])
@@ -61,10 +61,9 @@ class Command(OriginCommand):
                 html_file = open(file.path, 'r')
                 text_in_file = html_file.read()
                 html_file.close()
-                iterator = pattern.finditer(text_in_file)
-                for match in iterator:
-                    translation_string = re.search('(\"|\')\s*[-_a-zA-Z0-9]+\s*(\"|\')', match.group())
-                    gettext_string = '%s(%s);' % ('gettext', translation_string.group())
+                translation_strings = pattern.findall(text_in_file)
+                for translation_string in translation_strings:
+                    gettext_string = '%s(%s);' % ('gettext', translation_string)
                     output_file.write(gettext_string)
                 output_file.close()
 
@@ -92,7 +91,7 @@ class Command(OriginCommand):
 
         if get_settings('TRANSLATION_ENABLE_API_ANGULAR_JS'):
             self.domain = 'angularjs'
-            self.extensions = ['.html']
+            self.extensions = ['.html', '.js']
             self.gettext_angular_js()
             self.angular_domain = True
             kwargs = deepcopy(options)
