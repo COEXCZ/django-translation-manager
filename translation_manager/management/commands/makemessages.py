@@ -63,7 +63,7 @@ class Command(OriginCommand):
                 html_file.close()
                 translation_strings = pattern.findall(text_in_file)
                 for translation_string in translation_strings:
-                    gettext_string = '%s(%s);' % ('gettext', translation_string)
+                    gettext_string = '%s(\'%s\');' % ('gettext', translation_string)
                     output_file.write(gettext_string)
                 output_file.close()
 
@@ -96,7 +96,7 @@ class Command(OriginCommand):
             self.angular_domain = True
             kwargs = deepcopy(options)
             kwargs.update({'domain': 'djangojs'})
-            kwargs.update({'extensions': ['.html', '.js']})
+            kwargs.update({'extensions': ['html', 'js']})
             temp_dir = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
             os.chdir(temp_dir)
             super(Command, self).handle(*args, **kwargs)
