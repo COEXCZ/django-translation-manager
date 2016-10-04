@@ -50,7 +50,7 @@ class Command(OriginCommand):
         if all_files:
             temp_dir = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
             os.mkdir(temp_dir)
-            pattern = re.compile(r'\{\{\s*\\[\'\"]\s*([a-z0-9\-\_]*)s*\\[\'\"]\s*\|\s*translate\s*\}\}')
+            pattern = re.compile(get_settings('TRANSLATION_API_TRANSLATION_STRINGS_REGEX'))
             for file in all_files:
                 temp_file_path = os.path.join(temp_dir,
                                               file.path.replace(settings.TRANSLATION_API_CLIENT_APP_SRC_PATH, '')[1:])

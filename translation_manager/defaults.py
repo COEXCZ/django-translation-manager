@@ -100,6 +100,9 @@ TRANSLATION_ENABLE_API_ANGULAR_JS = False
 # Source codes must be on a same filesystem as current app
 TRANSLATION_API_CLIENT_APP_SRC_PATH = ''
 
+# Regex for matching translation strings in clint src files
+TRANSLATION_API_TRANSLATION_STRINGS_REGEX = ''
+
 # Dirs and files ignored for makemessages in client api app.
 TRANSLATION_API_IGNORED_PATHS = []
 
