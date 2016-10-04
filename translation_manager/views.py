@@ -72,6 +72,6 @@ if get_settings('TRANSLATION_ENABLE_API_COMMUNICATION'):
             queryset = filter_queryset(TranslationEntry.objects.filter(language=language),
                                        get_settings('TRANSLATIONS_API_QUERYSET_FORCE_FILTERS'))
             if not get_settings('TRANSLATIONS_API_RETURN_ALL'):
-                queryset.exclude(Q(translation__isnull=True) | Q(translation__exact='') | Q(translation__exact=""))
+                queryset = queryset.exclude(Q(translation__isnull=True) | Q(translation__exact=''))
             serializer = TranslationSerializer(queryset, many=True)
             return Response(serializer.data)
