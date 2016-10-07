@@ -86,7 +86,6 @@ Configuration example:
    TRANSLATION_API_CLIENT_APP_SRC_PATH = '/var/srv/front/src'
    
 Add regex for matching translation strings in client app src files:
-
 ::
    TRANSLATION_API_TRANSLATION_STRINGS_REGEX = r''  
 
