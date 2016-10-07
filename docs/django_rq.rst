@@ -15,7 +15,7 @@ Set 'async_django_rq' as translation processing method
 
 We also considering to implement support for django-celery later
 
-Set name of your django_rq quequ designated for django-translation-manager purposes
+Set name of your django_rq queue designated for django-translation-manager purposes
 
 .. code-block:: python
 
