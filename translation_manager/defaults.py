@@ -15,6 +15,9 @@ LOCALE_PATHS = []
 # TRANSLATIONS_BASE_DIR = '/foo/bar'
 TRANSLATIONS_BASE_DIR = ''
 
+# Path to project sorce code files, usually BASE_DIR
+TRANSLATIONS_PROJECT_BASE_DIR = ''
+
 # Mode the translation manager behaves when creating
 # translations mainly from multiple locale files
 # Default value is N, where translation in DB are
@@ -89,22 +92,22 @@ TRANSLATIONS_PROCESSING_METHOD = 'sync'
 TRANSLATIONS_PROCESSING_QUEUE = 'default'
 
 # Enable export translations from .po files in json obects via django REST Framework
-TRANSLATION_ENABLE_API_COMMUNICATION = False
+TRANSLATIONS_ENABLE_API_COMMUNICATION = False
 
 # Enable searching in Angular js source codes for translation strings
-TRANSLATION_ENABLE_API_ANGULAR_JS = False
+TRANSLATIONS_ENABLE_API_ANGULAR_JS = False
 
-# Settings below only works if TRANSLATION_ENABLE_API_COMMUNICATION is enabled
+# Settings below only works if TRANSLATIONS_ENABLE_API_COMMUNICATION is enabled
 
 # Absolute path to client api application source codes
 # Source codes must be on a same filesystem as current app
-TRANSLATION_API_CLIENT_APP_SRC_PATH = ''
+TRANSLATIONS_API_CLIENT_APP_SRC_PATH = ''
 
 # Regex for matching translation strings in clint src files
-TRANSLATION_API_TRANSLATION_STRINGS_REGEX = ''
+TRANSLATIONS_API_TRANSLATION_STRINGS_REGEX = ''
 
 # Dirs and files ignored for makemessages in client api app.
-TRANSLATION_API_IGNORED_PATHS = []
+TRANSLATIONS_API_IGNORED_PATHS = []
 
 # Similar as for base use above.
 # For api client app translation strings
@@ -115,8 +118,8 @@ TRANSLATIONS_API_RETURN_ALL = True
 
 # Permission classes for translation manager api methods.
 # If empty, no permission is provided
-TRANSLATION_API_PERMISSION_CLASSES = ()
+TRANSLATIONS_API_PERMISSION_CLASSES = ()
 
 # Authentication classes for translation manager api methods.
 # If empty, no authentication is provided
-TRANSLATION_API_AUTHENTICATION_CLASSES = ()
+TRANSLATIONS_API_AUTHENTICATION_CLASSES = ()

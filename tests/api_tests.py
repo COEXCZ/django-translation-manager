@@ -1,6 +1,6 @@
 from translation_manager.settings import get_settings
 
-if get_settings('TRANSLATION_ENABLE_API_COMMUNICATION'):
+if get_settings('TRANSLATIONS_ENABLE_API_COMMUNICATION'):
     from rest_framework.test import APITestCase
     from translation_manager.models import TranslationEntry
     from translation_manager import defaults

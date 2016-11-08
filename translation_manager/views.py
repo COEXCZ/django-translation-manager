@@ -47,7 +47,7 @@ class TranslationChangeList(ChangeList):
             result._hint = hint_dict.get(result.original, "")
 
 
-if get_settings('TRANSLATION_ENABLE_API_COMMUNICATION'):
+if get_settings('TRANSLATIONS_ENABLE_API_COMMUNICATION'):
     from rest_framework.views import APIView
     from rest_framework.response import Response
     from rest_framework.permissions import AllowAny
@@ -60,10 +60,10 @@ if get_settings('TRANSLATION_ENABLE_API_COMMUNICATION'):
         """
         get translations in selected language in json
         """
-        authentication_classes = get_settings('TRANSLATION_API_AUTHENTICATION_CLASSES') if get_settings(
-            'TRANSLATION_API_AUTHENTICATION_CLASSES') else ()
-        permission_classes = get_settings('TRANSLATION_API_PERMISSION_CLASSES') if get_settings(
-            'TRANSLATION_API_PERMISSION_CLASSES') else (AllowAny,)
+        authentication_classes = get_settings('TRANSLATIONS_API_AUTHENTICATION_CLASSES') if get_settings(
+            'TRANSLATIONS_API_AUTHENTICATION_CLASSES') else ()
+        permission_classes = get_settings('TRANSLATIONS_API_PERMISSION_CLASSES') if get_settings(
+            'TRANSLATIONS_API_PERMISSION_CLASSES') else (AllowAny,)
 
         def get(self, request, language, format=None):
             """

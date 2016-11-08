@@ -46,16 +46,16 @@ class Command(OriginCommand):
                             default=False, help="Keep .pot file after making messages. Useful when debugging."),
 
     def gettext_angular_js(self):
-        all_files = self.find_files(get_settings('TRANSLATION_API_CLIENT_APP_SRC_PATH'))
+        all_files = self.find_files(get_settings('TRANSLATIONS_API_CLIENT_APP_SRC_PATH'))
         if all_files:
             temp_dir = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
             os.mkdir(temp_dir)
-            pattern = re.compile(get_settings('TRANSLATION_API_TRANSLATION_STRINGS_REGEX'))
+            pattern = re.compile(get_settings('TRANSLATIONS_API_TRANSLATION_STRINGS_REGEX'))
             for file in all_files:
                 temp_file_path = os.path.join(temp_dir,
-                                              file.path.replace(settings.TRANSLATION_API_CLIENT_APP_SRC_PATH, '')[1:])
+                                              file.path.replace(settings.TRANSLATIONS_API_CLIENT_APP_SRC_PATH, '')[1:])
                 temp_dir_path = os.path.join(temp_dir, file.dirpath.replace(
-                    settings.TRANSLATION_API_CLIENT_APP_SRC_PATH, '')[1:])
+                    settings.TRANSLATIONS_API_CLIENT_APP_SRC_PATH, '')[1:])
                 os.makedirs(temp_dir_path, exist_ok=True)
                 output_file = open(temp_file_path, 'w+')
                 html_file = open(file.path, 'r')
@@ -66,6 +66,9 @@ class Command(OriginCommand):
                     gettext_string = '%s(\'%s\');' % ('gettext', translation_string)
                     output_file.write(gettext_string)
                 output_file.close()
+            return True
+        else:
+            return False
 
     def handle(self, *args, **options):
         if get_settings('TRANSLATIONS_AUTO_CREATE_LANGUAGE_DIRS'):
@@ -82,31 +85,34 @@ class Command(OriginCommand):
 
         self.angular_domain = False
 
-        os.chdir(get_settings('TRANSLATIONS_BASE_DIR'))
+        os.chdir(get_settings('TRANSLATIONS_PROJECT_BASE_DIR'))
 
         if 'django' in options['domain']:
             kwargs = deepcopy(options)
             kwargs.update({'domain': 'django'})
             super(Command, self).handle(*args, **kwargs)
 
-        if get_settings('TRANSLATION_ENABLE_API_ANGULAR_JS'):
+        if get_settings('TRANSLATIONS_ENABLE_API_ANGULAR_JS'):
             self.domain = 'angularjs'
             self.extensions = ['.html', '.js']
-            self.gettext_angular_js()
-            self.angular_domain = True
-            kwargs = deepcopy(options)
-            kwargs.update({'domain': 'djangojs'})
-            kwargs.update({'extensions': ['html', 'js']})
-            temp_dir = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
-            os.chdir(temp_dir)
-            super(Command, self).handle(*args, **kwargs)
-            options['extensions'] = []
-            self.angular_domain = False
-            os.chdir(get_settings('TRANSLATIONS_BASE_DIR'))
+            created = self.gettext_angular_js()
+
+            if created:
+                self.angular_domain = True
+                kwargs = deepcopy(options)
+                kwargs.update({'domain': 'djangojs'})
+                kwargs.update({'extensions': ['html', 'js']})
+                temp_dir = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
+                os.chdir(temp_dir)
+                super(Command, self).handle(*args, **kwargs)
+                options['extensions'] = []
+                self.angular_domain = False
 
             translation_temp_dir_path = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
             if os.path.exists(translation_temp_dir_path):
-                shutil.rmtree(os.path.join(translation_temp_dir_path))
+                shutil.rmtree(translation_temp_dir_path)
+
+            os.chdir(get_settings('TRANSLATIONS_PROJECT_BASE_DIR'))
 
         if 'djangojs' in options['domain']:
             kwargs = deepcopy(options)
@@ -122,7 +128,7 @@ class Command(OriginCommand):
         if self.domain == 'angularjs':
             if root:
                 old_ignore_patterns = self.ignore_patterns
-                self.ignore_patterns = get_settings('TRANSLATION_API_IGNORED_PATHS')
+                self.ignore_patterns = get_settings('TRANSLATIONS_API_IGNORED_PATHS')
                 all_files = super(Command, self).find_files(root)
                 self.ignore_patterns = old_ignore_patterns
                 return all_files
