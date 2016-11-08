@@ -14,7 +14,7 @@ from translation_manager.settings import get_settings
 
 from django.utils.translation import gettext_lazy as _
 
-BASE_DIR = os.path.dirname(__file__)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'b=@ru#--%)2v%fx-zbhdfxnv#o8bjn7d-kjp(zc0r@1z_lh#3*'
@@ -37,7 +37,7 @@ INSTALLED_APPS = (
 if get_settings('TRANSLATIONS_PROCESSING_METHOD') == 'async_django_rq':
     INSTALLED_APPS += ('django_rq',)
 
-if get_settings('TRANSLATION_ENABLE_API_COMMUNICATION') == True:
+if get_settings('TRANSLATIONS_ENABLE_API_COMMUNICATION') == True:
     INSTALLED_APPS += ('rest_framework',)
 
 MIDDLEWARE_CLASSES = (
@@ -114,12 +114,14 @@ if TESTING:
     LOCALE_PATHS = [os.path.join(BASE_DIR, 'tests', "locale")]
 else:
     LOCALE_PATHS = [
-        os.path.join(BASE_DIR, 'translation_manager', "locale")
+        os.path.join(BASE_DIR, 'locale')
     ]
 
 
 TRANSLATIONS_BASE_DIR = BASE_DIR
 TRANSLATIONS_MODE = "N"
+
+TRANSLATIONS_PROJECT_BASE_DIR = BASE_DIR
 
 TRANSLATIONS_ALLOW_NO_OCCURRENCES = False
 
@@ -127,7 +129,7 @@ TRANSLATIONS_IGNORED_PATHS = ['env']
 
 TRANSLATIONS_MAKE_BACKUPS = True
 TRANSLATIONS_CLEAN_PO_AFTER_BACKUP = False
-TRANSLATIONS_QUERYSET_FORCE_FILTERS = ['admin-']
+TRANSLATIONS_QUERYSET_FORCE_FILTERS = []
 
 TRANSLATIONS_HINT_LANGUAGE = 'en'
 
@@ -160,13 +162,24 @@ RQ_QUEUES = {
 }
 
 # enable export translations from .po files in json obects via django REST Framework
-TRANSLATION_ENABLE_API_COMMUNICATION = True
+TRANSLATIONS_ENABLE_API_COMMUNICATION = True
 
-# settings below only works if TRANSLATION_ENABLE_API_COMMUNICATION is enabled
+# settings below only works if TRANSLATIONS_ENABLE_API_COMMUNICATION is enabled
 
 # absolute path to client api application source codes
 # source codes must be on a same filesystem as current app
-TRANSLATION_API_CLIENT_APP_SRC_PATH = '/home/michal/projekty/obbod_front'
+TRANSLATIONS_API_CLIENT_APP_SRC_PATH = ''
+
+TRANSLATIONS_ENABLE_API_ANGULAR_JS = True
+
+TRANSLATIONS_API_TRANSLATION_STRINGS_REGEX = r'\{\{\s*\\[\'\"]\s*([a-z0-9\-\_]*)s*\\[\'\"]\s*\|\s*translate\s*\}\}'
 
 # Dirs and files ignored for makemessages in client api app.
-TRANSLATION_API_IGNORED_PATHS = []
+TRANSLATIONS_API_IGNORED_PATHS = ['front-']
+
+TRANSLATIONS_API_RETURN_ALL = False
+
+try:
+    from settings_local import *
+except FileNotFoundError:
+    pass
