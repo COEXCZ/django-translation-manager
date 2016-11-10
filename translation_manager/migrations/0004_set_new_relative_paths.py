@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-from settings import get_settings
+from translation_manager.settings import get_settings
 from django.conf import settings
 import os
 
