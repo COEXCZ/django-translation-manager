@@ -67,11 +67,16 @@ if get_settings('TRANSLATIONS_ENABLE_API_COMMUNICATION'):
 
         def get(self, request, language, format=None):
             """
-            Return a list of all users.
+            Return a list of all translations for selected language.
             """
             queryset = filter_queryset(TranslationEntry.objects.filter(language=language),
                                        get_settings('TRANSLATIONS_API_QUERYSET_FORCE_FILTERS'))
             if not get_settings('TRANSLATIONS_API_RETURN_ALL'):
                 queryset = queryset.exclude(Q(translation__isnull=True) | Q(translation__exact=''))
-            serializer = TranslationSerializer(queryset, many=True)
-            return Response(serializer.data)
+
+            result = {}
+
+            for object in queryset:
+                result[object.original] = object.translation
+
+            return Response(result)
