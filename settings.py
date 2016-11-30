@@ -181,5 +181,5 @@ TRANSLATIONS_API_RETURN_ALL = False
 
 try:
     from settings_local import *
-except FileNotFoundError:
+except ImportError:
     pass
