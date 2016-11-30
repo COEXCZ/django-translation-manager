@@ -71,11 +71,11 @@ We support translation for Angularjs client-site app via REST api
 
 Enable api communication in settings
 ::
-    TRANSLATION_ENABLE_API_COMMUNICATION = True
+    TRANSLATIONS_ENABLE_API_COMMUNICATION = True
 
 Enable searching for translation strings in Angularjs source codes
 ::
-    TRANSLATION_ENABLE_API_ANGULAR_JS = True
+    TRANSLATIONS_ENABLE_API_ANGULAR_JS = True
 
 Set path to Anguraljs source code files.
 
@@ -83,11 +83,11 @@ The important thing is that it must be in the same file system.
 
 Configuration example:
 ::
-   TRANSLATION_API_CLIENT_APP_SRC_PATH = '/var/srv/front/src'
+   TRANSLATIONS_API_CLIENT_APP_SRC_PATH = '/var/srv/front/src'
    
 Add regex for matching translation strings in client app src files:
 ::
-   TRANSLATION_API_TRANSLATION_STRINGS_REGEX = r''  
+   TRANSLATIONS_API_TRANSLATION_STRINGS_REGEX = r''  
 
 Inslall django REST framewrok
 ::
