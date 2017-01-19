@@ -32,13 +32,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'translation_manager',
+    'django_rq',
+    'rest_framework'
 )
-
-if get_settings('TRANSLATIONS_PROCESSING_METHOD') == 'async_django_rq':
-    INSTALLED_APPS += ('django_rq',)
-
-if get_settings('TRANSLATIONS_ENABLE_API_COMMUNICATION') == True:
-    INSTALLED_APPS += ('rest_framework',)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -114,11 +110,11 @@ if TESTING:
     LOCALE_PATHS = [os.path.join(BASE_DIR, 'tests', "locale")]
 else:
     LOCALE_PATHS = [
-        os.path.join(BASE_DIR, 'locale')
+        os.path.join(BASE_DIR, 'translation_manager', 'locale')
     ]
 
 
-TRANSLATIONS_BASE_DIR = BASE_DIR
+TRANSLATIONS_BASE_DIR = os.path.join(BASE_DIR, 'translation_manager')
 TRANSLATIONS_MODE = "N"
 
 TRANSLATIONS_PROJECT_BASE_DIR = BASE_DIR
