@@ -7,7 +7,7 @@ DESCRIPTION = "Django app for managing translations from admin"
 AUTHOR = "Pavel Císař, Martin Kubát, Mikuláš Mrva, Jakub Ladra, Michal Kašpar, Jan Češpivo - COEX CZ s.r.o (http://www.coex.cz)"
 AUTHOR_EMAIL = "pavel.cisar@coex.cz"
 URL = "https://github.com/COEXCZ/django-translation-manager"
-VERSION = '0.4.0'
+VERSION = '0.5.0'
 LICENSE = "Mozilla Public License 2.0 (MPL 2.0)"
 
 setup(
