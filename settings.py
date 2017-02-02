@@ -108,13 +108,13 @@ TESTING = sys.argv[1:2] == ['test']
 
 if TESTING:
     LOCALE_PATHS = [os.path.join(BASE_DIR, 'tests', "locale")]
+    TRANSLATIONS_BASE_DIR = BASE_DIR
 else:
     LOCALE_PATHS = [
         os.path.join(BASE_DIR, 'translation_manager', 'locale')
     ]
+    TRANSLATIONS_BASE_DIR = os.path.join(BASE_DIR, 'translation_manager')
 
-
-TRANSLATIONS_BASE_DIR = os.path.join(BASE_DIR, 'translation_manager')
 TRANSLATIONS_MODE = "N"
 
 TRANSLATIONS_PROJECT_BASE_DIR = BASE_DIR
