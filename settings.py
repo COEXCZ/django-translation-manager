@@ -168,7 +168,7 @@ TRANSLATIONS_API_CLIENT_APP_SRC_PATH = ''
 
 TRANSLATIONS_ENABLE_API_ANGULAR_JS = True
 
-TRANSLATIONS_API_TRANSLATION_STRINGS_REGEX = r'\{\{\s*\\[\'\"]\s*([a-z0-9\-\_]*)s*\\[\'\"]\s*\|\s*translate\s*\}\}'
+TRANSLATIONS_API_TRANSLATION_STRINGS_REGEX_LIST = [r'\{\{\s*\\[\'\"]\s*([a-z0-9\-\_]*)s*\\[\'\"]\s*\|\s*translate\s*\}\}',]
 
 # Dirs and files ignored for makemessages in client api app.
 TRANSLATIONS_API_IGNORED_PATHS = ['front-']

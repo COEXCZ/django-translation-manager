@@ -106,6 +106,8 @@ TRANSLATIONS_API_CLIENT_APP_SRC_PATH = ''
 # Regex for matching translation strings in clint src files
 TRANSLATIONS_API_TRANSLATION_STRINGS_REGEX = ''
 
+TRANSLATIONS_API_TRANSLATION_STRINGS_REGEX_LIST = []
+
 # Dirs and files ignored for makemessages in client api app.
 TRANSLATIONS_API_IGNORED_PATHS = []
 

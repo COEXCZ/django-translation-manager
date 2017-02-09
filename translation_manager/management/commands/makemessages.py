@@ -50,7 +50,10 @@ class Command(OriginCommand):
         if all_files:
             temp_dir = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
             os.mkdir(temp_dir)
-            pattern = re.compile(get_settings('TRANSLATIONS_API_TRANSLATION_STRINGS_REGEX'))
+            regexes = get_settings('TRANSLATIONS_API_TRANSLATION_STRINGS_REGEX_LIST')
+            regex_legacy = get_settings('TRANSLATIONS_API_TRANSLATION_STRINGS_REGEX')
+            if regex_legacy:
+                regexes.append(regex_legacy)
             for file in all_files:
                 temp_file_path = os.path.join(temp_dir,
                                               file.path.replace(settings.TRANSLATIONS_API_CLIENT_APP_SRC_PATH, '')[1:])
@@ -61,10 +64,12 @@ class Command(OriginCommand):
                 html_file = open(file.path, 'r')
                 text_in_file = html_file.read()
                 html_file.close()
-                translation_strings = pattern.findall(text_in_file)
-                for translation_string in translation_strings:
-                    gettext_string = '%s(\'%s\');' % ('gettext', translation_string)
-                    output_file.write(gettext_string)
+                for regex in regexes:
+                    pattern = re.compile(regex)
+                    translation_strings = pattern.findall(text_in_file)
+                    for translation_string in translation_strings:
+                        gettext_string = '%s(\'%s\');' % ('gettext', translation_string)
+                        output_file.write(gettext_string)
                 output_file.close()
             return True
         else:
