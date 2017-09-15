@@ -175,6 +175,8 @@ TRANSLATIONS_API_IGNORED_PATHS = ['front-']
 
 TRANSLATIONS_API_RETURN_ALL = False
 
+TRANSLATIONS_REMOTE_SYNC_URL = 'http://127.0.0.1:8000/translations/sync/'
+
 try:
     from settings_local import *
 except ImportError:
