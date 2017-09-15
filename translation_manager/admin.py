@@ -1,13 +1,15 @@
+import requests
+
 from functools import update_wrapper
 
 from django.contrib import admin
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, resolve
 from django.http import HttpResponseRedirect, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 from .manager import Manager
-from .models import TranslationEntry, TranslationBackup
+from .models import TranslationEntry, TranslationBackup, RemoteTranslationEntry, ProxyTranslationEntry
 from .signals import post_save
 from .widgets import add_styles
 from .utils import filter_queryset
@@ -76,7 +78,8 @@ class TranslationEntryAdmin(admin.ModelAdmin):
             url(r'^compile/$', wrap(self.compile_translations_view), name='%s_%s_compile' % info),
             url(r'^load_from_po/$', wrap(self.load_from_po_view), name='%s_%s_load' % info),
             url(r'^get_make_translations_status/$', wrap(self.get_make_translations_status),
-                name='%s_%s_status' % info)
+                name='%s_%s_status' % info),
+            url(r'^sync/$', wrap(self.sync_translations), name='%s_%s_sync_translations' % info),
         ]
  
         super_urls = super(TranslationEntryAdmin, self).get_urls()
@@ -138,6 +141,50 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         from .views import TranslationChangeList
         return TranslationChangeList
 
+    def sync_translations(self, request):
+        url = settings.TRANSLATIONS_REMOTE_SYNC_URL
+        response = requests.get(url)
+        data = response.json()
+
+        RemoteTranslationEntry.objects.all().delete()
+
+        for language, domains in data.items():
+            for domain, translation_entries in domains.items():
+                for original, translation_entry in translation_entries.items():
+                    RemoteTranslationEntry.objects.create(
+                        translation = translation_entry['translation'],
+                        changed=translation_entry['changed'],
+                        translation_entry = TranslationEntry.objects.get(language=language, original=original, domain=domain)
+                    )
+
+        return HttpResponseRedirect(resolve('admin:translation_manager_proxytranslationentry_changelist'))
+
+
+class ProxyTranslationEntryAdmin(TranslationEntryAdmin):
+
+    fields = TranslationEntryAdmin.fields + ['remote_translation', 'remote_changed']
+    list_display = fields
+
+    def remote_translation(self, obj):
+        """
+        :param obj:
+        :type obj: TranslationEntry
+        :return: 
+        """
+        return obj.remote_translation_entry.translation
+
+    def remote_changed(self, obj):
+        """
+        :param obj:
+        :type obj: TranslationEntry
+        :return: 
+        """
+        return obj.remote_translation_entry.changed
+
+    def queryset(self, request):
+        qs = super(ProxyTranslationEntryAdmin, self).queryset(request=request)
+        return qs.exclude(remote_translation_entry=None)
+
 
 def restore(modeladmin, request, queryset):
     for backup in queryset:
@@ -157,3 +204,4 @@ class TranslationBackupAdmin(admin.ModelAdmin):
 
 admin.site.register(TranslationEntry, TranslationEntryAdmin)
 admin.site.register(TranslationBackup, TranslationBackupAdmin)
+admin.site.register(ProxyTranslationEntry, ProxyTranslationEntryAdmin)
