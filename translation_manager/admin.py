@@ -6,6 +6,7 @@ from django.contrib import admin
 from django.core.urlresolvers import reverse, resolve
 from django.db.models import F
 from django.http import HttpResponseRedirect, JsonResponse
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
@@ -169,7 +170,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
 
 class ProxyTranslationEntryAdmin(TranslationEntryAdmin):
 
-    fields = TranslationEntryAdmin.fields + ['remote_translation', 'remote_changed']
+    fields = ['original', 'language', 'get_hint', 'changed', 'translation', 'use_remote','remote_translation', 'remote_changed', 'domain']
     list_display = fields
 
     def remote_translation(self, obj):
@@ -187,6 +188,22 @@ class ProxyTranslationEntryAdmin(TranslationEntryAdmin):
         :return: 
         """
         return obj.remote_translation_entry.changed
+
+    def use_remote(self, obj):
+        """
+        :param obj:
+        :type obj: TranslationEntry
+        :return: 
+        """
+
+        if obj.remote_translation_entry:
+            return mark_safe('<input type="button" data-id="{id}" class="btn btn-info btn-use-remote" value="{name}"/><span id="{id}" style="display: none">{remote_translation_value}</span>'.format(
+                name=_("admin-translation_manager-use_remote-value"),
+                remote_translation_value=obj.remote_translation_entry.translation,
+                id=obj.pk
+            ))
+
+        return '-'
 
     def get_queryset(self, request):
         qs = super(ProxyTranslationEntryAdmin, self).get_queryset(request=request)
