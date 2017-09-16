@@ -4,6 +4,7 @@ from functools import update_wrapper
 
 from django.contrib import admin
 from django.core.urlresolvers import reverse, resolve
+from django.db.models import F
 from django.http import HttpResponseRedirect, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
@@ -187,9 +188,9 @@ class ProxyTranslationEntryAdmin(TranslationEntryAdmin):
         """
         return obj.remote_translation_entry.changed
 
-    def queryset(self, request):
-        qs = super(ProxyTranslationEntryAdmin, self).queryset(request=request)
-        return qs.exclude(remote_translation_entry=None)
+    def get_queryset(self, request):
+        qs = super(ProxyTranslationEntryAdmin, self).get_queryset(request=request)
+        return qs.exclude(remote_translation_entry=None).exclude(translation=F('remote_translation_entry__translation'))
 
 
 def restore(modeladmin, request, queryset):
