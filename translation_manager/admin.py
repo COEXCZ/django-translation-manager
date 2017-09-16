@@ -63,6 +63,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
         extra_context['make_translations_running'] = cache.get('make_translations_running')
+        extra_context['remote_url'] = settings.TRANSLATIONS_REMOTE_SYNC_URL
         return super(TranslationEntryAdmin, self).changelist_view(request, extra_context=extra_context)
 
     def formfield_for_dbfield(self, db_field, **kwargs):
@@ -87,7 +88,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
             url(r'^load_from_po/$', wrap(self.load_from_po_view), name='%s_%s_load' % info),
             url(r'^get_make_translations_status/$', wrap(self.get_make_translations_status),
                 name='%s_%s_status' % info),
-            url(r'^sync/$', wrap(self.sync_translations), name='%s_%s_sync_translations' % info),
+            url(r'^sync/$', wrap(self.sync_translations), name='%s_%s_sync' % info),
         ]
 
         super_urls = super(TranslationEntryAdmin, self).get_urls()
@@ -179,6 +180,8 @@ class ProxyTranslationEntryAdmin(TranslationEntryAdmin):
     fields = ['original', 'language', 'get_hint', 'changed', 'translation', 'use_remote','remote_translation', 'remote_changed', 'domain']
     list_display = fields
 
+    change_list_template = "admin/translation_manager/remote_change_list.html"
+
     def remote_translation(self, obj):
         """
         :param obj:
@@ -195,6 +198,10 @@ class ProxyTranslationEntryAdmin(TranslationEntryAdmin):
         """
         return obj.remote_translation_entry.changed
 
+    def get_queryset(self, request):
+        qs = super(ProxyTranslationEntryAdmin, self).get_queryset(request=request)
+        return qs.exclude(remote_translation_entry=None).exclude(translation=F('remote_translation_entry__translation'))
+
     def use_remote(self, obj):
         """
         :param obj:
@@ -203,17 +210,13 @@ class ProxyTranslationEntryAdmin(TranslationEntryAdmin):
         """
 
         if obj.remote_translation_entry:
-            return mark_safe('<input type="button" data-id="{id}" class="btn btn-info btn-use-remote" value="{name}"/><span id="{id}" style="display: none">{remote_translation_value}</span>'.format(
+            return mark_safe('<input type="button" data-id="{id}" class="btn btn-info btn-use-remote" value="{name}"/><xmp id="{id}" style="display: none">{remote_translation_value}</xmp>'.format(
                 name=_("admin-translation_manager-use_remote-value"),
                 remote_translation_value=obj.remote_translation_entry.translation,
                 id=obj.pk
             ))
 
         return '-'
-
-    def get_queryset(self, request):
-        qs = super(ProxyTranslationEntryAdmin, self).get_queryset(request=request)
-        return qs.exclude(remote_translation_entry=None).exclude(translation=F('remote_translation_entry__translation'))
 
 
 def restore(modeladmin, request, queryset):
