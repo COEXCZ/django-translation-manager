@@ -3,13 +3,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: webmaster@localhost\n"
-"POT-Creation-Date: 2016-09-26 11:51:05\n"
-"PO-Revision-Date: 2016-09-26 11:51:05\n"
+"POT-Creation-Date: 2017-09-16 13:01:18\n"
+"PO-Revision-Date: 2017-09-16 13:01:18\n"
 "Last-Translator: Server <root@localhost>\n"
 "Language-Team: English <webmaster@localhost>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: project/translation_manager/models.py:35
+msgid "admin-translation_backup-changed-label"
+msgstr "aktualizováno"
 
 #: project/translation_manager/models.py:42
 msgid "admin-translation_backup-content"
@@ -26,10 +30,6 @@ msgstr "doména"
 #: project/translation_manager/models.py:39
 msgid "admin-translation_backup-filename-label"
 msgstr "soubor"
-
-#: project/translation_manager/models.py:35
-msgid "admin-translation_backup-changed-label"
-msgstr "aktualizováno"
 
 #: project/translation_manager/models.py:36
 msgid "admin-translation_backup-language-label"
@@ -51,6 +51,10 @@ msgstr "zálohy překladů"
 msgid "admin-translation_backup-singular"
 msgstr "záloha překladů"
 
+#: project/translation_manager/models.py:12
+msgid "admin-translation_entry-changed-label"
+msgstr "změněno"
+
 #: project/translation_manager/models.py:11
 msgid "admin-translation_entry-created-label"
 msgstr "vytvořeno"
@@ -62,10 +66,6 @@ msgstr "doména"
 #: project/translation_manager/admin.py:77
 msgid "admin-translation_entry-hint-label"
 msgstr "nápověda"
-
-#: project/translation_manager/models.py:12
-msgid "admin-translation_entry-changed-label"
-msgstr "změněno"
 
 #: project/translation_manager/models.py:17
 msgid "admin-translation_entry-is_published-label"
@@ -125,23 +125,19 @@ msgstr "Překlady byly načteny z .po souborů"
 msgid "admin-translation_manager-load-from-po"
 msgstr "Načíst překlady z .po souborů"
 
-#: translation_manager/templates/admin/translation_manager/change_list.html:39
-#: translation_manager/templates/admin/translation_manager/change_list.html:46
-msgid "admin-translation_manager-makemessages-running"
-msgstr "Aktualizace probíhá"
-
 #: project/translation_manager/templates/admin/translation_manager/change_list.2.html:13
 #: project/translation_manager/templates/admin/translation_manager/change_list.7.html:13
 msgid "admin-translation_manager-make_translations"
 msgstr "aktualizovat seznam překladů"
 
-#: project/translation_manager/admin.py:86
-msgid "admin-translation_manager-translations_compiled"
-msgstr "překlady publikovány"
+#: translation_manager/templates/admin/translation_manager/change_list.html:39
+#: translation_manager/templates/admin/translation_manager/change_list.html:46
+msgid "admin-translation_manager-makemessages-running"
+msgstr "Aktualizace probíhá"
 
-#: project/translation_manager/admin.py:77
-msgid "admin-translation_manager-translations_made"
-msgstr "seznam aktualizován"
+#: translation_manager/templates/admin/translation_manager/change_list.html:31
+msgid "admin-translation_manager-sync_with_remote_url"
+msgstr "sync with remote"
 
 #: project/translation_manager/filters.py:12
 msgid "admin-translation_manager-translation_state_filter-title"
@@ -154,3 +150,15 @@ msgstr "přeložené"
 #: project/translation_manager/filters.py:20
 msgid "admin-translation_manager-translation_state_filter-untranslated"
 msgstr "nepřeložené"
+
+#: project/translation_manager/admin.py:86
+msgid "admin-translation_manager-translations_compiled"
+msgstr "překlady publikovány"
+
+#: project/translation_manager/admin.py:77
+msgid "admin-translation_manager-translations_made"
+msgstr "seznam aktualizován"
+
+#: translation_manager/admin.py:209
+msgid "admin-translation_manager-use_remote-value"
+msgstr "<<"

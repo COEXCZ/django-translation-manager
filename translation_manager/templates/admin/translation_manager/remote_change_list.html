@@ -1,0 +1,11 @@
+{% extends "admin/translation_manager/change_list.html" %}
+{% load i18n admin_list %}
+<script type="text/javascript">
+    $(function () {
+        $('.btn-use-remote').on('click', function(){
+            id = $(this).data('id');
+            remote_translation_value = $('#' + id).html();
+            $(this).closest('td').siblings('.field-translation').find('textarea').val(remote_translation_value);
+        });
+    });
+</script>
