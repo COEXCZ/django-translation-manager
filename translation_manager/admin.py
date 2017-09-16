@@ -157,13 +157,19 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         for language, domains in data.items():
             for domain, translation_entries in domains.items():
                 for original, translation_entry in translation_entries.items():
+                    try:
+                        main_entry = TranslationEntry.objects.get(language=language, original=original, domain=domain)
+                    except TranslationEntry.DoesNotExist as e:
+                        print('Missing: ', language, original, domain)
+                        continue
+
                     RemoteTranslationEntry.objects.create(
-                        translation = translation_entry['translation'],
+                        translation=translation_entry['translation'],
                         changed=translation_entry['changed'],
-                        translation_entry = TranslationEntry.objects.get(language=language, original=original, domain=domain)
+                        translation_entry=main_entry
                     )
 
-        return HttpResponseRedirect(resolve('admin:translation_manager_proxytranslationentry_changelist'))
+        return HttpResponseRedirect(reverse('admin:translation_manager_proxytranslationentry_changelist'))
 
 
 class ProxyTranslationEntryAdmin(TranslationEntryAdmin):
