@@ -1,8 +1,10 @@
 from collections import defaultdict
 
 from django.contrib.admin.views.main import ChangeList
+from django.conf import settings
 from django.db.models import Q
 from django.http import JsonResponse
+from django.http.response import HttpResponseForbidden
 from django.views import View
 
 from .settings import get_settings
@@ -88,6 +90,11 @@ if get_settings('TRANSLATIONS_ENABLE_API_COMMUNICATION'):
 
 class SyncView(View):
     def get(self, request):
+        token = request.GET.get('token')
+
+        if not token or token != settings.TRANSLATIONS_REMOTE_SYNC_TOKEN:
+            return HttpResponseForbidden()
+
         translations = TranslationEntry.objects.all()
 
         data = defaultdict(dict)
