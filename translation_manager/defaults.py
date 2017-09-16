@@ -125,3 +125,6 @@ TRANSLATIONS_API_PERMISSION_CLASSES = ()
 # Authentication classes for translation manager api methods.
 # If empty, no authentication is provided
 TRANSLATIONS_API_AUTHENTICATION_CLASSES = ()
+
+TRANSLATIONS_REMOTE_SYNC_URL = ''
+TRANSLATIONS_REMOTE_SYNC_TOKEN = ''
