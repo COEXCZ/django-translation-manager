@@ -40,6 +40,12 @@
             }
 
             $(id_make_translations).click(make_messages_link_on_click_not_running);
+
+            $('.btn-use-remote').on('click', function(){
+                id = $(this).data('id');
+                remote_translation_value = atob($('#' + id).html());
+                $(this).closest('td').siblings('.field-translation').find('textarea').val(remote_translation_value);
+            });
         });
 
         function make_messages_link_on_click_not_running() {
