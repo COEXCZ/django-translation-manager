@@ -1,5 +1,8 @@
 {% extends "admin/translation_manager/change_list.html" %}
 {% load i18n admin_list %}
+
+{% block object-tools %}
+    {{ block.super }}
 <script type="text/javascript">
     $(function () {
         $('.btn-use-remote').on('click', function(){
@@ -9,3 +12,4 @@
         });
     });
 </script>
+{% endblock %}
