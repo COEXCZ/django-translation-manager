@@ -3,12 +3,23 @@
 
 {% block object-tools %}
     {{ block.super }}
+
+<style>
+textarea.from_remote {
+    background: lightyellow;
+}
+</style>
+
 <script type="text/javascript">
     $(function () {
         $('.btn-use-remote').on('click', function(){
-            id = $(this).data('id');
-            remote_translation_value = $('#' + id).html();
-            $(this).closest('td').siblings('.field-translation').find('textarea').val(remote_translation_value);
+            var id = $(this).data('id');
+            var remote_translation_value = $('#' + id).html();
+            var target_field = $(this).closest('td').siblings('.field-translation').find('textarea');
+
+            target_field.addClass('from_remote');
+
+            target_field.val(remote_translation_value);
         });
     });
 </script>
