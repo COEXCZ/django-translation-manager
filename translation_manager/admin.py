@@ -153,8 +153,11 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         if not request.user.has_perm('translation_manager.sync'):
             return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
 
-        url = settings.TRANSLATIONS_SYNC_REMOTE_URL
-        response = requests.get(url, verify=False)
+        url = '{}?token={}'.format(
+            settings.TRANSLATIONS_SYNC_REMOTE_URL,
+            settings.TRANSLATIONS_SYNC_REMOTE_TOKEN,
+        )
+        response = requests.get(url)
 
         if not is_success(response.status_code):
             return HttpResponseBadRequest('Wrong response from remote TRM URL')
