@@ -63,7 +63,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
         extra_context['make_translations_running'] = cache.get('make_translations_running')
-        extra_context['remote_url'] = settings.TRANSLATIONS_REMOTE_SYNC_URL
+        extra_context['remote_url'] = settings.TRANSLATIONS_SYNC_REMOTE_URL
         return super(TranslationEntryAdmin, self).changelist_view(request, extra_context=extra_context)
 
     def formfield_for_dbfield(self, db_field, **kwargs):
@@ -154,7 +154,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         if not request.user.has_perm('translation_manager.sync'):
             return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
 
-        url = settings.TRANSLATIONS_REMOTE_SYNC_URL
+        url = settings.TRANSLATIONS_SYNC_REMOTE_URL
         response = requests.get(url)
         data = response.json()
 
