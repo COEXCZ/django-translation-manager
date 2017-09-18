@@ -1,14 +1,19 @@
+from email.policy import HTTP
+
 import requests
 
 from functools import update_wrapper
 
+import rest_framework
 from django.contrib import admin
 from django.core.urlresolvers import reverse, resolve
 from django.db.models import F
 from django.http import HttpResponseRedirect, JsonResponse
+from django.http.response import HttpResponseBadRequest
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from rest_framework.status import is_success
 
 from .manager import Manager
 from .models import TranslationEntry, TranslationBackup, RemoteTranslationEntry, ProxyTranslationEntry
@@ -149,7 +154,11 @@ class TranslationEntryAdmin(admin.ModelAdmin):
             return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
 
         url = settings.TRANSLATIONS_SYNC_REMOTE_URL
-        response = requests.get(url)
+        response = requests.get(url, verify=False)
+
+        if not is_success(response.status_code):
+            return HttpResponseBadRequest('Wrong response from remote TRM URL')
+
         data = response.json()
 
         RemoteTranslationEntry.objects.all().delete()
