@@ -126,5 +126,11 @@ TRANSLATIONS_API_PERMISSION_CLASSES = ()
 # If empty, no authentication is provided
 TRANSLATIONS_API_AUTHENTICATION_CLASSES = ()
 
-TRANSLATIONS_REMOTE_SYNC_URL = ''
-TRANSLATIONS_REMOTE_SYNC_TOKEN = ''
+# Local token, have to be present as TRANSLATIONS_SYNC_REMOTE_TOKEN on target env
+TRANSLATIONS_SYNC_LOCAL_TOKEN = ''
+
+# Remote URL of TRM which will be synced to local TRM
+TRANSLATIONS_SYNC_REMOTE_URL = ''
+
+# Remote token, which is set as TRANSLATIONS_SYNC_LOCAL_TOKEN on remote site
+TRANSLATIONS_SYNC_REMOTE_TOKEN = ''

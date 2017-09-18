@@ -92,7 +92,7 @@ class SyncView(View):
     def get(self, request):
         token = request.GET.get('token')
 
-        if not token or token != settings.TRANSLATIONS_REMOTE_SYNC_TOKEN:
+        if not token or token != settings.TRANSLATIONS_SYNC_LOCAL_TOKEN:
             return HttpResponseForbidden()
 
         translations = TranslationEntry.objects.all()
