@@ -25,7 +25,7 @@
 
         {% endif %}
 
-        {% if remote_url %}
+        {% if remote_url and perms.translation_manager.sync %}
             <a href="{% url 'admin:translation_manager_translationentry_sync' %}" class="btn btn-info"
                style="margin-left: 10px">
                     {% filter capfirst %}{% trans "admin-translation_manager-sync_with_remote_url" %}{% endfilter %}

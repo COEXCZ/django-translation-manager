@@ -145,6 +145,9 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         return TranslationChangeList
 
     def sync_translations(self, request):
+        if not request.user.has_perm('translation_manager.sync'):
+            return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
+
         url = settings.TRANSLATIONS_REMOTE_SYNC_URL
         response = requests.get(url)
         data = response.json()
