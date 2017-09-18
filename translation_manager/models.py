@@ -58,6 +58,11 @@ class RemoteTranslationEntry(models.Model):
 
     translation_entry = models.OneToOneField(TranslationEntry, related_name='remote_translation_entry')
 
+    class Meta:
+        permissions = (
+            ('sync', _('admin-translation_entry-sync')),
+        )
+
 
 class ProxyTranslationEntry(TranslationEntry):
 
