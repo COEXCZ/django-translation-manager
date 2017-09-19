@@ -157,7 +157,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
             settings.TRANSLATIONS_SYNC_REMOTE_URL,
             settings.TRANSLATIONS_SYNC_REMOTE_TOKEN,
         )
-        response = requests.get(url)
+        response = requests.get(url, verify=get_settings('TRANSLATIONS_SYNC_VERIFY_SSL'))
 
         if not is_success(response.status_code):
             return HttpResponseBadRequest('Wrong response from remote TRM URL')
