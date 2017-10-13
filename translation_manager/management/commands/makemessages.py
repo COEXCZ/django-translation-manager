@@ -49,7 +49,7 @@ class Command(OriginCommand):
         all_files = self.find_files(get_settings('TRANSLATIONS_API_CLIENT_APP_SRC_PATH'))
         if all_files:
             temp_dir = os.path.join(get_settings('TRANSLATIONS_BASE_DIR'), 'angularjs_temp')
-            os.mkdir(temp_dir)
+            os.makedirs(temp_dir, exist_ok=True)
             regexes = get_settings('TRANSLATIONS_API_TRANSLATION_STRINGS_REGEX_LIST')
             regex_legacy = get_settings('TRANSLATIONS_API_TRANSLATION_STRINGS_REGEX')
             if regex_legacy:
