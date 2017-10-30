@@ -19,7 +19,6 @@ class Migration(migrations.Migration):
             ],
             options={
                 'proxy': True,
-                'indexes': [],
             },
             bases=('translation_manager.translationentry',),
         ),
