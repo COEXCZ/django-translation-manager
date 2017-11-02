@@ -1,5 +1,3 @@
-from email.policy import HTTP
-
 import requests
 
 from functools import update_wrapper
