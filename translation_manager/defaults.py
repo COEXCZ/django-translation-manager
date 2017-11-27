@@ -135,6 +135,12 @@ TRANSLATIONS_SYNC_REMOTE_URL = ''
 # Remote token, which is set as TRANSLATIONS_SYNC_LOCAL_TOKEN on remote site
 TRANSLATIONS_SYNC_REMOTE_TOKEN = ''
 
+# Basic Auth user for remote authentication
+TRANSLATIONS_SYNC_REMOTE_USER = None
+
+# Basic Auth password for remote authentication
+TRANSLATIONS_SYNC_REMOTE_PASSWORD = None
+
 # Useful when remote url does have any issue with SSL certificate
 # Applied when requests.get(<url>, verify=<TRANSLATIONS_SYNC_VERIFY_SSL>) is called
 TRANSLATIONS_SYNC_VERIFY_SSL = True
