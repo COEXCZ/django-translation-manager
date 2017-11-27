@@ -160,12 +160,12 @@ class TranslationEntryAdmin(admin.ModelAdmin):
             return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
 
         url = '{}?token={}'.format(
-            settings.TRANSLATIONS_SYNC_REMOTE_URL,
-            settings.TRANSLATIONS_SYNC_REMOTE_TOKEN,
+            get_settings('TRANSLATIONS_SYNC_REMOTE_URL'),
+            get_settings('TRANSLATIONS_SYNC_REMOTE_TOKEN'),
         )
 
-        remote_user = settings.TRANSLATIONS_SYNC_REMOTE_USER
-        remote_password = settings.TRANSLATIONS_SYNC_REMOTE_PASSWORD
+        remote_user = get_settings('TRANSLATIONS_SYNC_REMOTE_USER')
+        remote_password = get_settings('TRANSLATIONS_SYNC_REMOTE_PASSWORD')
 
         if remote_user is not None and remote_password is not None:
             response = requests.get(url, verify=get_settings('TRANSLATIONS_SYNC_VERIFY_SSL'), auth=(remote_user, remote_password))
