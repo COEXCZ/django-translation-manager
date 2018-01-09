@@ -153,5 +153,5 @@ class Command(OriginCommand):
         else:
             pofile = os.path.join(basedir, '%s.po' % str(self.domain))
         # load data from po file to db
-        if os.path.dirname(potfile) in settings.LOCALE_PATHS:
+        if os.path.dirname(potfile).rstrip('/') in [path.rstrip('/') for path in settings.LOCALE_PATHS]:
             self.manager.store_to_db(pofile, locale)
