@@ -12,6 +12,8 @@ from translation_manager.settings import get_settings
 if get_settings('TRANSLATIONS_PROCESSING_METHOD') == 'async_django_rq':
     from django_rq import get_queue, get_worker
 
+import django
+
 class TranslationCase(TestCase):
     def setUp(self):
         self.username = 'test_user'
@@ -39,7 +41,10 @@ class TranslationCase(TestCase):
         self.assertEqual(entry.locale_parent_dir, 'tests')
 
     def test_makemessages_django_1_4_19(self):
-        call_command('makemessages')
+        if django.get_version() >= "2":
+            call_command('makemessages', add_location='full')
+        else:
+            call_command('makemessages')
 
     if get_settings('TRANSLATIONS_PROCESSING_METHOD') == 'async_django_rq':
         def test_makemessages_django_rq_single_run(self):
