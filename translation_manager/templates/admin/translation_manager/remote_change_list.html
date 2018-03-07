@@ -1,0 +1,57 @@
+{% extends "admin/translation_manager/change_list.html" %}
+{% load i18n admin_list %}
+
+{% block object-tools %}
+    {{ block.super }}
+
+<style>
+textarea.value_from_remote {
+    background: lightyellow;
+}
+</style>
+
+<script type="text/javascript">
+    $(function () {
+        $('.btn-use-remote').on('click', function(){
+            var id = $(this).data('id');
+            var remote_translation_value = $('#' + id).html();
+            var target_field = $(this).closest('td').siblings('.field-translation').find('textarea');
+            var local_translation_value = target_field.html();
+
+            // check if original value exists
+            if ($('#local-' + id, target_field.parent()).length === 0) {
+                var local_xmp = $('<xmp>', {
+                    id: 'local-' + id,
+                    'class': 'hidden',
+                });
+                local_xmp.html(local_translation_value);
+
+                target_field.parent().append(local_xmp);
+
+                target_field.parent().append($('<a>', {
+                    href: '#',
+                    id: 'reset-' + id,
+                    'class': 'reset-to-local-value float-right',
+                }).html('reset').data({id: id}));
+            }
+
+            target_field.addClass('value_from_remote');
+
+            target_field.val(remote_translation_value);
+        });
+
+        $('#result_list').on('click', '.reset-to-local-value', function () {
+            var $prev = $(this).prev()
+
+            var local_value = $prev.html();
+            var target_field = $prev.prev();
+
+            target_field.val(local_value);
+            target_field.removeClass('value_from_remote')
+
+            $prev.remove();
+            $(this).remove();
+        });
+    });
+</script>
+{% endblock %}

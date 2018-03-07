@@ -24,6 +24,13 @@
             </a>
 
         {% endif %}
+
+        {% if remote_url and perms.translation_manager.sync %}
+            <a href="{% url 'admin:translation_manager_translationentry_sync' %}" class="btn btn-info"
+               title="{{ remote_url }}" style="margin-left: 10px">
+                    {% filter capfirst %}{% trans "admin-translation_manager-sync_with_remote_url" %}{% endfilter %}
+            </a>
+        {% endif %}
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript">

@@ -32,7 +32,9 @@ setup(
     ],
     install_requires=[
         "polib",
-        "django>=1.8"
+        "django>=1.8",
+        "djangorestframework>=3.7.1",
+        "requests>=2.18.4",
     ],
     test_suite="runtests.run_tests",
 )

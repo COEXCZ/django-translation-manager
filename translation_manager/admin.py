@@ -1,5 +1,10 @@
+from email.policy import HTTP
+
+import requests
+
 from functools import update_wrapper
 
+import rest_framework
 from django.contrib import admin
 
 try:
@@ -7,12 +12,17 @@ try:
 except ImportError:
     from django.urls import reverse
 
+from django.core.urlresolvers import reverse, resolve
+from django.db.models import F
 from django.http import HttpResponseRedirect, JsonResponse
+from django.http.response import HttpResponseBadRequest
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from rest_framework.status import is_success
 
 from .manager import Manager
-from .models import TranslationEntry, TranslationBackup
+from .models import TranslationEntry, TranslationBackup, RemoteTranslationEntry, ProxyTranslationEntry
 from .signals import post_save
 from .widgets import add_styles
 from .utils import filter_queryset
@@ -58,6 +68,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
         extra_context['make_translations_running'] = cache.get('make_translations_running')
+        extra_context['remote_url'] = settings.TRANSLATIONS_SYNC_REMOTE_URL
         return super(TranslationEntryAdmin, self).changelist_view(request, extra_context=extra_context)
 
     def formfield_for_dbfield(self, db_field, **kwargs):
@@ -81,11 +92,12 @@ class TranslationEntryAdmin(admin.ModelAdmin):
             url(r'^compile/$', wrap(self.compile_translations_view), name='%s_%s_compile' % info),
             url(r'^load_from_po/$', wrap(self.load_from_po_view), name='%s_%s_load' % info),
             url(r'^get_make_translations_status/$', wrap(self.get_make_translations_status),
-                name='%s_%s_status' % info)
+                name='%s_%s_status' % info),
+            url(r'^sync/$', wrap(self.sync_translations), name='%s_%s_sync' % info),
         ]
- 
+
         super_urls = super(TranslationEntryAdmin, self).get_urls()
- 
+
         return urls + super_urls
 
     def get_queryset(self, request):
@@ -143,6 +155,91 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         from .views import TranslationChangeList
         return TranslationChangeList
 
+    def sync_translations(self, request):
+        if not request.user.has_perm('translation_manager.sync'):
+            return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
+
+        url = '{}?token={}'.format(
+            get_settings('TRANSLATIONS_SYNC_REMOTE_URL'),
+            get_settings('TRANSLATIONS_SYNC_REMOTE_TOKEN'),
+        )
+
+        remote_user = get_settings('TRANSLATIONS_SYNC_REMOTE_USER')
+        remote_password = get_settings('TRANSLATIONS_SYNC_REMOTE_PASSWORD')
+
+        if remote_user is not None and remote_password is not None:
+            response = requests.get(url, verify=get_settings('TRANSLATIONS_SYNC_VERIFY_SSL'), auth=(remote_user, remote_password))
+        else:
+            response = requests.get(url, verify=get_settings('TRANSLATIONS_SYNC_VERIFY_SSL'))
+
+        if not is_success(response.status_code):
+            return HttpResponseBadRequest('Wrong response from remote TRM URL')
+
+        data = response.json()
+
+        RemoteTranslationEntry.objects.all().delete()
+
+        for language, domains in data.items():
+            for domain, translation_entries in domains.items():
+                for original, translation_entry in translation_entries.items():
+                    try:
+                        main_entry = TranslationEntry.objects.get(language=language, original=original, domain=domain)
+                    except TranslationEntry.DoesNotExist as e:
+                        print('Missing: ', language, original, domain)
+                        continue
+
+                    RemoteTranslationEntry.objects.create(
+                        translation=translation_entry['translation'],
+                        changed=translation_entry['changed'],
+                        translation_entry=main_entry
+                    )
+
+        return HttpResponseRedirect(reverse('admin:translation_manager_proxytranslationentry_changelist'))
+
+
+class ProxyTranslationEntryAdmin(TranslationEntryAdmin):
+
+    fields = ['original', 'language', 'get_hint', 'changed', 'translation', 'use_remote','remote_translation', 'remote_changed', 'domain']
+    list_display = fields
+
+    change_list_template = "admin/translation_manager/remote_change_list.html"
+
+    def remote_translation(self, obj):
+        """
+        :param obj:
+        :type obj: TranslationEntry
+        :return:
+        """
+        return obj.remote_translation_entry.translation
+
+    def remote_changed(self, obj):
+        """
+        :param obj:
+        :type obj: TranslationEntry
+        :return:
+        """
+        return obj.remote_translation_entry.changed
+
+    def get_queryset(self, request):
+        qs = super(ProxyTranslationEntryAdmin, self).get_queryset(request=request)
+        return qs.exclude(remote_translation_entry=None).exclude(translation=F('remote_translation_entry__translation'))
+
+    def use_remote(self, obj):
+        """
+        :param obj:
+        :type obj: TranslationEntry
+        :return: 
+        """
+
+        if obj.remote_translation_entry:
+            return mark_safe('<input type="button" data-id="{id}" class="btn btn-info btn-use-remote" value="{name}"/><xmp id="{id}" style="display: none">{remote_translation_value}</xmp>'.format(
+                name=_("admin-translation_manager-use_remote-value"),
+                remote_translation_value=obj.remote_translation_entry.translation,
+                id=obj.pk
+            ))
+
+        return '-'
+
 
 def restore(modeladmin, request, queryset):
     for backup in queryset:
@@ -162,3 +259,4 @@ class TranslationBackupAdmin(admin.ModelAdmin):
 
 admin.site.register(TranslationEntry, TranslationEntryAdmin)
 admin.site.register(TranslationBackup, TranslationBackupAdmin)
+admin.site.register(ProxyTranslationEntry, ProxyTranslationEntryAdmin)

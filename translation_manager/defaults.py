@@ -125,3 +125,22 @@ TRANSLATIONS_API_PERMISSION_CLASSES = ()
 # Authentication classes for translation manager api methods.
 # If empty, no authentication is provided
 TRANSLATIONS_API_AUTHENTICATION_CLASSES = ()
+
+# Local token, have to be present as TRANSLATIONS_SYNC_REMOTE_TOKEN on target env
+TRANSLATIONS_SYNC_LOCAL_TOKEN = ''
+
+# Remote URL of TRM which will be synced to local TRM
+TRANSLATIONS_SYNC_REMOTE_URL = ''
+
+# Remote token, which is set as TRANSLATIONS_SYNC_LOCAL_TOKEN on remote site
+TRANSLATIONS_SYNC_REMOTE_TOKEN = ''
+
+# Basic Auth user for remote authentication
+TRANSLATIONS_SYNC_REMOTE_USER = None
+
+# Basic Auth password for remote authentication
+TRANSLATIONS_SYNC_REMOTE_PASSWORD = None
+
+# Useful when remote url does have any issue with SSL certificate
+# Applied when requests.get(<url>, verify=<TRANSLATIONS_SYNC_VERIFY_SSL>) is called
+TRANSLATIONS_SYNC_VERIFY_SSL = True

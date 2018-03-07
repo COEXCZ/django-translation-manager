@@ -1,7 +1,11 @@
 from .settings import get_settings
 from django.conf.urls import url, include
 
-urlpatterns = []
+from .views import SyncView
+
+urlpatterns = [
+    url(r'^sync/$', SyncView.as_view(), name='sync'),
+]
 
 if get_settings('TRANSLATIONS_PROCESSING_METHOD') == 'async_django_rq':
     urlpatterns.append(

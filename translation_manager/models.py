@@ -20,6 +20,8 @@ class TranslationEntry(models.Model):
     locale_parent_dir = models.CharField(db_index=True, max_length=256, verbose_name=_(u"admin-translation_entry-locale_parent_dir-label"))
     domain = models.CharField(db_index=True, max_length=256, verbose_name=_(u"admin-translation_entry-domain-label"))
 
+    #remote_translation_entry = models.OneToOneField(RemoteTranslationEntry, null=True, on_delete=models.SET_NULL, verbose_name=_(''))
+
     class Meta:
         verbose_name = cf(_(u"admin-translation_entry-singular"))
         verbose_name_plural = cf(_(u"admin-translation_entry-plural"))
@@ -48,6 +50,24 @@ class TranslationEntry(models.Model):
 
         return self.hint
     get_hint.short_description = cf(_("admin-translation_entry-hint-label"))
+
+
+class RemoteTranslationEntry(models.Model):
+    translation = models.TextField(blank=True, verbose_name=_(u"admin-remote_translation_entry-remote_translation-label"))
+    changed = models.DateTimeField(auto_now=True, verbose_name=_(u"admin-remote_translation_entry-changed-label"))
+
+    translation_entry = models.OneToOneField(TranslationEntry, related_name='remote_translation_entry')
+
+    class Meta:
+        permissions = (
+            ('sync', _('admin-translation_entry-sync')),
+        )
+
+
+class ProxyTranslationEntry(TranslationEntry):
+
+    class Meta:
+        proxy = True
 
 
 class TranslationBackup(models.Model):
