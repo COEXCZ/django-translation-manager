@@ -56,7 +56,7 @@ class RemoteTranslationEntry(models.Model):
     translation = models.TextField(blank=True, verbose_name=_(u"admin-remote_translation_entry-remote_translation-label"))
     changed = models.DateTimeField(auto_now=True, verbose_name=_(u"admin-remote_translation_entry-changed-label"))
 
-    translation_entry = models.OneToOneField(TranslationEntry, related_name='remote_translation_entry')
+    translation_entry = models.OneToOneField(TranslationEntry, related_name='remote_translation_entry', on_delete=models.PROTECT)
 
     class Meta:
         permissions = (
