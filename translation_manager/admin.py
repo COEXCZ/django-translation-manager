@@ -12,7 +12,6 @@ try:
 except ImportError:
     from django.urls import reverse
 
-from django.core.urlresolvers import reverse, resolve
 from django.db.models import F
 from django.http import HttpResponseRedirect, JsonResponse
 from django.http.response import HttpResponseBadRequest
@@ -228,7 +227,7 @@ class ProxyTranslationEntryAdmin(TranslationEntryAdmin):
         """
         :param obj:
         :type obj: TranslationEntry
-        :return: 
+        :return:
         """
 
         if obj.remote_translation_entry:
