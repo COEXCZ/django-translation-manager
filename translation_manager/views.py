@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from django.http.response import HttpResponseForbidden
 from django.views import View
 
+from translation_manager.models import TranslationEntry
+
 from .settings import get_settings
 
 hint_sql_template = (
@@ -25,7 +27,6 @@ class TranslationChangeList(ChangeList):
             self.prep_hints()
 
     def prep_hints(self):
-        from .models import TranslationEntry
         entry_ids = [str(entry.id) for entry in self.result_list]
 
         # hint locale path from settings variable
@@ -58,7 +59,6 @@ if get_settings('TRANSLATIONS_ENABLE_API_COMMUNICATION'):
     from rest_framework.response import Response
     from rest_framework.permissions import AllowAny
     from translation_manager.serializers import TranslationSerializer
-    from translation_manager.models import TranslationEntry
     from translation_manager.utils import filter_queryset
 
 
