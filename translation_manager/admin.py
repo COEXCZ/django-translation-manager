@@ -67,7 +67,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
         extra_context['make_translations_running'] = cache.get('make_translations_running')
-        extra_context['remote_url'] = settings.TRANSLATIONS_SYNC_REMOTE_URL
+        extra_context['remote_url'] = get_settings('TRANSLATIONS_SYNC_REMOTE_URL')
         return super(TranslationEntryAdmin, self).changelist_view(request, extra_context=extra_context)
 
     def formfield_for_dbfield(self, db_field, **kwargs):
