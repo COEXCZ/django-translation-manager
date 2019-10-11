@@ -1,10 +1,9 @@
-from email.policy import HTTP
+import logging
 
 import requests
 
 from functools import update_wrapper
 
-import rest_framework
 from django.contrib import admin
 
 try:
@@ -32,6 +31,8 @@ from translation_manager import tasks
 from django.core.cache import cache
 
 filter_excluded_fields = lambda fields: [field for field in fields if field not in get_settings('TRANSLATIONS_ADMIN_EXCLUDE_FIELDS')]
+
+logger = logging.getLogger('translation_manager')
 
 
 class TranslationEntryAdmin(admin.ModelAdmin):
@@ -66,7 +67,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
 
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
-        extra_context['make_translations_running'] = cache.get('make_translations_running')
+        extra_context['make_translations_running'] = cache.get(get_settings('TRANSLATIONS_PROCESSING_STATE_CACHE_KEY'))
         extra_context['remote_url'] = get_settings('TRANSLATIONS_SYNC_REMOTE_URL')
         return super(TranslationEntryAdmin, self).changelist_view(request, extra_context=extra_context)
 
@@ -109,7 +110,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         return filter_queryset(qs, get_settings('TRANSLATIONS_QUERYSET_FORCE_FILTERS'))
 
     def get_make_translations_status(self, request):
-        if cache.get('make_translations_running'):
+        if cache.get(get_settings('TRANSLATIONS_PROCESSING_STATE_CACHE_KEY')):
             result = {"running": True}
         else:
             result = {"running": False}
@@ -126,16 +127,18 @@ class TranslationEntryAdmin(admin.ModelAdmin):
 
     def make_translations_view(self, request):
         translation_mode = str(get_settings('TRANSLATIONS_PROCESSING_METHOD'))
-        if not cache.get('make_translations_running'):
-            cache.set('make_translations_running', True)
+        if not cache.get(get_settings('TRANSLATIONS_PROCESSING_STATE_CACHE_KEY')):
+            cache.set(get_settings('TRANSLATIONS_PROCESSING_STATE_CACHE_KEY'), True, get_settings('TRANSLATIONS_PROCESSING_STATE_CACHE_TIMEOUT'))
             try:
                 if translation_mode == 'sync':
                     tasks.makemessages_task()
                 elif translation_mode == 'async_django_rq':
                     tasks.makemessages_task.delay()
             except Exception:
-                if cache.get(('make_translations_running')):
-                    cache.set('make_translations_running', False)
+                if cache.get((get_settings('TRANSLATIONS_PROCESSING_STATE_CACHE_KEY'))):
+                    cache.set(get_settings('TRANSLATIONS_PROCESSING_STATE_CACHE_KEY'), False, get_settings('TRANSLATIONS_PROCESSING_STATE_CACHE_TIMEOUT'))
+        else:
+            logger.info("Can't start another makemessages command, translations are processed now.")
 
         self.message_user(request, _("admin-translation_manager-translations_made"))
         return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
@@ -184,7 +187,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
                     try:
                         main_entry = TranslationEntry.objects.get(language=language, original=original, domain=domain)
                     except TranslationEntry.DoesNotExist as e:
-                        print('Missing: ', language, original, domain)
+                        logger.debug('Missing: {} {} {}'.format(language, original, domain))
                         continue
 
                     RemoteTranslationEntry.objects.create(

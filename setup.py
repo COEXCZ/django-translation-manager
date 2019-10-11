@@ -4,10 +4,10 @@ from setuptools import setup, find_packages
 PACKAGE = "translation_manager"
 NAME = "django-translation-manager"
 DESCRIPTION = "Django app for managing translations from admin"
-AUTHOR = "Pavel Císař, Martin Kubát, Mikuláš Mrva, Jakub Ladra, Michal Kašpar, Jan Češpivo - COEX CZ s.r.o (http://www.coex.cz)"
+AUTHOR = "Pavel Císař, Martin Kubát, Mikuláš Mrva, Jakub Ladra, Michal Kašpar, Jan Češpivo - COEX s.r.o (http://www.coex.cz)"
 AUTHOR_EMAIL = "pavel.cisar@coex.cz"
 URL = "https://github.com/COEXCZ/django-translation-manager"
-VERSION = '1.0.0'
+VERSION = '1.1.0'
 LICENSE = "Mozilla Public License 2.0 (MPL 2.0)"
 
 setup(
@@ -32,9 +32,11 @@ setup(
     ],
     install_requires=[
         "polib",
-        "django>=1.8",
+        "django>=2.0.2",
         "djangorestframework>=3.7.1",
         "requests>=2.18.4",
+        "django-rq==2.1.0",
+        "django-redis-cache==2.1.0",
     ],
     test_suite="runtests.run_tests",
 )
