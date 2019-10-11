@@ -60,7 +60,7 @@ Install django-redis-cache
 ::
     pip install django-redis-cache
 
-We tested it with django-rq 2.1.0 and django-redis-cache 2.
+We tested it with django-rq 2.1.0 and django-redis-cache 2.1.0
 
 For configuration django_rq see  https://github.com/ui/django-rq
 
