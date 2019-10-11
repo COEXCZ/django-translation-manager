@@ -40,7 +40,7 @@ Install package
 Supported versions of django
 ============================
 
-We support all django versions greater or equal 1.8.
+We support all django versions greater or equal 2.0.2.
 
 
 Using with django-rq
@@ -60,7 +60,7 @@ Install django-redis-cache
 ::
     pip install django-redis-cache
 
-We tested it with django-rq 0.9.1 and django-redis-cache 1.6.5
+We tested it with django-rq 2.1.0 and django-redis-cache 2.
 
 For configuration django_rq see  https://github.com/ui/django-rq
 
