@@ -32,9 +32,11 @@ setup(
     ],
     install_requires=[
         "polib",
-        "django>=1.8",
+        "django>=2.0.2",
         "djangorestframework>=3.7.1",
         "requests>=2.18.4",
+        "django-rq==2.1.0",
+        "django-redis-cache==2.1.0",
     ],
     test_suite="runtests.run_tests",
 )
