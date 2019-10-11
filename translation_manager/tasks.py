@@ -12,8 +12,8 @@ if get_settings('TRANSLATIONS_PROCESSING_METHOD') == 'async_django_rq':
     @job(get_settings('TRANSLATIONS_PROCESSING_QUEUE'))
     def makemessages_task():
         call_command('makemessages')
-        cache.delete('make_translations_running')
+        cache.delete(get_settings('TRANSLATIONS_PROCESSING_STATE_CACHE_KEY'))
 else:
     def makemessages_task():
         call_command('makemessages')
-        cache.delete('make_translations_running')
+        cache.delete(get_settings('TRANSLATIONS_PROCESSING_STATE_CACHE_KEY'))

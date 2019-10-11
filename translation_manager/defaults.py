@@ -144,3 +144,10 @@ TRANSLATIONS_SYNC_REMOTE_PASSWORD = None
 # Useful when remote url does have any issue with SSL certificate
 # Applied when requests.get(<url>, verify=<TRANSLATIONS_SYNC_VERIFY_SSL>) is called
 TRANSLATIONS_SYNC_VERIFY_SSL = True
+
+# Under this key will be stored processing state boolean
+# describing whether make process is already running.
+TRANSLATIONS_PROCESSING_STATE_CACHE_KEY = 'make_translations_running'
+
+# Timeout for processing state boolean cache
+TRANSLATIONS_PROCESSING_STATE_CACHE_TIMEOUT = 300

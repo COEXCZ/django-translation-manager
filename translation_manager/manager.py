@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import codecs
+import logging
 import os
 import polib
 
@@ -15,6 +16,8 @@ from .choices import TRANSLATIONS_MODE_PROMISCUOUS
 from .models import TranslationEntry, TranslationBackup
 from .utils import get_relative_locale_path, get_locale_parent_dirname, get_dirname_from_lang, get_lang_from_dirname
 from .settings import get_settings
+
+logger = logging.getLogger('translation_manager')
 
 
 class Manager(object):
@@ -79,13 +82,11 @@ class Manager(object):
     def backup_po_to_db(self):
         """ Backup Po file to db model """
 
-
         for lang, lang_name in settings.LANGUAGES:
             for path in settings.LOCALE_PATHS:
                 po_pattern = os.path.join(path, get_dirname_from_lang(lang), "LC_MESSAGES", "*.po")
                 for pofile in glob(po_pattern):
-                    if settings.DEBUG:
-                        print ("Backuping", pofile)
+                    logger.debug("Backuping file {} to db".format(pofile))
 
                     domain = os.path.splitext(os.path.basename(pofile))[0]
                     with codecs.open(pofile, 'r', 'utf-8') as pofile_opened:
@@ -103,9 +104,7 @@ class Manager(object):
                         with open(pofile, 'w') as pofile_opened:
                             pofile_opened.write('')
 
-
     ############################################################################
-
 
     def update_po_from_db(self, lang):
 
@@ -141,8 +140,7 @@ class Manager(object):
                                                "%s.mo" % domain)
 
             if not os.path.exists(pofile_path):
-                if settings.DEBUG:
-                    print ("Po file '%s' does't exists, it will be created" % pofile_path)
+                logger.debug("Po file '{}' does't exists, it will be created".format(pofile_path))
 
             now = datetime.now()
             pofile = polib.POFile()
@@ -228,8 +226,7 @@ class Manager(object):
                 locale = get_dirname_from_lang(lang)
                 po_pattern = os.path.join(path, locale, "LC_MESSAGES", "*.po")
                 for pofile in glob(po_pattern):
-                    if settings.DEBUG:
-                        print ("processing pofile", pofile)
+                    logger.debug("Processing pofile {}".format(pofile))
                     self.store_to_db(pofile=pofile, locale=locale, store_translations=True)
 
         self.postprocess()

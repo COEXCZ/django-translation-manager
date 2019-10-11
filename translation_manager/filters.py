@@ -1,3 +1,5 @@
+import logging
+
 from django import VERSION
 from django.contrib import admin
 from django.utils.text import capfirst as cf
@@ -5,6 +7,9 @@ from django.utils.translation import ugettext as _
 
 from . import choices
 from .settings import get_settings
+
+logger = logging.getLogger('translation_manager')
+
 
 if (VERSION[0] == 1 and VERSION[1] >= 4) or VERSION[0] > 1:
     class TranslationStateFilter(admin.SimpleListFilter):
@@ -57,7 +62,8 @@ if (VERSION[0] == 1 and VERSION[1] >= 4) or VERSION[0] > 1:
 
         def queryset(self, request, queryset):
             active_filter = self.value()
-            print(active_filter)
+            logger.debug('Active filter: {}'.format(active_filter))
+
             if not active_filter:
                 return queryset
             else:
