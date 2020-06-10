@@ -92,7 +92,7 @@ class TranslationBackup(models.Model):
         mo_filename = os.path.join(self.locale_path, self.language, 'LC_MESSAGES',
                                    self.domain + '.mo')
 
-        with open(po_filename, 'w') as output:
+        with open(po_filename, 'wb') as output:
             output.write(self.content.encode('utf-8'))
 
         po = polib.pofile(po_filename)
