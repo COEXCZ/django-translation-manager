@@ -15,7 +15,6 @@ from translation_manager.settings import get_settings
 class Command(OriginCommand):
 
     def add_arguments(self, parser):
-
         # Call method of supperclass to give all parser arguments
         parser = super(Command, self).add_arguments(parser)
         # here is place to add new arguments.
@@ -57,8 +56,7 @@ class Command(OriginCommand):
             for language, language_name in settings.LANGUAGES:
                 for locale in settings.LOCALE_PATHS:
                     language_dir_path = os.path.join(locale, language)
-                    if not os.path.isdir(language_dir_path):
-                        os.mkdir(language_dir_path)
+                    os.makedirs(language_dir_path, exist_ok=True)
 
         self.manager = Manager()
 
@@ -72,6 +70,9 @@ class Command(OriginCommand):
         if 'django' in options['domain']:
             kwargs = deepcopy(options)
             kwargs.update({'domain': 'django'})
+            if not options['locale'] and not options['exclude']:
+                # kwargs['all'] = True
+                kwargs['locale'] = [lang for lang, _ in settings.LANGUAGES]
             super(Command, self).handle(*args, **kwargs)
 
         if get_settings('TRANSLATIONS_ENABLE_API_ANGULAR_JS'):

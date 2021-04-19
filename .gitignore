@@ -57,3 +57,6 @@ target/
 .tox/
 testdb
 settings_local.py
+
+tests/locale/*
+translation_manager/locale/*

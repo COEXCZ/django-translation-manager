@@ -1,18 +1,12 @@
-from django.test import TestCase
-from django.contrib.auth.models import User
-
-from translation_manager.manager import Manager as TranslationManager
-from translation_manager.models import TranslationEntry
+import django
 from django.core.management import call_command
+from django.contrib.auth.models import User
+from django.test import TestCase, override_settings
 
 from translation_manager import tasks
+from translation_manager.manager import Manager as TranslationManager
+from translation_manager.models import TranslationEntry
 
-from translation_manager.settings import get_settings
-
-if get_settings('TRANSLATIONS_PROCESSING_METHOD') == 'async_django_rq':
-    from django_rq import get_queue, get_worker
-
-import django
 
 class TranslationCase(TestCase):
     def setUp(self):
@@ -40,23 +34,28 @@ class TranslationCase(TestCase):
         self.assertEqual(entry.locale_path, 'tests/locale')
         self.assertEqual(entry.locale_parent_dir, 'tests')
 
-    def test_makemessages_django_1_4_19(self):
-        if django.get_version() >= "2":
-            call_command('makemessages', add_location='full')
+    def test_makemessages_django(self):
+        if django.get_version() >= "3.1":
+            call_command('makemessages', '--all')
         else:
             call_command('makemessages')
 
-    if get_settings('TRANSLATIONS_PROCESSING_METHOD') == 'async_django_rq':
-        def test_makemessages_django_rq_single_run(self):
-            queue = get_queue('default')
-            queue.enqueue(tasks.makemessages_task)
+    @override_settings(TRANSLATIONS_PROCESSING_METHOD='async_django_rq')
+    def test_makemessages_django_rq_single_run(self):
+        from django_rq import get_queue, get_worker
 
-            get_worker().work(burst=True)
+        queue = get_queue('default')
+        queue.enqueue(tasks.makemessages_task)
 
-        def test_makemessages_django_tq_more_jobs(self):
-            queue = get_queue('default')
-            queue.enqueue(tasks.makemessages_task)
-            queue.enqueue(tasks.makemessages_task)
-            queue.enqueue(tasks.makemessages_task)
+        get_worker().work(burst=True)
 
-            get_worker().work(burst=True)
+    @override_settings(TRANSLATIONS_PROCESSING_METHOD='async_django_rq')
+    def test_makemessages_django_tq_more_jobs(self):
+        from django_rq import get_queue, get_worker
+
+        queue = get_queue('default')
+        queue.enqueue(tasks.makemessages_task)
+        queue.enqueue(tasks.makemessages_task)
+        queue.enqueue(tasks.makemessages_task)
+
+        get_worker().work(burst=True)
