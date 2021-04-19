@@ -71,7 +71,6 @@ class Command(OriginCommand):
             kwargs = deepcopy(options)
             kwargs.update({'domain': 'django'})
             if not options['locale'] and not options['exclude']:
-                # kwargs['all'] = True
                 kwargs['locale'] = [lang for lang, _ in settings.LANGUAGES]
             super(Command, self).handle(*args, **kwargs)
 
