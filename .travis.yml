@@ -1,12 +1,13 @@
 language: python
 python:
-    - "3.5"
     - "3.6"
     - "3.7"
+    - "3.8"
 
 env:
-    - TOX_ENV=django226
-    - TOX_ENV=django202
+    - TOX_ENV=django2220
+    - TOX_ENV=django318
+    - TOX_ENV=django320
 
 install:
   - pip install tox coveralls
