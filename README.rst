@@ -30,11 +30,11 @@ Install package
 
 * add variables from Translation Manager's defaults.py to your settings.py
 
-* add post_save signal to restart webserver:
+* add post_publish signal to restart webserver:
   ::
-      from translation_manager.signals import post_save as translation_post_save
+      from translation_manager.signals import post_publish as translation_post_publish
       
-      translation_post_save.connect(restart_server, sender=None)
+      translation_post_publish.connect(restart_server, sender=None)
 
 
 Supported versions of django
