@@ -21,7 +21,7 @@ from rest_framework.status import is_success
 
 from .manager import Manager
 from .models import TranslationEntry, TranslationBackup, RemoteTranslationEntry, ProxyTranslationEntry
-from .signals import post_publish
+from .signals import post_save, post_publish
 from .widgets import add_styles
 from .utils import filter_queryset
 from .settings import get_settings
@@ -148,6 +148,8 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         for language, language_name in settings.LANGUAGES:
             manager.update_po_from_db(lang=language)
         post_publish.send(sender=None, request=request)
+        # DEPRECATED
+        post_save.send(sender=None, request=request)
 
         self.message_user(request, _("admin-translation_manager-translations_compiled"))
         return HttpResponseRedirect(reverse("admin:translation_manager_translationentry_changelist"))
