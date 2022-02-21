@@ -15,7 +15,7 @@ from django.db.models import F
 from django.http import HttpResponseRedirect, JsonResponse
 from django.http.response import HttpResponseBadRequest
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from rest_framework.status import is_success
 
@@ -78,7 +78,7 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         return formfield
 
     def get_urls(self):
-        from django.conf.urls import url
+        from django.urls import re_path
 
         def wrap(view):
             def wrapper(*args, **kwargs):
@@ -88,12 +88,12 @@ class TranslationEntryAdmin(admin.ModelAdmin):
         info = self.model._meta.app_label, self.model._meta.model_name
 
         urls = [
-            url(r'^make/$', wrap(self.make_translations_view), name='%s_%s_make' % info),
-            url(r'^compile/$', wrap(self.compile_translations_view), name='%s_%s_compile' % info),
-            url(r'^load_from_po/$', wrap(self.load_from_po_view), name='%s_%s_load' % info),
-            url(r'^get_make_translations_status/$', wrap(self.get_make_translations_status),
+            re_path(r'^make/$', wrap(self.make_translations_view), name='%s_%s_make' % info),
+            re_path(r'^compile/$', wrap(self.compile_translations_view), name='%s_%s_compile' % info),
+            re_path(r'^load_from_po/$', wrap(self.load_from_po_view), name='%s_%s_load' % info),
+            re_path(r'^get_make_translations_status/$', wrap(self.get_make_translations_status),
                 name='%s_%s_status' % info),
-            url(r'^sync/$', wrap(self.sync_translations), name='%s_%s_sync' % info),
+            re_path(r'^sync/$', wrap(self.sync_translations), name='%s_%s_sync' % info),
         ]
 
         super_urls = super(TranslationEntryAdmin, self).get_urls()
