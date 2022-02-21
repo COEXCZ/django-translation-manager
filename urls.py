@@ -1,11 +1,10 @@
 from django.contrib import admin
-from django.conf.urls import url, include
+from django.urls import include, re_path
 from translation_manager import urls as translation_urls
 
-from translation_manager.settings import get_settings
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^django-rq/', include('django_rq.urls')),
-    url(r'^translations/', include(translation_urls))
+    re_path(r'^admin/', admin.site.urls),
+    re_path(r'^django-rq/', include('django_rq.urls')),
+    re_path(r'^translations/', include(translation_urls))
 ]

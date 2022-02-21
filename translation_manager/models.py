@@ -3,7 +3,7 @@ import os
 
 from django.db import models
 from django.template.defaultfilters import capfirst as cf
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .settings import get_settings
 
