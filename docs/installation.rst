@@ -56,13 +56,13 @@ Configuratuion
       TRANSLATIONS_HINT_LANGUAGE = ''
 
 
-3) add post_save signal to restart the server:
+3) add post_publish signal to restart the server:
 
   .. code-block:: python
 
-      from translation_manager.signals import post_save as translation_post_save
+      from translation_manager.signals import post_publish as translation_post_publish
 
-      translation_post_save.connect(restart_server, sender=None)
+      translation_post_publish.connect(restart_server, sender=None)
 
 
 4) use syncdb or migrate

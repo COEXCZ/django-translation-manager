@@ -4,16 +4,21 @@ from setuptools import setup, find_packages
 PACKAGE = "translation_manager"
 NAME = "django-translation-manager"
 DESCRIPTION = "Django app for managing translations from admin"
-AUTHOR = "Pavel Císař, Martin Kubát, Mikuláš Mrva, Jakub Ladra, Michal Kašpar, Jan Češpivo - COEX s.r.o (http://www.coex.cz)"
+AUTHOR = "Pavel Císař, Martin Kubát, Mikuláš Mrva, Jakub Ladra, Michal Kašpar, Jan Češpivo, Milan Vlasák - COEX s.r.o (http://www.coex.cz)"
 AUTHOR_EMAIL = "pavel.cisar@coex.cz"
 URL = "https://github.com/COEXCZ/django-translation-manager"
 VERSION = '1.1.1'
 LICENSE = "Mozilla Public License 2.0 (MPL 2.0)"
 
+with open('README.rst') as readme:
+    LONG_DESCRIPTION = readme.read()
+
 setup(
     name=NAME,
     version=VERSION,
     description=DESCRIPTION,
+    long_description=LONG_DESCRIPTION,
+    long_description_content_type='text/x-rst',
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
     license=LICENSE,
