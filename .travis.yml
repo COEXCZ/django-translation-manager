@@ -5,10 +5,12 @@ python:
     - "3.6"
     - "3.7"
     - "3.8"
+    - "3.9"
+    - "3.10"
 env:
-    - TOX_ENV=django2220
-    - TOX_ENV=django318
-    - TOX_ENV=django320
+    - TOX_ENV=django2226
+    - TOX_ENV=django3211
+    - TOX_ENV=django403
 install:
   - pip install tox coveralls
 script:
