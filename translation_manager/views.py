@@ -95,7 +95,14 @@ class SyncView(View):
         if not token or token != settings.TRANSLATIONS_SYNC_LOCAL_TOKEN:
             return HttpResponseForbidden()
 
-        translations = TranslationEntry.objects.all()
+        language = request.GET.get('language')
+
+        filter_kwargs = {}
+
+        if language:
+            filter_kwargs['language'] = language
+
+        translations = TranslationEntry.objects.filter(**filter_kwargs)
 
         data = defaultdict(dict)
 
