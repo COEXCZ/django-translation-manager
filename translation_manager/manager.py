@@ -31,13 +31,14 @@ class Manager(object):
         language = get_lang_from_dirname(locale)
         domain = os.path.splitext(os.path.basename(pofile))[0]
         messages = polib.pofile(pofile)
-        translations = TranslationEntry.objects.filter(language=language)
-
-        tdict = {}
-        for t in translations:
-            if t.original not in tdict:
-                tdict.update({t.original: {}})
-            tdict[t.original][t.language] = t.translation
+        translations = TranslationEntry.objects.filter(
+            language=language
+        ).distinct('original')
+        existing_translations = {
+            trans.original: trans
+            for trans in translations
+        }
+        new_translations = []
 
         for m in messages:
             occs = []
@@ -56,18 +57,21 @@ class Manager(object):
                 locale_dir_name = ''
             else:
                 locale_dir_name = get_locale_parent_dirname(pofile)
-            t, created = TranslationEntry.objects.get_or_create(
-                original=m.msgid,
-                language=language,
-                locale_path=locale_path,
-                domain=domain,
-                defaults={
-                    "occurrences": "\n".join(occs),
-                    "translation": translation,
-                    "locale_parent_dir": locale_dir_name,
-                    "is_published": True,
-                }
-            )
+
+            try:
+                t = existing_translations[m.msgid]
+            except KeyError:
+                t = TranslationEntry(
+                    original=m.msgid,
+                    language=language,
+                    locale_path=locale_path,
+                    domain=domain,
+                    occurrences="\n".join(occs),
+                    translation=translation,
+                    locale_parent_dir=locale_dir_name,
+                    is_published=True,
+                )
+                new_translations.append(t)
 
             if locale_path not in self.tors:
                 self.tors[locale_path] = {}
@@ -76,6 +80,8 @@ class Manager(object):
             if domain not in self.tors[locale_path][language]:
                 self.tors[locale_path][language][domain] = []
             self.tors[locale_path][language][domain].append(t.original)
+
+        TranslationEntry.objects.bulk_create(new_translations, batch_size=100)
 
     ############################################################################
 
